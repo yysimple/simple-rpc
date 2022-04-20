@@ -1,6 +1,6 @@
 package com.simple.rpc.core.util;
 
-import com.simple.rpc.constant.Constants;
+import com.simple.rpc.core.constant.SymbolConstant;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -280,7 +280,7 @@ public class StringUtils {
      */
     public static boolean isValidParamKey(String paramkey) {
         char c = paramkey.charAt(0);
-        return c != Constants.HIDE_KEY_PREFIX && c != Constants.INTERNAL_KEY_PREFIX;
+        return c != SymbolConstant.POINT && c != SymbolConstant.UNDERLINE;
     }
 
     /**
@@ -291,7 +291,7 @@ public class StringUtils {
      */
     public static boolean isInternalParamKey(String paramkey) {
         char c = paramkey.charAt(0);
-        return c == Constants.INTERNAL_KEY_PREFIX;
+        return c == SymbolConstant.UNDERLINE;
     }
 
     /**
