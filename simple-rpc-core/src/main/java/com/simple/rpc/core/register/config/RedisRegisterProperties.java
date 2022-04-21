@@ -1,4 +1,8 @@
-package com.simple.rpc.core.spring.config;
+package com.simple.rpc.core.register.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
 
 /**
  * 项目: simple-rpc
@@ -8,7 +12,9 @@ package com.simple.rpc.core.spring.config;
  * @author: WuChengXing
  * @create: 2022-04-19 19:32
  **/
-public class RedisRegisterServerProperties extends RegisterProperties {
+@Component
+@ConfigurationProperties("rpc.register.redis")
+public class RedisRegisterProperties extends RegisterProperties {
 
     /**
      * 连接密码
