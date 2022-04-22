@@ -1,5 +1,6 @@
 package com.simple.rpc.interfaces;
 
+import com.simple.rpc.annotation.EnableRpc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;

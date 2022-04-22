@@ -3,9 +3,10 @@ server:
 
 spring:
   application:
-    name: rpc-spring-boot-starter-test-provider
+    name: simple-rpc-provider-test-interface
 
 rpc:
-  server:
+  register:
     host: 127.0.0.1
     port: 6379
+    password: 123456

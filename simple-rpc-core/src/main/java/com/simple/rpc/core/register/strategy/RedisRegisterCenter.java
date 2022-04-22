@@ -3,7 +3,8 @@ package com.simple.rpc.core.register.strategy;
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
-import com.simple.rpc.core.register.config.RedisRegisterProperties;
+import com.simple.rpc.core.register.config.RegisterProperties;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -16,7 +17,8 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author: WuChengXing
  * @create: 2022-04-21 17:08
  **/
-public class RedisRegisterCenter extends AbstractRegisterCenter<RedisRegisterProperties> {
+@Service("redisRegisterCenter")
+public class RedisRegisterCenter extends AbstractRegisterCenter<RegisterProperties> {
 
     /**
      * 非切片额客户端连接
@@ -24,7 +26,7 @@ public class RedisRegisterCenter extends AbstractRegisterCenter<RedisRegisterPro
     private static Jedis jedis;
 
     @Override
-    public void init(RedisRegisterProperties registerProperties) {
+    public void init(RegisterProperties registerProperties) {
         // 池基本配置
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(5);

@@ -1,6 +1,7 @@
 package com.simple.rpc.core.annotation;
 
-import org.springframework.boot.autoconfigure.web.ServerProperties;
+import com.simple.rpc.core.register.config.RegisterProperties;
+import com.simple.rpc.core.spring.ServerAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -20,7 +21,8 @@ import java.lang.annotation.Target;
  **/
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@EnableConfigurationProperties(ServerProperties.class)
+@Import({ServerAutoConfiguration.class})
+@EnableConfigurationProperties(RegisterProperties.class)
 @ComponentScan("com.simple.rpc.*")
 public @interface EnableSimpleRpc {
 }
