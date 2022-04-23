@@ -1,6 +1,6 @@
 package com.simple.rpc.interfaces;
 
-import com.simple.rpc.annotation.EnableRpc;
+import com.simple.rpc.core.annotation.EnableSimpleRpc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.ImportResource;
  **/
 @SpringBootApplication
 @Configuration
-@EnableRpc
+@EnableSimpleRpc
 @ImportResource(locations = {"classpath:spring-config.xml"})
 public class ProviderApplication {
 

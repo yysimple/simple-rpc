@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @create: 2022-04-19 19:35
  **/
 @Component
-@ConfigurationProperties("rpc.register")
+@ConfigurationProperties("simple.rpc.register")
 public class RegisterProperties {
 
     /**

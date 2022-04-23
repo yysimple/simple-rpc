@@ -87,9 +87,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.simple.rpc</groupId>
-            <artifactId>rpc-spring-boot-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.simple.core</groupId>
+            <artifactId>simple-rpc-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
     </dependencies>

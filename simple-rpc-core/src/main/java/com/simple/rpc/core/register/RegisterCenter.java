@@ -11,14 +11,14 @@ import com.simple.rpc.core.register.config.RegisterProperties;
  * @author: WuChengXing
  * @create: 2022-04-21 17:00
  **/
-public interface RegisterCenter<T extends RegisterProperties> {
+public interface RegisterCenter {
 
     /**
      * 初始化注册中心
      *
      * @param registerProperties
      */
-    void init(T registerProperties);
+    void init(RegisterProperties registerProperties);
 
     /**
      * 服务注册

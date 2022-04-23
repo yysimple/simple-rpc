@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 import com.simple.rpc.core.register.config.RegisterProperties;
-import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -17,8 +16,7 @@ import redis.clients.jedis.JedisPoolConfig;
  * @author: WuChengXing
  * @create: 2022-04-21 17:08
  **/
-@Service("redisRegisterCenter")
-public class RedisRegisterCenter extends AbstractRegisterCenter<RegisterProperties> {
+public class RedisRegisterCenter extends AbstractRegisterCenter {
 
     /**
      * 非切片额客户端连接
@@ -31,7 +29,7 @@ public class RedisRegisterCenter extends AbstractRegisterCenter<RegisterProperti
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(5);
         config.setTestOnBorrow(false);
-        JedisPool jedisPool = new JedisPool(config, registerProperties.getAddress(), registerProperties.getPort(), 10 * 1000, registerProperties.getPassword());
+        JedisPool jedisPool = new JedisPool(config, registerProperties.getHost(), registerProperties.getPort(), 10 * 1000, registerProperties.getPassword());
         jedis = jedisPool.getResource();
     }
 

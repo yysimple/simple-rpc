@@ -1,12 +1,7 @@
 package com.simple.rpc.core.register;
 
 import com.simple.rpc.core.constant.enums.RegisterEnum;
-import com.simple.rpc.core.register.config.RegisterProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.simple.rpc.core.register.strategy.RedisRegisterCenter;
 
 /**
  * 项目: simple-rpc
@@ -16,15 +11,11 @@ import java.util.Map;
  * @author: WuChengXing
  * @create: 2022-04-22 22:09
  **/
-@Service
-public class RegisterCenterFactory<T extends RegisterProperties> {
+public class RegisterCenterFactory {
 
-    @Autowired
-    private Map<String, RegisterCenter<T>> registerCenters = new HashMap<>(4);
-
-    public RegisterCenterContext<T> create(String registerType) {
+    public static RegisterCenter create(String registerType) {
         if (RegisterEnum.REDIS.getRegisterType().equals(registerType)) {
-            return new RegisterCenterContext<>(registerCenters.get(registerType));
+            return new RedisRegisterCenter();
         }
         return null;
     }

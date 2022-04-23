@@ -11,10 +11,10 @@ import com.simple.rpc.core.register.config.RegisterProperties;
  * @author: WuChengXing
  * @create: 2022-04-21 18:44
  **/
-public abstract class AbstractRegisterCenter<T extends RegisterProperties> implements RegisterCenter<T> {
+public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
-    public void init(T registerProperties) {
+    public void init(RegisterProperties registerProperties) {
 
     }
 

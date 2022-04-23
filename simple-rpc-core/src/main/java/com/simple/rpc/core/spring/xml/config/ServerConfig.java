@@ -10,6 +10,10 @@ package com.simple.rpc.core.spring.xml.config;
  **/
 public class ServerConfig {
     /**
+     * 注册类型
+     */
+    protected String registerType;
+    /**
      * 注册中心地址
      */
     protected String host;
@@ -23,6 +27,14 @@ public class ServerConfig {
      * 注册中心的密码
      */
     protected String password;
+
+    public String getRegisterType() {
+        return registerType;
+    }
+
+    public void setRegisterType(String registerType) {
+        this.registerType = registerType;
+    }
 
     public String getHost() {
         return host;

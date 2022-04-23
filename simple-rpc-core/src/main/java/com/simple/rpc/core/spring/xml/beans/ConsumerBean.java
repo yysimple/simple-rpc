@@ -1,20 +1,19 @@
 package com.simple.rpc.core.spring.xml.beans;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.constant.enums.RegisterEnum;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
+import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
-import com.simple.rpc.core.register.config.RegisterProperties;
-import com.simple.rpc.core.register.strategy.RedisRegisterCenter;
 import com.simple.rpc.core.spring.xml.config.ConsumerConfig;
-import com.simple.rpc.core.spring.xml.config.RpcProviderConfig;
 import com.simple.rpc.core.util.ClassLoaderUtils;
 import io.netty.channel.ChannelFuture;
 import org.springframework.beans.factory.FactoryBean;
 
-import javax.annotation.Resource;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 项目: simple-rpc
@@ -28,11 +27,7 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
 
     private ChannelFuture channelFuture;
 
-    @Resource
-    private RedisRegisterCenter redisRegisterCenter;
-
-    @Resource
-    private ThreadPoolExecutor simpleRpcThreadPool;
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     @Override
     public T getObject() throws Exception {
@@ -42,14 +37,15 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
         request.setInterfaceName(interfaceName);
         request.setAlias(alias);
 
+        RegisterCenter registerCenter = RegisterCenterFactory.create(RegisterEnum.REDIS.getRegisterType());
         //从redis获取链接
-        String infoStr = redisRegisterCenter.get(request);
+        String infoStr = registerCenter.get(request);
         request = JSON.parseObject(infoStr, Request.class);
 
         //获取通信channel
         if (null == channelFuture) {
             RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
-            simpleRpcThreadPool.submit(clientSocket);
+            executorService.submit(clientSocket);
             for (int i = 0; i < 100; i++) {
                 if (null != channelFuture) {
                     break;

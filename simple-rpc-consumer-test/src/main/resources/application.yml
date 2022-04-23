@@ -3,4 +3,12 @@ server:
 
 spring:
   application:
-    name: rpc-spring-boot-starter-test-consumer
+    name: simple-rpc-consumer-test
+simple:
+  rpc:
+    thread:
+      pool:
+        core-pool-size: 10
+        keep-alive-time: 60
+        queue-size: 1000
+        maximum-pool-size: 100

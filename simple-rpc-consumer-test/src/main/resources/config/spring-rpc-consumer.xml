@@ -6,8 +6,8 @@
 	  http://rpc.simple.com/schema/rpc http://rpc.simple.com/schema/rpc/rpc.xsd">
 
     <!-- 注册中心 -->
-    <rpc:server id="consumer" host="127.0.0.1" port="6379" password="123456"/>
+    <rpc:server id="consumer" registerType="redis" host="127.0.0.1" port="6379" password="123456"/>
 
-    <rpc:consumer id="helloService" nozzle="com.simple.rpc.api.HelloService" alias="providerRpc"/>
+    <rpc:consumer id="helloService" interfaceName="com.simple.rpc.api.HelloService" alias="providerRpc"/>
 
 </beans>

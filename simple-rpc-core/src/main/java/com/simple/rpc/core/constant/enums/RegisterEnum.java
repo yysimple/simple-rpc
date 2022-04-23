@@ -12,7 +12,7 @@ public enum RegisterEnum {
     /**
      * 注册中心类型
      */
-    REDIS("1", "redisRegisterCenter"),
+    REDIS("1", "redis"),
     ;
 
     RegisterEnum(String code, String registerType) {
