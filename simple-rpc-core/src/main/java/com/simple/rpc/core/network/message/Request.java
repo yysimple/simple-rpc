@@ -43,9 +43,9 @@ public class Request {
     private String interfaceName;
 
     /**
-     * 实现类
+     * 实现类对应的beanName
      */
-    private String ref;
+    private String beanName;
 
     /**
      * 别名
@@ -146,12 +146,12 @@ public class Request {
         this.tryAgainNum = tryAgainNum;
     }
 
-    public String getRef() {
-        return ref;
+    public String getBeanName() {
+        return beanName;
     }
 
-    public void setRef(String ref) {
-        this.ref = ref;
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
     public String getAlias() {

@@ -40,9 +40,9 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setMethodName(methodName);
         request.setParamTypes(paramTypes);
         request.setArgs(args);
-        request.setRef(request.getRef());
+        request.setBeanName(request.getBeanName());
         // 发送请求
-        Response response = new SyncWrite().writeAndSync(request.getChannel(), request, 15000);
+        Response response = new SyncWrite().writeAndSync(request.getChannel(), request, request.getTimeout());
         //异步调用
         return response.getResult();
     }

@@ -20,6 +20,16 @@ public class ConsumerConfig {
      */
     protected String alias;
 
+    /**
+     * 消费者重试次数，未连接成功则抛出异常
+     */
+    protected Integer tryNum;
+
+    /**
+     * 超时时间
+     */
+    protected Long timeout;
+
     public String getInterfaceName() {
         return interfaceName;
     }
@@ -34,5 +44,21 @@ public class ConsumerConfig {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public Integer getTryNum() {
+        return tryNum;
+    }
+
+    public void setTryNum(Integer tryNum) {
+        this.tryNum = tryNum;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
     }
 }

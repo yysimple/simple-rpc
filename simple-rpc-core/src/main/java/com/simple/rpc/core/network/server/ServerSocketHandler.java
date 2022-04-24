@@ -34,7 +34,7 @@ public class ServerSocketHandler extends ChannelInboundHandlerAdapter {
             Class<?> classType = ClassLoaderUtils.forName(msg.getInterfaceName());
             Method addMethod = classType.getMethod(msg.getMethodName(), msg.getParamTypes());
             // 从spring里面获取bean信息
-            Object objectBean = applicationContext.getBean(msg.getRef());
+            Object objectBean = applicationContext.getBean(msg.getBeanName());
             // 进行反射调用
             Object result = addMethod.invoke(objectBean, msg.getArgs());
             //反馈

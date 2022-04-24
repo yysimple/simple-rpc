@@ -31,6 +31,16 @@
                             <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
+                    <xsd:attribute name="timeout" type="xsd:long">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="tryNum" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>
@@ -49,6 +59,16 @@
                     <xsd:attribute name="alias" type="xsd:string">
                         <xsd:annotation>
                             <xsd:documentation><![CDATA[ 服务别名分组信息  ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="tryNum" type="xsd:integer">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 消费端重试次数  ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="timeout" type="xsd:long">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 消费端重试次数  ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                 </xsd:extension>

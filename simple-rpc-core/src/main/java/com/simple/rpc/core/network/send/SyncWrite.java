@@ -34,7 +34,7 @@ public class SyncWrite {
      * @return
      * @throws Exception
      */
-    public Response writeAndSync(final Channel channel, final Request request, final long timeout) throws Exception {
+    public Response writeAndSync(final Channel channel, final Request request, long timeout) throws Exception {
 
         if (channel == null) {
             throw new NullPointerException("channel");
@@ -43,7 +43,7 @@ public class SyncWrite {
             throw new NullPointerException("request");
         }
         if (timeout <= 0) {
-            throw new IllegalArgumentException("timeout <= 0");
+            timeout = 30L;
         }
         // 为该次请求生成一个唯一id,其实这里可以生成一个全是唯一id，雪花算法id
         String requestId = UUID.randomUUID().toString();
@@ -78,7 +78,7 @@ public class SyncWrite {
 
         logger.info("等待服务端给我反馈，当前时间：{}", DateUtils.getTime());
         // 请求完成之后，这里会去模拟等待，get的时候是无法去拿到资源的，这里设置一个等待事件
-        Response response = writeFuture.get(timeout, TimeUnit.MILLISECONDS);
+        Response response = writeFuture.get(timeout, TimeUnit.SECONDS);
         if (response == null) {
             // 已经超时则抛出异常
             if (writeFuture.isTimeout()) {

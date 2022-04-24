@@ -33,11 +33,11 @@ public class ProviderConfig {
         this.interfaceName = interfaceName;
     }
 
-    public String getRef() {
+    public String getBeanName() {
         return ref;
     }
 
-    public void setRef(String ref) {
+    public void setBeanName(String ref) {
         this.ref = ref;
     }
 

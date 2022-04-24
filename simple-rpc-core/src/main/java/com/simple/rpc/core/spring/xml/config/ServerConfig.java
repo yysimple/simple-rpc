@@ -28,6 +28,16 @@ public class ServerConfig {
      */
     protected String password;
 
+    /**
+     * 超时时间
+     */
+    protected Long timeout;
+
+    /**
+     * 重试次数
+     */
+    protected Integer tryNum;
+
     public String getRegisterType() {
         return registerType;
     }
@@ -58,5 +68,21 @@ public class ServerConfig {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
+    }
+
+    public Integer getTryNum() {
+        return tryNum;
+    }
+
+    public void setTryNum(Integer tryNum) {
+        this.tryNum = tryNum;
     }
 }

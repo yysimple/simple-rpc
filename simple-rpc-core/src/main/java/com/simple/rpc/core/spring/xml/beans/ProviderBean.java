@@ -31,7 +31,7 @@ public class ProviderBean extends ProviderConfig implements ApplicationContextAw
 
         Request providerRequest = new Request();
         providerRequest.setInterfaceName(interfaceName);
-        providerRequest.setRef(ref);
+        providerRequest.setBeanName(ref);
         providerRequest.setAlias(alias);
         providerRequest.setHost(LocalAddressInfo.LOCAL_HOST);
         providerRequest.setPort(LocalAddressInfo.PORT);

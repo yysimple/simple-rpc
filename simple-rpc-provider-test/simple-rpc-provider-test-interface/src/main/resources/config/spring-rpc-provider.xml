@@ -5,6 +5,6 @@
 	  http://rpc.simple.com/schema/rpc http://rpc.simple.com/schema/rpc/rpc.xsd">
 
     <rpc:provider id="helloServiceRpc" interfaceName="com.simple.rpc.api.HelloService"
-                  ref="helloService" alias="providerRpc"/>
+                   alias="providerRpc"/>
 
 </beans>

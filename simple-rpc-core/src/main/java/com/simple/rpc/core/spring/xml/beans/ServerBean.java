@@ -4,7 +4,8 @@ import com.simple.rpc.core.config.LocalAddressInfo;
 import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.register.config.RegisterProperties;
-import com.simple.rpc.core.spring.DataMap;
+import com.simple.rpc.core.spring.xml.transfer.BaseData;
+import com.simple.rpc.core.spring.xml.transfer.DataMap;
 import com.simple.rpc.core.spring.xml.config.ServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,7 +38,12 @@ public class ServerBean extends ServerConfig implements ApplicationContextAware 
         registerProperties.setHost(host);
         registerProperties.setPort(port);
         registerProperties.setPassword(password);
-        DataMap.dataTransfer.put("xml", registerProperties);
+        DataMap.dataTransfer.put(DataMap.DATA_TRANSFER, registerProperties);
+        // 构建全局数据
+        BaseData baseData = new BaseData();
+        baseData.setTimeout(timeout);
+        baseData.setTryNum(tryNum);
+        DataMap.baseDataTransfer.put(DataMap.BASE_DATA_TRANSFER, baseData);
         //启动注册中心
         logger.info("启动注册中心 ...");
         RegisterCenterFactory.create(registerType).init(registerProperties);
