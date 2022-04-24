@@ -43,6 +43,7 @@ public class ServerBean extends ServerConfig implements ApplicationContextAware 
         BaseData baseData = new BaseData();
         baseData.setTimeout(timeout);
         baseData.setTryNum(tryNum);
+        baseData.setRegisterType(registerType);
         DataMap.baseDataTransfer.put(DataMap.BASE_DATA_TRANSFER, baseData);
         //启动注册中心
         logger.info("启动注册中心 ...");

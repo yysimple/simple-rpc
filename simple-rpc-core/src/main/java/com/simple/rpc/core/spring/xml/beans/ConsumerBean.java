@@ -2,6 +2,7 @@ package com.simple.rpc.core.spring.xml.beans;
 
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.constant.enums.RegisterEnum;
+import com.simple.rpc.core.exception.spring.BeanNotFoundException;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
@@ -42,9 +43,11 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
         request.setInterfaceName(interfaceName);
         request.setAlias(alias);
 
-        RegisterCenter registerCenter = RegisterCenterFactory.create(RegisterEnum.REDIS.getRegisterType());
+        RegisterCenter registerCenter = RegisterCenterFactory.create(baseData.getRegisterType());
+        if (Objects.isNull(registerCenter)) {
+            throw new BeanNotFoundException("注册中心未初始化");
+        }
         //从redis获取链接
-        assert registerCenter != null;
         String infoStr = registerCenter.get(request);
         request = JSON.parseObject(infoStr, Request.class);
         Integer calcTryNum = calcTryNum(tryNum);

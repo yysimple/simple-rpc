@@ -1,5 +1,7 @@
 package com.simple.rpc.core.network.send;
 
+import com.simple.rpc.core.exception.network.NettyInitException;
+import com.simple.rpc.core.exception.network.NettyResponseException;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.util.DateUtils;
@@ -37,7 +39,7 @@ public class SyncWrite {
     public Response writeAndSync(final Channel channel, final Request request, long timeout) throws Exception {
 
         if (channel == null) {
-            throw new NullPointerException("channel");
+            throw new NettyInitException("channel is null, please init channel");
         }
         if (request == null) {
             throw new NullPointerException("request");
@@ -86,7 +88,7 @@ public class SyncWrite {
                 throw new TimeoutException();
             } else {
                 // write exception
-                throw new Exception(writeFuture.cause());
+                throw new NettyResponseException(writeFuture.cause());
             }
         }
         logger.info("写出去后，拿到返回值，当前时间：{}", DateUtils.getTime());

@@ -19,6 +19,11 @@ public class BaseData {
      */
     private Long timeout;
 
+    /**
+     * 注册中心类型
+     */
+    private String registerType;
+
     public Integer getTryNum() {
         return tryNum;
     }
@@ -33,5 +38,13 @@ public class BaseData {
 
     public void setTimeout(Long timeout) {
         this.timeout = timeout;
+    }
+
+    public String getRegisterType() {
+        return registerType;
+    }
+
+    public void setRegisterType(String registerType) {
+        this.registerType = registerType;
     }
 }

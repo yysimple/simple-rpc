@@ -1,6 +1,7 @@
 package com.simple.rpc.core.network.client;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.exception.network.NettyResponseException;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.send.SyncWriteFuture;
 import com.simple.rpc.core.network.send.SyncWriteMap;
@@ -36,8 +37,9 @@ public class ClientSocketHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)  {
         cause.printStackTrace();
         ctx.close();
+        logger.error(cause.getMessage());
     }
 }

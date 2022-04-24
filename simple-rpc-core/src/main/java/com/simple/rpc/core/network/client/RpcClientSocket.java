@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.client;
 
+import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.network.codec.RpcDecoder;
 import com.simple.rpc.core.network.codec.RpcEncoder;
 import com.simple.rpc.core.network.message.Request;
