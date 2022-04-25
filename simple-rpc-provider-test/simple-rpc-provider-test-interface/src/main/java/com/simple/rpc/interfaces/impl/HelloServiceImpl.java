@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 public class HelloServiceImpl implements HelloService {
     @Override
     public String hi() {
-        return "hi bugstack rpc";
+        return "Test Simple Rpc";
     }
 
     @Override

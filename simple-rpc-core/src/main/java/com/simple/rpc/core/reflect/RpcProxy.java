@@ -25,7 +25,7 @@ public class RpcProxy {
      * @return
      * @throws Exception
      */
-    public static <T> T invoke(Class<T> interfaceClass, Request request) throws Exception {
+    public static <T> T invoke(Class<T> interfaceClass, Request request) {
         InvocationHandler handler = new RpcInvocationHandler(request);
         ClassLoader classLoader = ClassLoaderUtils.getCurrentClassLoader();
         T result = (T) Proxy.newProxyInstance(classLoader, new Class[]{interfaceClass}, handler);

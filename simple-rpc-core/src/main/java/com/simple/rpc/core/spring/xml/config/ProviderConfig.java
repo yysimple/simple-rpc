@@ -18,7 +18,7 @@ public class ProviderConfig {
     /**
      * 映射
      */
-    protected String ref;
+    protected String beanName;
 
     /**
      * 别名
@@ -34,11 +34,11 @@ public class ProviderConfig {
     }
 
     public String getBeanName() {
-        return ref;
+        return beanName;
     }
 
     public void setBeanName(String ref) {
-        this.ref = ref;
+        this.beanName = ref;
     }
 
     public String getAlias() {

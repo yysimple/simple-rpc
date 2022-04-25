@@ -8,6 +8,9 @@
     <!-- 注册中心 -->
     <rpc:server id="consumer" registerType="redis" host="127.0.0.1" port="6379" password="123456"/>
 
-    <rpc:consumer id="helloService" interfaceName="com.simple.rpc.api.HelloService" alias="providerRpc"/>
+    <rpc:provider id="consumerProviderService" interfaceName="com.simple.rpc.consumer.api.HiService" alias="consumerProviderRpc"/>
+
+    <rpc:consumer id="helloService" interfaceName="com.simple.rpc.api.HelloService" alias="providerRpc" timeout="60"/>
+
 
 </beans>

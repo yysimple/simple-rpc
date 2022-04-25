@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	  http://rpc.simple.com/schema/rpc http://rpc.simple.com/schema/rpc/rpc.xsd">
 
-    <rpc:provider id="helloServiceRpc" interfaceName="com.simple.rpc.api.HelloService"
-                   alias="providerRpc"/>
+    <rpc:provider id="helloServiceRpc" interfaceName="com.simple.rpc.api.HelloService" alias="providerRpc"/>
 
 </beans>

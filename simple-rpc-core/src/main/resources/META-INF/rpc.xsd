@@ -68,7 +68,7 @@
                     </xsd:attribute>
                     <xsd:attribute name="timeout" type="xsd:long">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 消费端重试次数  ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 消费者请求超时时间  ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                 </xsd:extension>
@@ -86,7 +86,7 @@
                             <xsd:documentation><![CDATA[ 接口名称 ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="ref" type="xsd:string">
+                    <xsd:attribute name="beanName" type="xsd:string">
                         <xsd:annotation>
                             <xsd:documentation><![CDATA[ 接口实现类  ]]></xsd:documentation>
                         </xsd:annotation>
