@@ -16,6 +16,11 @@ public class ConsumerConfig {
     protected String interfaceName;
 
     /**
+     * beanName
+     */
+    protected String beanName;
+
+    /**
      * 别名
      */
     protected String alias;
@@ -52,6 +57,14 @@ public class ConsumerConfig {
 
     public void setTryNum(Integer tryNum) {
         this.tryNum = tryNum;
+    }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
     public Long getTimeout() {

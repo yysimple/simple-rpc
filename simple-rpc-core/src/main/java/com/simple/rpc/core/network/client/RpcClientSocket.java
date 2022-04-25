@@ -23,6 +23,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * @create: 2022-04-18 19:45
  **/
 public class RpcClientSocket implements Runnable {
+
     private ChannelFuture future;
 
     private final String host;

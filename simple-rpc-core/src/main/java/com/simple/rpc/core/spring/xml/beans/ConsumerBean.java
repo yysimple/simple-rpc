@@ -84,7 +84,7 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
             throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
         }
         request.setChannel(channelFuture.channel());
-        request.setBeanName(request.getBeanName());
+        request.setBeanName(beanName);
         request.setAlias(alias);
         request.setTimeout(calcTimeout);
         return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);

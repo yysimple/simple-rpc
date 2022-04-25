@@ -56,6 +56,11 @@
                             <xsd:documentation><![CDATA[ 接口名称 ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
+                    <xsd:attribute name="beanName" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ bean名称 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                     <xsd:attribute name="alias" type="xsd:string">
                         <xsd:annotation>
                             <xsd:documentation><![CDATA[ 服务别名分组信息  ]]></xsd:documentation>

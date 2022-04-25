@@ -10,7 +10,7 @@
 
     <rpc:provider id="consumerProviderService" interfaceName="com.simple.rpc.consumer.api.HiService" alias="consumerProviderRpc"/>
 
-    <rpc:consumer id="helloService" interfaceName="com.simple.rpc.api.HelloService" alias="providerRpc" timeout="60"/>
+    <rpc:consumer id="helloService" interfaceName="com.simple.rpc.api.HelloService" beanName="helloService" alias="providerRpc" timeout="60"/>
 
 
 </beans>
