@@ -1,12 +1,90 @@
 package com.simple.rpc.core.network.message;
 
+import com.simple.rpc.core.constant.enums.MessageType;
+
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述:
+ * 功能描述: Rpc请求参数
  *
  * @author: WuChengXing
  * @create: 2022-04-26 22:02
  **/
 public class RpcMessage {
+
+    /**
+     * 消息类型 {@link MessageType}
+     */
+    private byte messageType;
+
+    /**
+     * 压缩类型
+     */
+    private byte compressTye;
+
+    /**
+     * 序列化类型
+     */
+    private byte serializeType;
+
+    /**
+     * 请求id
+     */
+    private long requestId;
+
+    /**
+     * 具体数据
+     */
+    private Object data;
+
+    public RpcMessage() {
+    }
+
+    public RpcMessage(byte messageType, byte compressTye, byte serializeType, long requestId, Object data) {
+        this.messageType = messageType;
+        this.compressTye = compressTye;
+        this.serializeType = serializeType;
+        this.requestId = requestId;
+        this.data = data;
+    }
+
+    public byte getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(byte messageType) {
+        this.messageType = messageType;
+    }
+
+    public byte getCompressTye() {
+        return compressTye;
+    }
+
+    public void setCompressTye(byte compressTye) {
+        this.compressTye = compressTye;
+    }
+
+    public byte getSerializeType() {
+        return serializeType;
+    }
+
+    public void setSerializeType(byte serializeType) {
+        this.serializeType = serializeType;
+    }
+
+    public long getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(long requestId) {
+        this.requestId = requestId;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
+    }
 }
