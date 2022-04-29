@@ -84,19 +84,20 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
         if (serializeType == null) {
             throw new IllegalArgumentException("codec type not found");
         }
-        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
-
-        // 压缩器
-        CompressType compressType = CompressType.fromValue(rpcMessage.getCompressTye());
-        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
-
-        // 序列化
-        byte[] notCompressBytes = serializer.serialize(rpcMessage.getData());
-        // 压缩
-        byte[] compressedBytes = compressor.compress(notCompressBytes);
-
-        // 写 body
-        out.writeBytes(compressedBytes);
-        return compressedBytes.length;
+//        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
+//
+//        // 压缩器
+//        CompressType compressType = CompressType.fromValue(rpcMessage.getCompressTye());
+//        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
+//
+//        // 序列化
+//        byte[] notCompressBytes = serializer.serialize(rpcMessage.getData());
+//        // 压缩
+//        byte[] compressedBytes = compressor.compress(notCompressBytes);
+//
+//        // 写 body
+//        out.writeBytes(compressedBytes);
+//        return compressedBytes.length;
+        return 0;
     }
 }

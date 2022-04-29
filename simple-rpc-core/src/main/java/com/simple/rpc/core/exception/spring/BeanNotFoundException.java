@@ -1,7 +1,5 @@
 package com.simple.rpc.core.exception.spring;
 
-import org.springframework.beans.BeansException;
-
 /**
  * 项目: simple-rpc
  * <p>

@@ -1,13 +1,18 @@
-package com.simple.rpc.core.config;
+package com.simple.rpc.spring.config;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 线程池配置
+ * 功能描述:
  *
  * @author: WuChengXing
- * @create: 2022-04-22 22:25
+ * @create: 2022-04-29 16:46
  **/
+@Component
+@ConfigurationProperties(prefix = "simple.rpc.thread.pool")
 public class RpcThreadPoolProperties {
 
     /**
