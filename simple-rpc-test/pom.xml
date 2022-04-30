@@ -10,6 +10,7 @@
     <modules>
         <module>simple-rpc-test-consumer</module>
         <module>simple-rpc-test-provider</module>
+        <module>simple-rpc-test-core</module>
     </modules>
 
     <packaging>pom</packaging>

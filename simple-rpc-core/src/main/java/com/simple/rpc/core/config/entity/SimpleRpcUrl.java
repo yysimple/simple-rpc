@@ -118,4 +118,17 @@ public class SimpleRpcUrl {
     public void setTable(String table) {
         this.table = table;
     }
+
+    @Override
+    public String toString() {
+        return "SimpleRpcUrl{" +
+                "type='" + type + '\'' +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", database='" + database + '\'' +
+                ", table='" + table + '\'' +
+                '}';
+    }
 }
