@@ -1,0 +1,57 @@
+package com.simple.rpc.test.core.provider;
+
+import com.simple.rpc.core.config.ConfigManager;
+import com.simple.rpc.core.config.entity.LocalAddressInfo;
+import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
+import com.simple.rpc.core.network.message.Request;
+import com.simple.rpc.core.network.server.RpcServerSocket;
+import com.simple.rpc.core.register.RegisterCenter;
+import com.simple.rpc.core.register.RegisterCenterFactory;
+import com.simple.rpc.core.util.SimpleRpcLog;
+import com.simple.rpc.test.core.provider.impl.CoreHelloServiceImpl;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * 项目: simple-rpc
+ * <p>
+ * 功能描述:
+ *
+ * @author: WuChengXing
+ * @create: 2022-04-30 12:12
+ **/
+public class ProviderAppMain {
+
+    static ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    public static void main(String[] args) throws InterruptedException {
+        // 初始化注册中心
+        RegistryConfig registryConfig = ConfigManager.getInstant().getRegistryConfig();
+        SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(registryConfig);
+        RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
+        registerCenter.init(simpleRpcUrl);
+        Request request = new Request();
+        request.setRequestId(1001L);
+
+        String interfaceName = "com.simple.rpc.test.common.core.service.CoreHelloService";
+        request.setInterfaceName(interfaceName);
+        request.setAlias("coreHelloService");
+        // 初始化
+        RpcServerSocket rpcServerSocket = new RpcServerSocket();
+        executorService.submit(rpcServerSocket);
+        while (!rpcServerSocket.isActiveSocketServer()) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignore) {
+            }
+        }
+        request.setHost(LocalAddressInfo.LOCAL_HOST);
+        request.setPort(LocalAddressInfo.PORT);
+        System.out.println("服务端的地址和端口：" +  request.getHost() + "-" + request.getPort());
+        registerCenter.register(request);
+        SimpleRpcServiceCache.addService(null, new CoreHelloServiceImpl());
+    }
+}
