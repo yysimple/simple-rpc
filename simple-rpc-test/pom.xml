@@ -6,11 +6,12 @@
 
     <groupId>com.simple.rpc.test</groupId>
     <artifactId>simple-rpc-test</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
     <modules>
         <module>simple-rpc-test-consumer</module>
         <module>simple-rpc-test-provider</module>
         <module>simple-rpc-test-core</module>
+        <module>simple-rpc-test-common</module>
     </modules>
 
     <packaging>pom</packaging>
