@@ -1,7 +1,8 @@
 package com.simple.rpc.core.register;
 
+import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.register.config.RegisterProperties;
 
 /**
  * 项目: simple-rpc
@@ -16,9 +17,9 @@ public interface RegisterCenter {
     /**
      * 初始化注册中心
      *
-     * @param registerProperties
+     * @param url
      */
-    void init(RegisterProperties registerProperties);
+    void init(SimpleRpcUrl url);
 
     /**
      * 服务注册

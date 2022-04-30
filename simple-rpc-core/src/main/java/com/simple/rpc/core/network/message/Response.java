@@ -19,7 +19,7 @@ public class Response {
     /**
      * 此次请求id
      */
-    private String requestId;
+    private long requestId;
 
     /**
      * 返回的信息
@@ -34,11 +34,11 @@ public class Response {
         this.channel = channel;
     }
 
-    public String getRequestId() {
+    public long getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(long requestId) {
         this.requestId = requestId;
     }
 

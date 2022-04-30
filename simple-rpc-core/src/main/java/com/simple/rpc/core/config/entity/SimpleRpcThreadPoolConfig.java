@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config;
+package com.simple.rpc.core.config.entity;
 
 /**
  * 项目: simple-rpc
@@ -8,7 +8,7 @@ package com.simple.rpc.core.config;
  * @author: WuChengXing
  * @create: 2022-04-22 22:25
  **/
-public class RpcThreadPoolProperties {
+public class SimpleRpcThreadPoolConfig {
 
     /**
      * 核心线程数

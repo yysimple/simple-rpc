@@ -13,6 +13,7 @@ public enum CompressType {
     /**
      *
      */
+    DUMMY((byte) 0, "dummy"),
     GZIP((byte) 1, "gzip");
 
     private final byte value;
@@ -22,7 +23,7 @@ public enum CompressType {
      * 通过值获取压缩类型枚举
      *
      * @param value 值
-     * @return 如果获取不到，返回 GZIP
+     * @return 如果获取不到，返回 DUMMY
      */
     public static CompressType fromValue(byte value) {
         for (CompressType codecType : CompressType.values()) {
@@ -30,14 +31,14 @@ public enum CompressType {
                 return codecType;
             }
         }
-        return GZIP;
+        return DUMMY;
     }
 
     /**
      * 通过名字获取压缩类型枚举
      *
      * @param name 名字
-     * @return 如果获取不到，返回 GZIP
+     * @return 如果获取不到，返回 DUMMY
      */
     public static CompressType fromName(String name) {
         for (CompressType codecType : CompressType.values()) {
@@ -45,7 +46,7 @@ public enum CompressType {
                 return codecType;
             }
         }
-        return GZIP;
+        return DUMMY;
     }
 
     public byte getValue() {

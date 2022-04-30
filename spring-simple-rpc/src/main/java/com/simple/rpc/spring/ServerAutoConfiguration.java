@@ -1,7 +1,7 @@
 package com.simple.rpc.spring;
 
 import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.config.LocalAddressInfo;
+import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;

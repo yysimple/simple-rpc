@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.send;
 
+import com.simple.rpc.core.constant.MessageFormatConstant;
 import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.exception.network.NettyResponseException;
 import com.simple.rpc.core.network.message.Request;
@@ -47,8 +48,7 @@ public class SyncWrite {
         if (timeout <= 0) {
             timeout = 30L;
         }
-        // 为该次请求生成一个唯一id,其实这里可以生成一个全是唯一id，雪花算法id
-        String requestId = UUID.randomUUID().toString();
+        long requestId = MessageFormatConstant.REQUEST_ID.get();
         request.setRequestId(requestId);
         // 记录此次请求id，并放入到缓存中
         WriteFuture<Response> future = new SyncWriteFuture(request.getRequestId());

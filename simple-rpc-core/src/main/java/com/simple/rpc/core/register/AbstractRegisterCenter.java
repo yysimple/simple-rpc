@@ -1,7 +1,8 @@
 package com.simple.rpc.core.register;
 
+import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.register.config.RegisterProperties;
 
 /**
  * 项目: simple-rpc
@@ -14,7 +15,7 @@ import com.simple.rpc.core.register.config.RegisterProperties;
 public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
-    public void init(RegisterProperties registerProperties) {
+    public void init(SimpleRpcUrl url) {
 
     }
 

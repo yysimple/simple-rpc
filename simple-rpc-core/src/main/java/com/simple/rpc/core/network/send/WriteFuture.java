@@ -47,7 +47,7 @@ public interface WriteFuture<T> extends Future<T> {
      *
      * @return
      */
-    String requestId();
+    long requestId();
 
     /**
      * 响应结果

@@ -24,16 +24,16 @@ public class SyncWriteFuture implements WriteFuture<Response> {
     private final long begin = System.currentTimeMillis();
     private long timeout;
     private Response response;
-    private final String requestId;
+    private final long requestId;
     private boolean writeResult;
     private Throwable cause;
     private boolean isTimeout = false;
 
-    public SyncWriteFuture(String requestId) {
+    public SyncWriteFuture(long requestId) {
         this.requestId = requestId;
     }
 
-    public SyncWriteFuture(String requestId, long timeout) {
+    public SyncWriteFuture(long requestId, long timeout) {
         this.requestId = requestId;
         this.timeout = timeout;
         writeResult = true;
@@ -62,7 +62,7 @@ public class SyncWriteFuture implements WriteFuture<Response> {
     }
 
     @Override
-    public String requestId() {
+    public long requestId() {
         return requestId;
     }
 

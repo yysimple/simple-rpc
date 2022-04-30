@@ -37,6 +37,15 @@ public class RpcMessage {
      */
     private Object data;
 
+    public static RpcMessage copy(RpcMessage var1) {
+        RpcMessage var2 = new RpcMessage();
+        var2.setMessageType(var1.getMessageType());
+        var2.setCompressTye(var1.getCompressTye());
+        var2.setSerializeType(var1.getSerializeType());
+        var2.setRequestId(var1.getRequestId());
+        return var2;
+    }
+
     public RpcMessage() {
     }
 

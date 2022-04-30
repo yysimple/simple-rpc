@@ -1,17 +1,20 @@
 package com.simple.rpc.core.network.server;
 
-import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.exception.spring.BeanNotFoundException;
+import com.simple.rpc.core.constant.enums.MessageType;
+import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
+import com.simple.rpc.core.network.message.RpcMessage;
 import com.simple.rpc.core.util.ClassLoaderUtils;
+import com.simple.rpc.core.util.SimpleRpcLog;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
-import org.springframework.context.ApplicationContext;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 
 /**
  * 项目: simple-rpc
@@ -21,34 +24,51 @@ import java.util.Objects;
  * @author: WuChengXing
  * @create: 2022-04-18 19:04
  **/
-public class ServerSocketHandler extends ChannelInboundHandlerAdapter {
-
-    private ApplicationContext applicationContext;
-
-    public ServerSocketHandler(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
+public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object obj) {
+    protected void channelRead0(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
         try {
-            Request msg = (Request) obj;
+            // 不理心跳消息
+            if (rpcMessage.getMessageType() != MessageType.REQUEST.getValue()) {
+                return;
+            }
+            // 拿到请求参数
+            Request msg = (Request) rpcMessage.getData();
             //调用
             Class<?> classType = ClassLoaderUtils.forName(msg.getInterfaceName());
             Method addMethod = classType.getMethod(msg.getMethodName(), msg.getParamTypes());
-            // 从spring里面获取bean信息
-            Object objectBean = applicationContext.getBean(msg.getBeanName());
+            // 从缓存中里面获取bean信息
+            Object objectBean = SimpleRpcServiceCache.getService(msg.getAlias());
             // 进行反射调用
             Object result = addMethod.invoke(objectBean, msg.getArgs());
             //反馈
-            Response request = new Response();
-            request.setRequestId(msg.getRequestId());
-            request.setResult(result);
-            ctx.writeAndFlush(request);
+            Response response = new Response();
+            response.setRequestId(rpcMessage.getRequestId());
+            response.setResult(result);
+            // 构建返回值
+            RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
+            responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
+            responseRpcMsg.setData(response);
+            ctx.writeAndFlush(responseRpcMsg);
             //释放
             ReferenceCountUtil.release(msg);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        // 处理空闲状态的
+        if (evt instanceof IdleStateEvent) {
+            IdleState state = ((IdleStateEvent) evt).state();
+            if (state == IdleState.READER_IDLE) {
+                SimpleRpcLog.info("idle check happen, so close the connection");
+                ctx.close();
+            }
+        } else {
+            super.userEventTriggered(ctx, evt);
         }
     }
 

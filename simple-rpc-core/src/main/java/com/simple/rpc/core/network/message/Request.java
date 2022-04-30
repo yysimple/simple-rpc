@@ -20,7 +20,7 @@ public class Request {
     /**
      * 此次请求的id
      */
-    private String requestId;
+    private long requestId;
 
     /**
      * 方法
@@ -90,11 +90,11 @@ public class Request {
         this.channel = channel;
     }
 
-    public String getRequestId() {
+    public long getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(String requestId) {
+    public void setRequestId(long requestId) {
         this.requestId = requestId;
     }
 

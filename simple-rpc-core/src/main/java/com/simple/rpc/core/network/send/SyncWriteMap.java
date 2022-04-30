@@ -15,5 +15,5 @@ public class SyncWriteMap {
     /**
      * 存储连接的缓存
      */
-    public static Map<String, WriteFuture> syncKey = new ConcurrentHashMap<>();
+    public static Map<Long, WriteFuture> syncKey = new ConcurrentHashMap<>();
 }

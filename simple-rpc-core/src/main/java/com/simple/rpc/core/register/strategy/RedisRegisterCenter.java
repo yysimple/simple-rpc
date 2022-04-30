@@ -1,9 +1,9 @@
 package com.simple.rpc.core.register.strategy;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
-import com.simple.rpc.core.register.config.RegisterProperties;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -24,12 +24,12 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
     private static Jedis jedis;
 
     @Override
-    public void init(RegisterProperties registerProperties) {
+    public void init(SimpleRpcUrl url) {
         // 池基本配置
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(5);
         config.setTestOnBorrow(false);
-        JedisPool jedisPool = new JedisPool(config, registerProperties.getHost(), registerProperties.getPort(), 10 * 1000, registerProperties.getPassword());
+        JedisPool jedisPool = new JedisPool(config, url.getHost(), url.getPort(), 10 * 1000, url.getPassword());
         jedis = jedisPool.getResource();
     }
 

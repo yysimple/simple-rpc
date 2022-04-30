@@ -8,7 +8,7 @@ package com.simple.rpc.core.exception;
  * @author: WuChengXing
  * @create: 2022-04-24 00:42
  **/
-public class SimpleRpcBaseException extends Exception {
+public class SimpleRpcBaseException extends RuntimeException {
 
     protected String message;
 

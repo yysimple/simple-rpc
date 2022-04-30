@@ -1,6 +1,6 @@
 package com.simple.rpc.core.network.server;
 
-import com.simple.rpc.core.config.LocalAddressInfo;
+import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.network.codec.RpcDecoder;
 import com.simple.rpc.core.network.codec.RpcEncoder;
 import com.simple.rpc.core.network.message.Request;
@@ -14,9 +14,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.springframework.context.ApplicationContext;
-
-import java.nio.channels.ServerSocketChannel;
 
 /**
  * 项目: simple-rpc
@@ -29,15 +26,6 @@ import java.nio.channels.ServerSocketChannel;
 public class RpcServerSocket implements Runnable {
 
     private ChannelFuture f;
-
-    /**
-     * 整合Spring，传入Spring的上下文
-     */
-    private transient ApplicationContext applicationContext;
-
-    public RpcServerSocket(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
 
     public boolean isActiveSocketServer() {
         try {
@@ -67,7 +55,7 @@ public class RpcServerSocket implements Runnable {
                             ch.pipeline().addLast(
                                     new RpcDecoder(Request.class),
                                     new RpcEncoder(Response.class),
-                                    new ServerSocketHandler(applicationContext));
+                                    new ServerSocketHandler());
                         }
                     });
             // 默认启动初始端口

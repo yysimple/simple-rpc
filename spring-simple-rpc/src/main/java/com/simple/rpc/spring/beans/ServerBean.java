@@ -1,12 +1,12 @@
 package com.simple.rpc.spring.beans;
 
-import com.simple.rpc.core.config.LocalAddressInfo;
+import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.register.config.RegisterProperties;
-import com.simple.rpc.core.spring.xml.config.ServerConfig;
-import com.simple.rpc.core.spring.xml.transfer.BaseData;
-import com.simple.rpc.core.spring.xml.transfer.DataMap;
+import com.simple.rpc.spring.config.ServerConfig;
+import com.simple.rpc.spring.transfer.BaseData;
+import com.simple.rpc.spring.transfer.DataMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
