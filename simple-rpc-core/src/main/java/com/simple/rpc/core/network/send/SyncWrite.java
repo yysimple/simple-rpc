@@ -6,6 +6,7 @@ import com.simple.rpc.core.exception.network.NettyResponseException;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.util.DateUtils;
+import com.simple.rpc.core.util.SimpleRpcLog;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -25,8 +26,6 @@ import java.util.concurrent.TimeoutException;
  * @create: 2022-04-19 15:09
  **/
 public class SyncWrite {
-
-    private final Logger logger = LoggerFactory.getLogger(SyncWrite.class);
 
     /**
      * 同步写数据
@@ -74,24 +73,24 @@ public class SyncWrite {
                 if (!writeFuture.isWriteSuccess()) {
                     SyncWriteMap.syncKey.remove(writeFuture.requestId());
                 }
-                logger.info("此次写请求的结果：{}, {}", writeFuture.isWriteSuccess(), writeFuture.cause());
+                SimpleRpcLog.info("此次写请求的结果：{}, {}", writeFuture.isWriteSuccess(), writeFuture.cause());
             }
         });
 
-        logger.info("等待服务端给我反馈，当前时间：{}", DateUtils.getTime());
+        SimpleRpcLog.info("等待服务端给我反馈，当前时间：{}", DateUtils.getTime());
         // 请求完成之后，这里会去模拟等待，get的时候是无法去拿到资源的，这里设置一个等待事件
         Response response = writeFuture.get(timeout, TimeUnit.SECONDS);
         if (response == null) {
             // 已经超时则抛出异常
             if (writeFuture.isTimeout()) {
-                logger.info("此次请求已经超时，抛出超时异常，当前时间：{}", DateUtils.getTime());
+                SimpleRpcLog.info("此次请求已经超时，抛出超时异常，当前时间：{}", DateUtils.getTime());
                 throw new TimeoutException();
             } else {
                 // write exception
                 throw new NettyResponseException(writeFuture.cause());
             }
         }
-        logger.info("写出去后，拿到返回值，当前时间：{}", DateUtils.getTime());
+        SimpleRpcLog.info("写出去后，拿到返回值，当前时间：{}", DateUtils.getTime());
         // 否则返回响应，此次类似 feign的调用，等到请求，过了一段时间还没有拿到结果，则抛出超时异常，否则成功
         return response;
     }

@@ -1,23 +1,22 @@
 package com.simple.rpc.spring.beans;
 
 import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.constant.enums.RegisterEnum;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
 import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
-import com.simple.rpc.core.register.config.RegisterProperties;
 import com.simple.rpc.core.util.ClassLoaderUtils;
+import com.simple.rpc.spring.beans.parser.ParseServerBean;
 import com.simple.rpc.spring.config.ConsumerConfig;
 import com.simple.rpc.spring.exception.BeanNotFoundException;
 import com.simple.rpc.spring.transfer.BaseData;
-import com.simple.rpc.spring.transfer.DataMap;
 import io.netty.channel.ChannelFuture;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.FactoryBean;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -36,39 +35,28 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
 
+    @Resource
+    private ServerBean serverBean;
+
     @Override
     public T getObject() throws BeanNotFoundException, NettyInitException, ClassNotFoundException {
-        RegisterProperties registerProperties = DataMap.dataTransfer.get(DataMap.DATA_TRANSFER);
-        BaseData baseData = DataMap.baseDataTransfer.get(DataMap.BASE_DATA_TRANSFER);
         // 构建请求参数
         Request request = new Request();
         request.setInterfaceName(interfaceName);
         request.setAlias(alias);
-        if (Objects.isNull(registerProperties) || Objects.isNull(registerProperties.getRegisterType())) {
-            registerProperties = new RegisterProperties();
-            if (Objects.isNull(baseData) || Objects.isNull(baseData.getRegisterType())) {
-                registerProperties.setRegisterType(RegisterEnum.REDIS.getRegisterType());
-            } else {
-                BeanUtils.copyProperties(baseData, registerProperties);
-            }
-        }
-        if (Objects.isNull(registerProperties.getRegisterType())) {
-            throw new BeanNotFoundException("消费者从注册中心获取数据失败");
-        }
-        RegisterCenter registerCenter = RegisterCenterFactory.create(registerProperties.getRegisterType());
+        SimpleRpcUrl simpleRpcUrl = ParseServerBean.parse(serverBean);
+        RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
         if (Objects.isNull(registerCenter)) {
             throw new BeanNotFoundException("注册中心未初始化");
         }
         //从redis获取链接
         String infoStr = registerCenter.get(request);
         request = JSON.parseObject(infoStr, Request.class);
-        Integer calcTryNum = calcTryNum(baseData, tryNum);
-        Long calcTimeout = calcTimeout(baseData, timeout);
         //获取通信channel
         if (null == channelFuture) {
             RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
             executorService.submit(clientSocket);
-            for (int i = 0; i < calcTryNum; i++) {
+            for (int i = 0; i < 100; i++) {
                 if (null != channelFuture) {
                     break;
                 }
@@ -85,8 +73,7 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
         }
         request.setChannel(channelFuture.channel());
         request.setBeanName(beanName);
-        request.setAlias(alias);
-        request.setTimeout(calcTimeout);
+        request.setTimeout(null);
         return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);
     }
 

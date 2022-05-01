@@ -11,34 +11,39 @@
         <xsd:complexType>
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
-                    <xsd:attribute name="registerType" type="xsd:string">
+                    <xsd:attribute name="address" type="xsd:string">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心类型 ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 注册中心地址，协议：redis://127.0.0.1:6379等； ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
-                    <xsd:attribute name="host" type="xsd:string">
+                    <xsd:attribute name="username" type="xsd:string">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心地址 ]]></xsd:documentation>
-                        </xsd:annotation>
-                    </xsd:attribute>
-                    <xsd:attribute name="port" type="xsd:string">
-                        <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心端口  ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 仅适用于连接需要用户名的协议 ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                     <xsd:attribute name="password" type="xsd:string">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 仅适用于连接需要密码的协议 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="database" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 仅适用于连接需要数据库的协议 ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="table" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[ 仅适用于连接需要表结构的协议 ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                     <xsd:attribute name="timeout" type="xsd:long">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 全局超时时间 ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                     <xsd:attribute name="tryNum" type="xsd:integer">
                         <xsd:annotation>
-                            <xsd:documentation><![CDATA[ 注册中心密码  ]]></xsd:documentation>
+                            <xsd:documentation><![CDATA[ 全局重试次数  ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
                 </xsd:extension>

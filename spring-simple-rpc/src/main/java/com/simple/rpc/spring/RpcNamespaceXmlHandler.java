@@ -1,8 +1,8 @@
 package com.simple.rpc.spring;
 
-import com.simple.rpc.core.spring.xml.beans.ConsumerBean;
-import com.simple.rpc.core.spring.xml.beans.ProviderBean;
-import com.simple.rpc.core.spring.xml.beans.ServerBean;
+import com.simple.rpc.spring.beans.ConsumerBean;
+import com.simple.rpc.spring.beans.ProviderBean;
+import com.simple.rpc.spring.beans.ServerBean;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**

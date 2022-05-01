@@ -9,24 +9,19 @@ package com.simple.rpc.spring.config;
  * @create: 2022-04-22 17:45
  **/
 public class ServerConfig {
-    /**
-     * 注册类型
-     */
-    protected String registerType;
-    /**
-     * 注册中心地址
-     */
-    protected String host;
 
     /**
-     * 注册中心端口
+     * 注册地址
      */
-    protected int port;
+    protected String address;
 
-    /**
-     * 注册中心的密码
-     */
+    protected String username;
+
     protected String password;
+
+    protected String database;
+
+    protected String table;
 
     /**
      * 超时时间
@@ -38,28 +33,20 @@ public class ServerConfig {
      */
     protected Integer tryNum;
 
-    public String getRegisterType() {
-        return registerType;
+    public String getAddress() {
+        return address;
     }
 
-    public void setRegisterType(String registerType) {
-        this.registerType = registerType;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getHost() {
-        return host;
+    public String getUsername() {
+        return username;
     }
 
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -68,6 +55,22 @@ public class ServerConfig {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public void setDatabase(String database) {
+        this.database = database;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 
     public Long getTimeout() {

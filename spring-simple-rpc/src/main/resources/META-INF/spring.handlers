@@ -1,1 +1,1 @@
-http\://rpc.simple.com/schema/rpc=com.simple.rpc.core.spring.xml.RpcNamespaceXmlHandler
+http\://rpc.simple.com/schema/rpc=com.simple.rpc.spring.RpcNamespaceXmlHandler

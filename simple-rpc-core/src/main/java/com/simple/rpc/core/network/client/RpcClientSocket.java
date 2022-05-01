@@ -5,6 +5,7 @@ import com.simple.rpc.core.network.codec.RpcDecoder;
 import com.simple.rpc.core.network.codec.RpcEncoder;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
+import com.simple.rpc.core.network.message.RpcMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -48,8 +49,8 @@ public class RpcClientSocket implements Runnable {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(
-                            new RpcDecoder(Response.class),
-                            new RpcEncoder(Request.class),
+                            new RpcDecoder(RpcMessage.class),
+                            new RpcEncoder(RpcMessage.class),
                             new ClientSocketHandler());
                 }
             });

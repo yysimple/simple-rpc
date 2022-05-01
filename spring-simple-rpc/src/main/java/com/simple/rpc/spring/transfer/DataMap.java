@@ -1,6 +1,7 @@
 package com.simple.rpc.spring.transfer;
 
-import com.simple.rpc.core.register.config.RegisterProperties;
+
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +19,6 @@ public class DataMap {
     public static final String DATA_TRANSFER = "dataTransfer";
     public static final String BASE_DATA_TRANSFER = "baseDataTransfer";
 
-    public static Map<String, RegisterProperties> dataTransfer = new ConcurrentHashMap<>(4);
+    public static Map<String, SimpleRpcUrl> DATA_TRANSFER_MAP = new ConcurrentHashMap<>(4);
     public static Map<String, BaseData> baseDataTransfer = new ConcurrentHashMap<>(4);
 }

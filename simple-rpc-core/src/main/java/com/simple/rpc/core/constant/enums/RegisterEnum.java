@@ -12,7 +12,12 @@ public enum RegisterEnum {
     /**
      * 注册中心类型
      */
+    LOCAL("0", "local"),
     REDIS("1", "redis"),
+    MYSQL("2", "mysql"),
+    ORACLE("3", "oracle"),
+    ZOOKEEPER("4", "zookeeper"),
+    NACOS("5", "nacos"),
     ;
 
     RegisterEnum(String code, String registerType) {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rpc="http://rpc.simple.com/schema/rpc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	  http://rpc.simple.com/schema/rpc http://rpc.simple.com/schema/rpc/rpc.xsd">
+
+    <!-- 注册中心 -->
+    <rpc:server id="providerServer"
+                address="redis://127.0.0.1:6379"
+                password="123456"/>
+
+    <rpc:provider id="helloServiceRpc"
+                  beanName="springHelloService"
+                  interfaceName="com.simple.rpc.test.common.spring.SpringHelloService"
+                  alias="providerRpc"/>
+
+</beans>

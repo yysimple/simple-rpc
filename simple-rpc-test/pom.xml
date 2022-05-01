@@ -7,11 +7,11 @@
     <groupId>com.simple.rpc.test</groupId>
     <artifactId>simple-rpc-test</artifactId>
     <version>1.0.0</version>
+
     <modules>
-        <module>simple-rpc-test-consumer</module>
-        <module>simple-rpc-test-provider</module>
         <module>simple-rpc-test-core</module>
         <module>simple-rpc-test-common</module>
+        <module>simple-rpc-test-spring</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -25,6 +25,7 @@
         <spring.version>5.3.9</spring.version>
         <spring-boot.version>2.5.3</spring-boot.version>
         <rpc-code.version>1.0.0</rpc-code.version>
+        <rpc-spring.version>1.0.0</rpc-spring.version>
     </properties>
 
     <dependencyManagement>
@@ -37,10 +38,12 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-autoconfigure</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.hibernate.validator</groupId>
@@ -83,15 +86,9 @@
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
                 <groupId>com.simple.rpc.spring</groupId>
                 <artifactId>spring-simple-rpc</artifactId>
-                <version>${rpc-code.version}</version>
+                <version>${rpc-spring.version}</version>
             </dependency>
 
             <dependency>

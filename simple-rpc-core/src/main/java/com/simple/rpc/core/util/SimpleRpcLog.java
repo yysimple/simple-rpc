@@ -24,6 +24,10 @@ public class SimpleRpcLog {
         logger.info(msg, var);
     }
 
+    public static void info(String msg, Object... var2) {
+        logger.info(msg, var2);
+    }
+
     public static void error(String msg) {
         logger.error(msg);
     }

@@ -19,25 +19,15 @@ public class SimpleRpcServiceCache {
 
     private static final Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
 
-    public static void addService(String version, Object service) {
-        Class<?>[] interfaces = service.getClass().getInterfaces();
-        if (interfaces.length == 0) {
-            throw new SimpleRpcBaseException("add service error. service not implements interface. service=" + service.getClass().getName());
-        }
-        String rpcServiceName;
-        if (StrUtil.isBlank(version)) {
-            rpcServiceName = interfaces[0].getCanonicalName();
-        } else {
-            rpcServiceName = interfaces[0].getCanonicalName() + "_" + version;
-        }
-        SERVICE_MAP.putIfAbsent(rpcServiceName, service);
-        SimpleRpcLog.info(StrUtil.format("add service. rpcServiceName={}, class={}", rpcServiceName, service.getClass()));
+    public static void addService(String alias, Object service) {
+        SERVICE_MAP.putIfAbsent(alias, service);
+        SimpleRpcLog.info(StrUtil.format("add service. alias={}, class={}", alias, service.getClass()));
     }
 
-    public static Object getService(String rpcServiceName) {
-        Object service = SERVICE_MAP.get(rpcServiceName);
+    public static Object getService(String alias) {
+        Object service = SERVICE_MAP.get(alias);
         if (service == null) {
-            throw new SimpleRpcBaseException("rpcService not found." + rpcServiceName);
+            throw new SimpleRpcBaseException("rpcService not found." + alias);
         }
         return service;
     }
