@@ -3,6 +3,7 @@ package com.simple.rpc.spring.beans;
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
@@ -45,7 +46,7 @@ public class ProviderBean extends ProviderConfig implements ApplicationContextAw
         providerRequest.setPort(LocalAddressInfo.PORT);
         //注册生产者
         boolean flag = registerCenter.register(providerRequest);
-        //SimpleRpcServiceCache.addService(alias, applicationContext.getBean(interfaceName));
+        SimpleRpcServiceCache.addService(alias, applicationContext.getBean(beanName));
         SimpleRpcLog.info("注册生产者：{}, 是否成功：{} ", JSON.toJSONString(providerRequest), flag);
     }
 }

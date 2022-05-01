@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @author: WuChengXing
  * @create: 2022-05-01 11:12
  **/
-@Service
+@Service("springHelloService")
 public class SpringHelloServiceImpl implements SpringHelloService {
 
     @Override

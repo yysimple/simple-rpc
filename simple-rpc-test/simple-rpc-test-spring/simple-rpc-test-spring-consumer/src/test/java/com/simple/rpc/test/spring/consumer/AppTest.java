@@ -26,6 +26,7 @@ public class AppTest {
 
     @Test
     public void test(){
-        System.out.println(springHelloService.helloSpring());
+        springHelloService.helloSpring();
+        System.out.println();
     }
 }
