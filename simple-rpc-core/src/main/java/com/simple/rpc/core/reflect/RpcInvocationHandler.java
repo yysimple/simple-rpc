@@ -4,9 +4,12 @@ import com.simple.rpc.core.constant.JavaKeywordConstant;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.send.SyncWrite;
+import com.simple.rpc.core.util.SimpleRpcLog;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * 项目: simple-rpc
@@ -42,7 +45,15 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setArgs(args);
         request.setBeanName(request.getBeanName());
         // 发送请求
-        Response response = new SyncWrite().writeAndSync(request.getChannel(), request, request.getTimeout());
+        Response response = null;
+        try {
+            response = new SyncWrite().writeAndSync(request.getChannel(), request,
+                    Objects.isNull(request.getTimeout()) ? 30L : request.getTimeout());
+        } catch (Exception e) {
+            e.printStackTrace();
+            SimpleRpcLog.error(e.getMessage());
+        }
+
         //异步调用
         return response.getResult();
     }

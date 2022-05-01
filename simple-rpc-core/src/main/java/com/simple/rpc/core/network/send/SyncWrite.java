@@ -1,10 +1,14 @@
 package com.simple.rpc.core.network.send;
 
 import com.simple.rpc.core.constant.MessageFormatConstant;
+import com.simple.rpc.core.constant.enums.CompressType;
+import com.simple.rpc.core.constant.enums.MessageType;
+import com.simple.rpc.core.constant.enums.SerializeType;
 import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.exception.network.NettyResponseException;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
+import com.simple.rpc.core.network.message.RpcMessage;
 import com.simple.rpc.core.util.DateUtils;
 import com.simple.rpc.core.util.SimpleRpcLog;
 import io.netty.channel.Channel;
@@ -13,6 +17,7 @@ import io.netty.channel.ChannelFutureListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -36,8 +41,7 @@ public class SyncWrite {
      * @return
      * @throws Exception
      */
-    public Response writeAndSync(final Channel channel, final Request request, long timeout) throws Exception {
-
+    public Response writeAndSync(Channel channel, Request request, Long timeout) throws Exception {
         if (channel == null) {
             throw new NettyInitException("channel is null, please init channel");
         }
@@ -52,17 +56,24 @@ public class SyncWrite {
         // 记录此次请求id，并放入到缓存中
         WriteFuture<Response> future = new SyncWriteFuture(request.getRequestId());
         SyncWriteMap.syncKey.put(request.getRequestId(), future);
+        // 构建请求数据
+        RpcMessage rpcMessage = new RpcMessage();
+        rpcMessage.setMessageType(MessageType.REQUEST.getValue());
+        rpcMessage.setRequestId(requestId);
+        rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());
+        rpcMessage.setSerializeType(CompressType.GZIP.getValue());
+        rpcMessage.setData(request);
         // 同步写数据
-        Response response = doWriteAndSync(channel, request, timeout, future);
+        Response response = doWriteAndSync(channel, rpcMessage, timeout, future);
         // 拿到响应值后，此前请求结束，那么可以移除此次请求
         SyncWriteMap.syncKey.remove(request.getRequestId());
         return response;
     }
 
-    private Response doWriteAndSync(final Channel channel, final Request request, final long timeout, final WriteFuture<Response> writeFuture) throws Exception {
+    private Response doWriteAndSync(final Channel channel, final RpcMessage rpcMessage, final long timeout, final WriteFuture<Response> writeFuture) throws Exception {
         // 这里就不用lambda了，这里就是在channel写出一条数据之后，可以为其添加一个监听时间，也即操作完之后的一个回调方法
         // 每个 Netty 的出站 I/O 操作都将返回一个 ChannelFuture
-        channel.writeAndFlush(request).addListener(new ChannelFutureListener() {
+        channel.writeAndFlush(rpcMessage).addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) {
                 // 设置此次请求的状态

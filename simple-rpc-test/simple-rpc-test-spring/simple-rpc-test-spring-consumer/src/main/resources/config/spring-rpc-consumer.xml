@@ -7,7 +7,7 @@
 
     <!-- 注册中心 -->
     <rpc:server id="consumer"
-                address="redis://127.0.0.1:6379"
+                address="redis://192.168.31.100:6379"
                 password="123456"/>
 
     <rpc:consumer id="helloService"
