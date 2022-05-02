@@ -38,7 +38,7 @@ public class ProviderAppMain {
 
         String interfaceName = "com.simple.rpc.test.common.core.service.CoreHelloService";
         request.setInterfaceName(interfaceName);
-        request.setAlias("coreHelloService");
+        request.setAlias("rpcProvider");
         // 初始化
         RpcServerSocket rpcServerSocket = new RpcServerSocket();
         executorService.submit(rpcServerSocket);
@@ -52,6 +52,6 @@ public class ProviderAppMain {
         request.setPort(LocalAddressInfo.PORT);
         System.out.println("服务端的地址和端口：" +  request.getHost() + "-" + request.getPort());
         registerCenter.register(request);
-        SimpleRpcServiceCache.addService(null, new CoreHelloServiceImpl());
+        SimpleRpcServiceCache.addService("rpcProvider", new CoreHelloServiceImpl());
     }
 }

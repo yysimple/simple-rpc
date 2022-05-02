@@ -69,9 +69,9 @@ public interface MessageFormatConstant {
     int REQUEST_ID_LENGTH = 8;
 
     /**
-     * 请求头长度
+     * 请求头长度 = 魔数长度（2字节） + 版本长度（1字节） + 消息总长度（4字节）+ 消息类型（1字节）+ 序列化类型（1字节）+ 压缩类型（1字节）+ 请求id（8字节）= 18字节
      */
-    int HEADER_LENGTH = MAGIC_LENGTH + VERSION_LENGTH + FULL_LENGTH_LENGTH + MESSAGE_TYPE_LENGTH + CODEC_LENGTH + CODEC_LENGTH + REQUEST_ID_LENGTH;
+    int HEADER_LENGTH = MAGIC_LENGTH + VERSION_LENGTH + FULL_LENGTH_LENGTH + MESSAGE_TYPE_LENGTH + CODEC_LENGTH + COMPRESS_LENGTH + REQUEST_ID_LENGTH;
 
     /**
      * 协议最大长度

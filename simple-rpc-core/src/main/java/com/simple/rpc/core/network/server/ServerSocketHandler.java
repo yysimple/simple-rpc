@@ -50,10 +50,7 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             response.setResult(result);
             // 构建返回值
             RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
-            responseRpcMsg.setRequestId(rpcMessage.getRequestId());
             responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
-            rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());
-            rpcMessage.setSerializeType(CompressType.GZIP.getValue());
             responseRpcMsg.setData(response);
             ctx.writeAndFlush(responseRpcMsg);
             //释放

@@ -47,6 +47,8 @@ public class RpcClientSocket implements Runnable {
             b.group(workerGroup);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.AUTO_READ, true);
+            b.option(ChannelOption.SO_KEEPALIVE, Boolean.TRUE);
+            b.option(ChannelOption.TCP_NODELAY, Boolean.TRUE);
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {

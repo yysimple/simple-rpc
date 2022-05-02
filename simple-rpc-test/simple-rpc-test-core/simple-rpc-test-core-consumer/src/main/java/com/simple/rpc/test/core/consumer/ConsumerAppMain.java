@@ -43,7 +43,7 @@ public class ConsumerAppMain {
         Request request = new Request();
         String interfaceName = "com.simple.rpc.test.common.core.service.CoreHelloService";
         request.setInterfaceName(interfaceName);
-        request.setAlias("coreHelloService");
+        request.setAlias("rpcProvider");
         request.setRequestId(1001L);
         String infoStr = registerCenter.get(request);
         request = JSON.parseObject(infoStr, Request.class);
@@ -70,7 +70,6 @@ public class ConsumerAppMain {
         }
         request.setChannel(channelFuture.channel());
         Object invoke = RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);
-        CoreHelloService coreHelloService = (CoreHelloService)SimpleRpcServiceCache.getService(interfaceName);
-        coreHelloService.hello(new UserInfo("wcx", 18));
+        System.out.println(invoke);
     }
 }
