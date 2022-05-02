@@ -30,7 +30,7 @@ public class ProtocolConfig {
     }
 
     public String getCompressType() {
-        return compressType != null ? compressType : CompressType.DUMMY.getName();
+        return compressType != null ? compressType : CompressType.DEFAULT.getName();
     }
 
     public void setSerializeType(String serializeType) {

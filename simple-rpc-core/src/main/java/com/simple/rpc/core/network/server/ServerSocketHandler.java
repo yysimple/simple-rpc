@@ -1,6 +1,8 @@
 package com.simple.rpc.core.network.server;
 
+import com.simple.rpc.core.constant.enums.CompressType;
 import com.simple.rpc.core.constant.enums.MessageType;
+import com.simple.rpc.core.constant.enums.SerializeType;
 import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
@@ -48,7 +50,10 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             response.setResult(result);
             // 构建返回值
             RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
+            responseRpcMsg.setRequestId(rpcMessage.getRequestId());
             responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
+            rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());
+            rpcMessage.setSerializeType(CompressType.GZIP.getValue());
             responseRpcMsg.setData(response);
             ctx.writeAndFlush(responseRpcMsg);
             //释放

@@ -13,7 +13,7 @@ public enum CompressType {
     /**
      *
      */
-    DUMMY((byte) 0, "dummy"),
+    DEFAULT((byte) 0, "default"),
     GZIP((byte) 1, "gzip");
 
     private final byte value;
@@ -31,7 +31,7 @@ public enum CompressType {
                 return codecType;
             }
         }
-        return DUMMY;
+        return DEFAULT;
     }
 
     /**
@@ -46,7 +46,7 @@ public enum CompressType {
                 return codecType;
             }
         }
-        return DUMMY;
+        return DEFAULT;
     }
 
     public byte getValue() {

@@ -32,6 +32,10 @@ public class SimpleRpcLog {
         logger.error(msg);
     }
 
+    public static void error(String msg, Object var1) {
+        logger.error(msg, var1);
+    }
+
     public static void debug(String msg) {
         logger.debug(msg);
     }

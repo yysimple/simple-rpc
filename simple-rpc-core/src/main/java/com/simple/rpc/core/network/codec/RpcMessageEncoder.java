@@ -1,6 +1,9 @@
 package com.simple.rpc.core.network.codec;
 
+import com.simple.rpc.core.annotation.serializer.Serializer;
+import com.simple.rpc.core.compress.Compressor;
 import com.simple.rpc.core.constant.MessageFormatConstant;
+import com.simple.rpc.core.constant.enums.CompressType;
 import com.simple.rpc.core.constant.enums.MessageType;
 import com.simple.rpc.core.constant.enums.SerializeType;
 import com.simple.rpc.core.network.message.RpcMessage;
@@ -39,6 +42,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @create: 2022-04-27 18:52
  **/
 public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
+
     @Override
     protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, ByteBuf out) {
         // 2B magic code（魔数）
@@ -84,20 +88,19 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
         if (serializeType == null) {
             throw new IllegalArgumentException("codec type not found");
         }
-//        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
-//
-//        // 压缩器
-//        CompressType compressType = CompressType.fromValue(rpcMessage.getCompressTye());
-//        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
-//
-//        // 序列化
-//        byte[] notCompressBytes = serializer.serialize(rpcMessage.getData());
-//        // 压缩
-//        byte[] compressedBytes = compressor.compress(notCompressBytes);
-//
-//        // 写 body
-//        out.writeBytes(compressedBytes);
-//        return compressedBytes.length;
-        return 0;
+        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
+
+        // 压缩器
+        CompressType compressType = CompressType.fromValue(rpcMessage.getCompressTye());
+        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
+
+        // 序列化
+        byte[] notCompressBytes = serializer.serialize(rpcMessage.getData());
+        // 压缩
+        byte[] compressedBytes = compressor.compress(notCompressBytes);
+
+        // 写 body
+        out.writeBytes(compressedBytes);
+        return compressedBytes.length;
     }
 }
