@@ -1,7 +1,9 @@
 package com.simple.rpc.core.network.codec;
 
 import com.simple.rpc.core.annotation.serializer.Serializer;
+import com.simple.rpc.core.annotation.serializer.protostuff.ProtostuffSerializer;
 import com.simple.rpc.core.compress.Compressor;
+import com.simple.rpc.core.compress.DefaultCompressor;
 import com.simple.rpc.core.constant.enums.CompressType;
 import com.simple.rpc.core.constant.enums.MessageType;
 import com.simple.rpc.core.constant.enums.SerializeType;
@@ -91,7 +93,8 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
         in.readBytes(bodyBytes);
         // 解压
         CompressType compressType = CompressType.fromValue(compress);
-        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
+//        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
+        Compressor compressor = new DefaultCompressor();
         byte[] decompressedBytes = compressor.decompress(bodyBytes);
 
         // 反序列化
@@ -99,7 +102,8 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
         if (serializeType == null) {
             throw new IllegalArgumentException("unknown codec type:" + codec);
         }
-        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
+//        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
+        Serializer serializer = new ProtostuffSerializer();
         Class<?> clazz = messageType == MessageType.REQUEST.getValue() ? Request.class : Response.class;
         Object object = serializer.deserialize(decompressedBytes, clazz);
         rpcMessage.setData(object);

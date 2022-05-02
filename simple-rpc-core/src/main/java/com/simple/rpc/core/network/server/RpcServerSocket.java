@@ -3,6 +3,8 @@ package com.simple.rpc.core.network.server;
 import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.network.codec.RpcDecoder;
 import com.simple.rpc.core.network.codec.RpcEncoder;
+import com.simple.rpc.core.network.codec.RpcMessageDecoder;
+import com.simple.rpc.core.network.codec.RpcMessageEncoder;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.util.NetUtil;
@@ -53,8 +55,8 @@ public class RpcServerSocket implements Runnable {
                         @Override
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(
-                                    new RpcDecoder(Request.class),
-                                    new RpcEncoder(Response.class),
+                                    new RpcMessageDecoder(),
+                                    new RpcMessageEncoder(),
                                     new ServerSocketHandler());
                         }
                     });
