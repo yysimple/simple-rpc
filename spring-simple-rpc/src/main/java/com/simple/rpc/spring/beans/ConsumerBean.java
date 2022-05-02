@@ -80,7 +80,10 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
     @Override
     public Class<?> getObjectType() {
         try {
-            return ClassLoaderUtils.forName(interfaceName);
+            if (!Objects.isNull(interfaceName)) {
+                return ClassLoaderUtils.forName(interfaceName);
+            }
+            return null;
         } catch (ClassNotFoundException e) {
             return null;
         }

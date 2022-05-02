@@ -51,7 +51,7 @@ public class SyncWrite {
         if (timeout <= 0) {
             timeout = 30L;
         }
-        long requestId = MessageFormatConstant.REQUEST_ID.get();
+        long requestId = MessageFormatConstant.REQUEST_ID.incrementAndGet();
         request.setRequestId(requestId);
         // 记录此次请求id，并放入到缓存中
         WriteFuture<Response> future = new SyncWriteFuture(request.getRequestId());

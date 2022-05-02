@@ -11,6 +11,11 @@
                 address="redis://127.0.0.1:6379"
                 password="123456"/>
 
+    <rpc:provider id="helloConsumerService"
+                  beanName="springConsumerService"
+                  interfaceName="com.simple.rpc.test.common.spring.SpringConsumerService"
+                  alias="consumerProviderRpc"/>
+
     <rpc:consumer id="helloService"
                   interfaceName="com.simple.rpc.test.common.spring.SpringHelloService"
                   beanName="springHelloService"
