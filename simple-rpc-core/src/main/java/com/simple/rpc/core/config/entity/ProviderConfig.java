@@ -1,4 +1,4 @@
-package com.simple.rpc.spring.config;
+package com.simple.rpc.core.config.entity;
 
 /**
  * 项目: simple-rpc

@@ -1,15 +1,26 @@
 package com.simple.rpc.core.reflect;
 
+import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.config.entity.ConsumerConfig;
+import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.constant.JavaKeywordConstant;
+import com.simple.rpc.core.exception.SimpleRpcBaseException;
+import com.simple.rpc.core.exception.network.NettyInitException;
+import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.send.SyncWrite;
+import com.simple.rpc.core.register.RegisterCenter;
+import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.util.SimpleRpcLog;
+import io.netty.channel.ChannelFuture;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 项目: simple-rpc
@@ -21,29 +32,82 @@ import java.util.Objects;
  **/
 public class RpcInvocationHandler implements InvocationHandler {
 
-    private final Request request;
+    private ChannelFuture channelFuture;
+    private final RegistryConfig registryConfig;
+    private final ConsumerConfig consumerConfig;
 
-    public RpcInvocationHandler(Request request) {
-        this.request = request;
+    ExecutorService executorService = Executors.newFixedThreadPool(10);
+
+    public RpcInvocationHandler(RegistryConfig registryConfig, ConsumerConfig consumerConfig) {
+        this.registryConfig = registryConfig;
+        this.consumerConfig = consumerConfig;
+    }
+
+    private void connect() {
+        if (channelFuture != null && channelFuture.channel().isOpen()) {
+            return;
+        }
+        synchronized (this) {
+            if (channelFuture != null && channelFuture.channel().isOpen()) {
+                return;
+            }
+            // 构建请求参数
+            Request request = new Request();
+            request.setInterfaceName(consumerConfig.getInterfaceName());
+            request.setAlias(consumerConfig.getAlias());
+            SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(registryConfig);
+            RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
+            if (Objects.isNull(registerCenter)) {
+                throw new SimpleRpcBaseException("注册中心未初始化");
+            }
+            //从redis获取链接
+            String infoStr = registerCenter.get(request);
+            request = JSON.parseObject(infoStr, Request.class);
+            //获取通信channel
+            if (null == channelFuture) {
+                RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
+                executorService.submit(clientSocket);
+                for (int i = 0; i < 100; i++) {
+                    if (null != channelFuture) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    channelFuture = clientSocket.getFuture();
+                }
+            }
+            if (null == channelFuture) {
+                throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
+            }
+        }
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 连接客户端
+        connect();
         String methodName = method.getName();
         Class[] paramTypes = method.getParameterTypes();
         // 排除Object的方法调用
         if (JavaKeywordConstant.TO_STRING.equals(methodName) && paramTypes.length == 0) {
-            return request.toString();
+            return this.toString();
         } else if (JavaKeywordConstant.HASHCODE.equals(methodName) && paramTypes.length == 0) {
-            return request.hashCode();
+            return this.hashCode();
         } else if (JavaKeywordConstant.EQUALS.equals(methodName) && paramTypes.length == 1) {
-            return request.equals(args[0]);
+            return this.equals(args[0]);
         }
+        Request request = new Request();
         //设置参数
         request.setMethodName(methodName);
         request.setParamTypes(paramTypes);
         request.setArgs(args);
-        request.setBeanName(request.getBeanName());
+        request.setBeanName(consumerConfig.getBeanName());
+        request.setInterfaceName(consumerConfig.getInterfaceName());
+        request.setChannel(channelFuture.channel());
+        request.setAlias(consumerConfig.getAlias());
         // 发送请求
         Response response = null;
         try {

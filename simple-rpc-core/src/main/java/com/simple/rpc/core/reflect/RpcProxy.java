@@ -1,5 +1,7 @@
 package com.simple.rpc.core.reflect;
 
+import com.simple.rpc.core.config.entity.ConsumerConfig;
+import com.simple.rpc.core.config.entity.RegistryConfig;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.util.ClassLoaderUtils;
 
@@ -21,13 +23,14 @@ public class RpcProxy {
      * 通过带jdk动态代理接口
      *
      * @param interfaceClass
-     * @param request
+     * @param registryConfig
+     * @param consumerConfig
      * @param <T>
      * @return
      * @throws Exception
      */
-    public static <T> T invoke(Class<T> interfaceClass, Request request) {
-        InvocationHandler handler = new RpcInvocationHandler(request);
+    public static <T> T invoke(Class<T> interfaceClass, RegistryConfig registryConfig, ConsumerConfig consumerConfig) {
+        InvocationHandler handler = new RpcInvocationHandler(registryConfig, consumerConfig);
         ClassLoader classLoader = ClassLoaderUtils.getCurrentClassLoader();
         T result = (T) Proxy.newProxyInstance(classLoader, new Class[]{interfaceClass}, handler);
         return result;

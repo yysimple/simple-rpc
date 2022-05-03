@@ -1,6 +1,8 @@
 package com.simple.rpc.spring.beans;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.config.entity.ConsumerConfig;
+import com.simple.rpc.core.config.entity.RegistryConfig;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.network.client.RpcClientSocket;
@@ -10,7 +12,6 @@ import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.util.ClassLoaderUtils;
 import com.simple.rpc.spring.beans.parser.ParseServerBean;
-import com.simple.rpc.spring.config.ConsumerConfig;
 import com.simple.rpc.spring.exception.BeanNotFoundException;
 import com.simple.rpc.spring.transfer.BaseData;
 import io.netty.channel.ChannelFuture;
@@ -31,50 +32,13 @@ import java.util.concurrent.Executors;
  **/
 public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
 
-    private ChannelFuture channelFuture;
-
-    ExecutorService executorService = Executors.newFixedThreadPool(10);
-
     @Resource
     private ServerBean serverBean;
 
     @Override
     public T getObject() throws BeanNotFoundException, NettyInitException, ClassNotFoundException {
-        // 构建请求参数
-        Request request = new Request();
-        request.setInterfaceName(interfaceName);
-        request.setAlias(alias);
-        SimpleRpcUrl simpleRpcUrl = ParseServerBean.parse(serverBean);
-        RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
-        if (Objects.isNull(registerCenter)) {
-            throw new BeanNotFoundException("注册中心未初始化");
-        }
-        //从redis获取链接
-        String infoStr = registerCenter.get(request);
-        request = JSON.parseObject(infoStr, Request.class);
-        //获取通信channel
-        if (null == channelFuture) {
-            RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
-            executorService.submit(clientSocket);
-            for (int i = 0; i < 100; i++) {
-                if (null != channelFuture) {
-                    break;
-                }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                channelFuture = clientSocket.getFuture();
-            }
-        }
-        if (null == channelFuture) {
-            throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
-        }
-        request.setChannel(channelFuture.channel());
-        request.setBeanName(beanName);
-        request.setTimeout(null);
-        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);
+        RegistryConfig registryConfig = ParseServerBean.serverToRegister(serverBean);
+        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), registryConfig, this);
     }
 
     @Override

@@ -69,7 +69,7 @@ public class ConsumerAppMain {
             throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
         }
         request.setChannel(channelFuture.channel());
-        Object invoke = RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);
-        System.out.println(invoke);
+//        Object invoke = RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), request);
+//        System.out.println(invoke);
     }
 }
