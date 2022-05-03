@@ -7,9 +7,21 @@
 
 <!--                address="redis://192.168.31.100:6379"-->
     <!-- 注册中心 -->
+<!--    <rpc:server id="consumer"-->
+<!--                address="redis://127.0.0.1:6379"-->
+<!--                password="123456"/>-->
+
+<!--    <rpc:server id="consumer"-->
+<!--                address="mysql://127.0.0.1:3306"-->
+<!--                username="root"-->
+<!--                password="970412@wcx.com"-->
+<!--                database="test"-->
+<!--                table="register_center"-->
+<!--    />-->
+
     <rpc:server id="consumer"
-                address="redis://192.168.31.100:6379"
-                password="123456"/>
+                address="local://127.0.0.1:1111"
+    />
 
     <rpc:provider id="helloConsumerService"
                   beanName="springConsumerService"

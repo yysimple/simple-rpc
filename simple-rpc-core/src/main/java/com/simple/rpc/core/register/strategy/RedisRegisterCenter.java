@@ -8,6 +8,8 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.Objects;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -41,7 +43,8 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
      */
     @Override
     public Boolean register(Request request) {
-        return jedis.sadd(request.getInterfaceName() + "_" + request.getAlias(), JSON.toJSONString(request)) > 1;
+        String set = jedis.set(request.getInterfaceName() + "_" + request.getAlias(), JSON.toJSONString(request));
+        return !Objects.isNull(set);
     }
 
     /**
@@ -52,7 +55,7 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
      */
     @Override
     public String get(Request request) {
-        return jedis.srandmember(request.getInterfaceName() + "_" + request.getAlias());
+        return jedis.get(request.getInterfaceName() + "_" + request.getAlias());
     }
 
     public static Jedis jedis() {
