@@ -5,9 +5,9 @@
 	  http://rpc.simple.com/schema/rpc http://rpc.simple.com/schema/rpc/rpc.xsd">
 
     <!-- 注册中心 -->
-    <!--    <rpc:server id="providerServer"-->
-    <!--                address="redis://127.0.0.1:6379"-->
-    <!--                password="123456"/>-->
+        <rpc:server id="providerServer"
+                    address="redis://127.0.0.1:6379"
+                    password="123456"/>
 
 <!--    <rpc:server id="providerServer"-->
 <!--                address="mysql://127.0.0.1:3306"-->
@@ -17,9 +17,9 @@
 <!--                table="register_center"-->
 <!--    />-->
 
-    <rpc:server id="providerServer"
-                address="local://127.0.0.1:1111"
-    />
+<!--    <rpc:server id="providerServer"-->
+<!--                address="local://127.0.0.1:1111"-->
+<!--    />-->
 
     <rpc:provider id="helloServiceRpc"
                   beanName="springHelloService"
