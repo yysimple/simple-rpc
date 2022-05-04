@@ -1,10 +1,10 @@
-package com.simple.rpc.core.annotation.serializer.protostuff;
+package com.simple.rpc.core.serializer.protostuff;
 
 import com.dyuproject.protostuff.LinkedBuffer;
 import com.dyuproject.protostuff.ProtostuffIOUtil;
 import com.dyuproject.protostuff.Schema;
 import com.dyuproject.protostuff.runtime.RuntimeSchema;
-import com.simple.rpc.core.annotation.serializer.Serializer;
+import com.simple.rpc.core.serializer.Serializer;
 
 /**
  * 项目: simple-rpc

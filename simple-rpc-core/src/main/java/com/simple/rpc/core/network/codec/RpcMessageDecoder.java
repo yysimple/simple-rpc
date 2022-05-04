@@ -1,7 +1,7 @@
 package com.simple.rpc.core.network.codec;
 
-import com.simple.rpc.core.annotation.serializer.Serializer;
-import com.simple.rpc.core.annotation.serializer.protostuff.ProtostuffSerializer;
+import com.simple.rpc.core.serializer.Serializer;
+import com.simple.rpc.core.serializer.protostuff.ProtostuffSerializer;
 import com.simple.rpc.core.compress.Compressor;
 import com.simple.rpc.core.compress.DefaultCompressor;
 import com.simple.rpc.core.constant.enums.CompressType;

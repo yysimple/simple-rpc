@@ -1,4 +1,4 @@
-package com.simple.rpc.core.annotation.serializer;
+package com.simple.rpc.core.serializer;
 
 /**
  * 项目: simple-rpc

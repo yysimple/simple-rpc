@@ -24,8 +24,8 @@ public class SimpleRpcLog {
         logger.info(msg, var);
     }
 
-    public static void info(String msg, Object... var2) {
-        logger.info(msg, var2);
+    public static void info(String msg, Object... vars) {
+        logger.info(msg, vars);
     }
 
     public static void error(String msg) {
@@ -34,6 +34,10 @@ public class SimpleRpcLog {
 
     public static void error(String msg, Object var1) {
         logger.error(msg, var1);
+    }
+
+    public static void error(String msg, Object... vars) {
+        logger.error(msg, vars);
     }
 
     public static void debug(String msg) {

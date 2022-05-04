@@ -28,7 +28,7 @@ public class SimpleRpcUrl {
 
     private String table;
 
-    public static SimpleRpcUrl toSimpleRpcUrl(RegistryConfig config) {
+    public static <T extends RegistryConfig> SimpleRpcUrl toSimpleRpcUrl(T config) {
         if (Objects.isNull(config)) {
             throw new SimpleRpcBaseException("为获取到注册中心配置");
         }

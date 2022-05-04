@@ -12,6 +12,7 @@
         <module>simple-rpc-test-core</module>
         <module>simple-rpc-test-common</module>
         <module>simple-rpc-test-spring</module>
+        <module>simple-rpc-test-starter</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -26,6 +27,7 @@
         <spring-boot.version>2.5.3</spring-boot.version>
         <rpc-code.version>1.0.0</rpc-code.version>
         <rpc-spring.version>1.0.0</rpc-spring.version>
+        <rpc-starter.version>1.0.0</rpc-starter.version>
     </properties>
 
     <dependencyManagement>
@@ -89,6 +91,12 @@
                 <groupId>com.simple.rpc.spring</groupId>
                 <artifactId>spring-simple-rpc</artifactId>
                 <version>${rpc-spring.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.simple.rpc.springboot</groupId>
+                <artifactId>simple-rpc-boot-starter</artifactId>
+                <version>${rpc-starter.version}</version>
             </dependency>
 
             <dependency>
