@@ -5,9 +5,7 @@ import com.simple.rpc.core.annotation.SimpleRpcReference;
 import com.simple.rpc.core.annotation.SimpleRpcService;
 import com.simple.rpc.core.config.entity.ConsumerConfig;
 import com.simple.rpc.core.config.entity.LocalAddressInfo;
-import com.simple.rpc.core.config.entity.RegistryConfig;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
-import com.simple.rpc.core.network.cache.RegisterInfoCache;
 import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
@@ -18,11 +16,13 @@ import com.simple.rpc.core.util.SimpleRpcLog;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
 /**
  * 项目: simple-rpc
@@ -33,8 +33,7 @@ import java.lang.reflect.Field;
  * @create: 2022-05-04 17:09
  **/
 @Component
-@ConditionalOnClass({ServerInit.class})
-public class ServiceBeanPostProcessor implements BeanPostProcessor {
+public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Resource
     private BootRegisterConfig bootRegisterConfig;
@@ -47,10 +46,21 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor {
         // rpc 服务需要发布到注册中心
         if (rpcService != null) {
             RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
-            Request request = buildRequest(bean, rpcService, beanName);
-            registerCenter.register(request);
-            // 将对应的bean存入到缓存之中
-            SimpleRpcServiceCache.addService(request.getAlias(), bean);
+            Request request = new Request();
+            request.setHost(LocalAddressInfo.LOCAL_HOST);
+            request.setPort(LocalAddressInfo.PORT);
+            Class<?>[] interfaces = bean.getClass().getInterfaces();
+            if (!CollectionUtils.isEmpty(Arrays.asList(interfaces))) {
+                for (Class<?> anInterface : interfaces) {
+                    String alias = getBeanName(anInterface.getCanonicalName());
+                    request.setAlias(StrUtil.isBlank(rpcService.alias()) ? alias : rpcService.alias());
+                    request.setBeanName(alias);
+                    request.setInterfaceName(anInterface.getCanonicalName());
+                    registerCenter.register(request);
+                    // 将对应的bean存入到缓存之中
+                    SimpleRpcServiceCache.addService(request.getAlias(), bean);
+                }
+            }
         }
         return bean;
     }
@@ -64,7 +74,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor {
                 // 生成代理对象
                 Object proxy = null;
                 try {
-                    ConsumerConfig consumerConfig = buildConsumerConfig(field, rpcReference, beanName);
+                    ConsumerConfig consumerConfig = buildConsumerConfig(field, rpcReference);
                     proxy = RpcProxy.invoke(ClassLoaderUtils.forName(consumerConfig.getInterfaceName()), bootRegisterConfig, consumerConfig);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -81,22 +91,25 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor {
         return bean;
     }
 
-    private Request buildRequest(Object bean, SimpleRpcService rpcService, String beanName) {
-        Request request = new Request();
-        // 这里如果别名为空，那么就用beanName
-        request.setAlias(StrUtil.isBlank(rpcService.alias()) ? beanName : rpcService.alias());
-        request.setInterfaceName(bean.getClass().getCanonicalName());
-        request.setBeanName(beanName);
-        request.setHost(LocalAddressInfo.LOCAL_HOST);
-        request.setPort(LocalAddressInfo.PORT);
-        return request;
+    private ConsumerConfig buildConsumerConfig(Field field, SimpleRpcReference simpleRpcReference) {
+        ConsumerConfig consumerConfig = new ConsumerConfig();
+        String canonicalName = field.getType().getCanonicalName();
+        consumerConfig.setAlias(StrUtil.isBlank(simpleRpcReference.alias()) ? getBeanName(canonicalName) : simpleRpcReference.alias());
+        consumerConfig.setBeanName(getBeanName(canonicalName));
+        consumerConfig.setInterfaceName(canonicalName);
+        return consumerConfig;
     }
 
-    private ConsumerConfig buildConsumerConfig(Field field, SimpleRpcReference simpleRpcReference, String beanName) {
-        ConsumerConfig consumerConfig = new ConsumerConfig();
-        consumerConfig.setAlias(StrUtil.isBlank(simpleRpcReference.alias()) ? beanName : simpleRpcReference.alias());
-        consumerConfig.setBeanName(beanName);
-        consumerConfig.setInterfaceName(field.getType().getCanonicalName());
-        return consumerConfig;
+    private String getBeanName(String interfaceName) {
+        if (!StrUtil.isBlank(interfaceName)) {
+            String substring = interfaceName.substring(interfaceName.lastIndexOf(".") + 1);
+            return StrUtil.lowerFirst(substring);
+        }
+        return interfaceName;
+    }
+
+    @Override
+    public int getOrder() {
+        return 1;
     }
 }

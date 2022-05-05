@@ -8,9 +8,8 @@ import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.util.SimpleRpcLog;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeansException;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -25,15 +24,28 @@ import java.util.concurrent.Executors;
  * @author: WuChengXing
  * @create: 2022-05-04 18:44
  **/
-public class ServerInit {
+@Component
+public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
 
+    private static Boolean initFlag = true;
+
+    @Resource
     private BootRegisterConfig bootRegisterConfig;
 
-    public ServerInit(BootRegisterConfig bootRegisterConfig) {
-        this.bootRegisterConfig = bootRegisterConfig;
-        init(bootRegisterConfig);
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (initFlag) {
+            init(bootRegisterConfig);
+            initFlag = false;
+        }
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
     }
 
     public void init(BootRegisterConfig bootRegisterConfig) throws BeansException {
@@ -53,5 +65,10 @@ public class ServerInit {
             }
         }
         SimpleRpcLog.info("初始化生产端服务完成 {} {}", LocalAddressInfo.LOCAL_HOST, LocalAddressInfo.PORT);
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }

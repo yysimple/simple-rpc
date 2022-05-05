@@ -1,7 +1,5 @@
 package com.simple.rpc.springboot.annotaton;
 
-import com.simple.rpc.springboot.ServerAutoConfiguration;
-import com.simple.rpc.springboot.ServerInit;
 import com.simple.rpc.springboot.scanner.SimpleRpcScannerRegistrar;
 import org.springframework.context.annotation.Import;
 
@@ -18,7 +16,7 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Import({SimpleRpcScannerRegistrar.class, ServerAutoConfiguration.class})
+@Import({SimpleRpcScannerRegistrar.class})
 public @interface SimpleRpcScan {
 
     /**
