@@ -5,6 +5,7 @@ import com.simple.rpc.core.config.entity.*;
 import com.simple.rpc.core.constant.JavaKeywordConstant;
 import com.simple.rpc.core.exception.SimpleRpcBaseException;
 import com.simple.rpc.core.exception.network.NettyInitException;
+import com.simple.rpc.core.network.cache.ConnectCache;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
@@ -39,36 +40,21 @@ public class RpcInvocationHandler implements InvocationHandler {
         this.commonConfig = commonConfig;
     }
 
-    private void connect() {
-        if (channelFuture != null && channelFuture.channel().isOpen()) {
+    private void connect(Request request) {
+        channelFuture = ConnectCache.getChannelFuture(request);
+        if (this.channelFuture != null && this.channelFuture.channel().isOpen()) {
             return;
         }
         synchronized (this) {
-            if (channelFuture != null && channelFuture.channel().isOpen()) {
+            if (this.channelFuture != null && this.channelFuture.channel().isOpen()) {
                 return;
             }
-            ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
-            RegistryConfig registryConfig = commonConfig.getRegistryConfig();
-            BaseConfig baseConfig = commonConfig.getBaseConfig();
-            // 构建请求参数
-            Request request = new Request();
-            request.setInterfaceName(consumerConfig.getInterfaceName());
-            request.setAlias(consumerConfig.getAlias());
-            request.setLoadBalanceRule(baseConfig.getLoadBalanceRule());
-            SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(registryConfig);
-            RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
-            if (Objects.isNull(registerCenter)) {
-                throw new SimpleRpcBaseException("注册中心未初始化");
-            }
-            //从redis获取链接
-            String infoStr = registerCenter.get(request);
-            request = JSON.parseObject(infoStr, Request.class);
             //获取通信channel
-            if (null == channelFuture) {
+            if (null == this.channelFuture) {
                 RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
                 executorService.submit(clientSocket);
                 for (int i = 0; i < 100; i++) {
-                    if (null != channelFuture) {
+                    if (null != this.channelFuture) {
                         break;
                     }
                     try {
@@ -76,19 +62,41 @@ public class RpcInvocationHandler implements InvocationHandler {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    channelFuture = clientSocket.getFuture();
+                    this.channelFuture = clientSocket.getFuture();
                 }
             }
-            if (null == channelFuture) {
+            if (null == this.channelFuture) {
                 throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
             }
+            request.setChannelFuture(channelFuture);
+            ConnectCache.saveChannelFuture(request);
         }
+    }
+
+    private Request buildRequest() {
+        ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
+        RegistryConfig registryConfig = commonConfig.getRegistryConfig();
+        BaseConfig baseConfig = commonConfig.getBaseConfig();
+        // 构建请求参数
+        Request request = new Request();
+        request.setInterfaceName(consumerConfig.getInterfaceName());
+        request.setAlias(consumerConfig.getAlias());
+        request.setLoadBalanceRule(baseConfig.getLoadBalanceRule());
+        SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(registryConfig);
+        RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
+        if (Objects.isNull(registerCenter)) {
+            throw new SimpleRpcBaseException("注册中心未初始化");
+        }
+        //从redis获取链接
+        String infoStr = registerCenter.get(request);
+        request = JSON.parseObject(infoStr, Request.class);
+        return request;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 连接客户端
-        connect();
+        connect(buildRequest());
         String methodName = method.getName();
         Class[] paramTypes = method.getParameterTypes();
         // 排除Object的方法调用

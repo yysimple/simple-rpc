@@ -1,6 +1,9 @@
 package com.simple.rpc.core.network.message;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+
+import java.util.Arrays;
 
 /**
  * 项目: simple-rpc
@@ -16,6 +19,7 @@ public class Request {
      * 绑定此次连接的channel
      */
     private transient Channel channel;
+    private transient ChannelFuture channelFuture;
 
     /**
      * 此次请求的id
@@ -76,6 +80,14 @@ public class Request {
      * 负载均衡算法
      */
     private String loadBalanceRule;
+
+    public ChannelFuture getChannelFuture() {
+        return channelFuture;
+    }
+
+    public void setChannelFuture(ChannelFuture channelFuture) {
+        this.channelFuture = channelFuture;
+    }
 
     public String getHost() {
         return host;
@@ -179,5 +191,25 @@ public class Request {
 
     public void setLoadBalanceRule(String loadBalanceRule) {
         this.loadBalanceRule = loadBalanceRule;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "channel=" + channel +
+                ", channelFuture=" + channelFuture +
+                ", requestId=" + requestId +
+                ", methodName='" + methodName + '\'' +
+                ", paramTypes=" + Arrays.toString(paramTypes) +
+                ", args=" + Arrays.toString(args) +
+                ", interfaceName='" + interfaceName + '\'' +
+                ", beanName='" + beanName + '\'' +
+                ", alias='" + alias + '\'' +
+                ", timeout=" + timeout +
+                ", retryNum=" + retryNum +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", loadBalanceRule='" + loadBalanceRule + '\'' +
+                '}';
     }
 }
