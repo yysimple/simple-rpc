@@ -14,14 +14,9 @@ import com.simple.rpc.core.annotation.SimpleRpcConfig;
 public class BaseConfig {
 
     /**
-     * 是否开启负载均衡策略
-     */
-    private Boolean loadBalance;
-
-    /**
      * 负载均衡算法
      */
-    private String rule;
+    private String loadBalanceRule;
 
     /**
      * 超时时间
@@ -33,20 +28,12 @@ public class BaseConfig {
      */
     private Long retryNum;
 
-    public Boolean getLoadBalance() {
-        return loadBalance;
+    public String getLoadBalanceRule() {
+        return loadBalanceRule;
     }
 
-    public void setLoadBalance(Boolean loadBalance) {
-        this.loadBalance = loadBalance;
-    }
-
-    public String getRule() {
-        return rule;
-    }
-
-    public void setRule(String rule) {
-        this.rule = rule;
+    public void setLoadBalanceRule(String loadBalanceRule) {
+        this.loadBalanceRule = loadBalanceRule;
     }
 
     public Long getTimeout() {
@@ -68,8 +55,7 @@ public class BaseConfig {
     @Override
     public String toString() {
         return "BaseConfig{" +
-                "loadBalance=" + loadBalance +
-                ", rule='" + rule + '\'' +
+                "loadBalanceRule='" + loadBalanceRule + '\'' +
                 ", timeout=" + timeout +
                 ", retryNum=" + retryNum +
                 '}';

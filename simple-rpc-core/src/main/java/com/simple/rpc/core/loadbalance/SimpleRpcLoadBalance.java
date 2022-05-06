@@ -17,9 +17,9 @@ public interface SimpleRpcLoadBalance {
     /**
      * 负载均衡
      *
-     * @param urls
+     * @param services
      * @return
      */
-    Request loadBalance(Map<String, String> urls);
+    String loadBalance(Map<String, String> services);
 
 }

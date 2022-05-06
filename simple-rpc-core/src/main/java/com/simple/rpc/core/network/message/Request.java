@@ -60,11 +60,22 @@ public class Request {
     /**
      * 重试次数
      */
-    private Integer tryAgainNum;
+    private Integer retryNum;
 
+    /**
+     * nettyServer端的host
+     */
     private String host;
 
+    /**
+     * nettyServer端的port
+     */
     private Integer port;
+
+    /**
+     * 负载均衡算法
+     */
+    private String loadBalanceRule;
 
     public String getHost() {
         return host;
@@ -138,12 +149,12 @@ public class Request {
         this.timeout = timeout;
     }
 
-    public Integer getTryAgainNum() {
-        return tryAgainNum;
+    public Integer getRetryNum() {
+        return retryNum;
     }
 
-    public void setTryAgainNum(Integer tryAgainNum) {
-        this.tryAgainNum = tryAgainNum;
+    public void setRetryNum(Integer retryNum) {
+        this.retryNum = retryNum;
     }
 
     public String getBeanName() {
@@ -160,5 +171,13 @@ public class Request {
 
     public void setAlias(String alias) {
         this.alias = alias;
+    }
+
+    public String getLoadBalanceRule() {
+        return loadBalanceRule;
+    }
+
+    public void setLoadBalanceRule(String loadBalanceRule) {
+        this.loadBalanceRule = loadBalanceRule;
     }
 }

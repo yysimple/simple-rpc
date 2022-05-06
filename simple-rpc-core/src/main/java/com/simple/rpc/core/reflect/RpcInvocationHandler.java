@@ -1,9 +1,7 @@
 package com.simple.rpc.core.reflect;
 
 import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.config.entity.ConsumerConfig;
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.core.config.entity.*;
 import com.simple.rpc.core.constant.JavaKeywordConstant;
 import com.simple.rpc.core.exception.SimpleRpcBaseException;
 import com.simple.rpc.core.exception.network.NettyInitException;
@@ -33,14 +31,12 @@ import java.util.concurrent.Executors;
 public class RpcInvocationHandler implements InvocationHandler {
 
     private ChannelFuture channelFuture;
-    private final RegistryConfig registryConfig;
-    private final ConsumerConfig consumerConfig;
+    private final CommonConfig commonConfig;
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-    public RpcInvocationHandler(RegistryConfig registryConfig, ConsumerConfig consumerConfig) {
-        this.registryConfig = registryConfig;
-        this.consumerConfig = consumerConfig;
+    public RpcInvocationHandler(CommonConfig commonConfig) {
+        this.commonConfig = commonConfig;
     }
 
     private void connect() {
@@ -51,10 +47,14 @@ public class RpcInvocationHandler implements InvocationHandler {
             if (channelFuture != null && channelFuture.channel().isOpen()) {
                 return;
             }
+            ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
+            RegistryConfig registryConfig = commonConfig.getRegistryConfig();
+            BaseConfig baseConfig = commonConfig.getBaseConfig();
             // 构建请求参数
             Request request = new Request();
             request.setInterfaceName(consumerConfig.getInterfaceName());
             request.setAlias(consumerConfig.getAlias());
+            request.setLoadBalanceRule(baseConfig.getLoadBalanceRule());
             SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(registryConfig);
             RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
             if (Objects.isNull(registerCenter)) {
@@ -100,6 +100,7 @@ public class RpcInvocationHandler implements InvocationHandler {
             return this.equals(args[0]);
         }
         Request request = new Request();
+        ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
         //设置参数
         request.setMethodName(methodName);
         request.setParamTypes(paramTypes);

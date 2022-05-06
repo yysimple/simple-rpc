@@ -1,6 +1,7 @@
 package com.simple.rpc.spring.beans;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.config.entity.CommonConfig;
 import com.simple.rpc.core.config.entity.ConsumerConfig;
 import com.simple.rpc.core.config.entity.RegistryConfig;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
@@ -38,7 +39,8 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
     @Override
     public T getObject() throws BeanNotFoundException, NettyInitException, ClassNotFoundException {
         RegistryConfig registryConfig = ParseServerBean.serverToRegister(serverBean);
-        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), registryConfig, this);
+        // todo 构建 CommonConfig
+        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), new CommonConfig());
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.simple.rpc.springboot;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.core.annotation.SimpleRpcReference;
 import com.simple.rpc.core.annotation.SimpleRpcService;
+import com.simple.rpc.core.config.entity.CommonConfig;
 import com.simple.rpc.core.config.entity.ConsumerConfig;
 import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
@@ -13,6 +14,7 @@ import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.util.ClassLoaderUtils;
 import com.simple.rpc.core.util.SimpleRpcLog;
+import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -37,6 +39,8 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Resource
     private BootRegisterConfig bootRegisterConfig;
+    @Resource
+    private BootBaseConfig bootBaseConfig;
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
@@ -47,6 +51,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
         if (rpcService != null) {
             RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
             Request request = new Request();
+            request.setLoadBalanceRule(bootBaseConfig.getLoadBalanceRule());
             request.setHost(LocalAddressInfo.LOCAL_HOST);
             request.setPort(LocalAddressInfo.PORT);
             Class<?>[] interfaces = bean.getClass().getInterfaces();
@@ -75,7 +80,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
                 Object proxy = null;
                 try {
                     ConsumerConfig consumerConfig = buildConsumerConfig(field, rpcReference);
-                    proxy = RpcProxy.invoke(ClassLoaderUtils.forName(consumerConfig.getInterfaceName()), bootRegisterConfig, consumerConfig);
+                    proxy = RpcProxy.invoke(ClassLoaderUtils.forName(consumerConfig.getInterfaceName()), buildCommonConfig(consumerConfig));
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -98,6 +103,14 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
         consumerConfig.setBeanName(getBeanName(canonicalName));
         consumerConfig.setInterfaceName(canonicalName);
         return consumerConfig;
+    }
+
+    private CommonConfig buildCommonConfig(ConsumerConfig c) {
+        CommonConfig config = new CommonConfig();
+        config.setConsumerConfig(c);
+        config.setRegistryConfig(bootRegisterConfig);
+        config.setBaseConfig(bootBaseConfig);
+        return config;
     }
 
     private String getBeanName(String interfaceName) {

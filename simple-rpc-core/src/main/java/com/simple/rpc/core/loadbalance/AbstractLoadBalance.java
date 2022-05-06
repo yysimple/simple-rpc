@@ -3,6 +3,7 @@ package com.simple.rpc.core.loadbalance;
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.network.message.Request;
+import com.simple.rpc.core.util.SimpleRpcLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,14 @@ import java.util.Set;
 public abstract class AbstractLoadBalance implements SimpleRpcLoadBalance {
 
     @Override
-    public Request loadBalance(Map<String, String> services) {
+    public String loadBalance(Map<String, String> services) {
         if (CollectionUtil.isEmpty(services)) {
-            return new Request();
+            return null;
         }
         Set<String> urls = services.keySet();
-        String requestInfo = services.get(select(new ArrayList<>(urls)));
-        return JSON.parseObject(requestInfo, Request.class);
+        String selectUrl = select(new ArrayList<>(urls));
+        SimpleRpcLog.info("负载的信息：" + selectUrl);
+        return services.get(selectUrl);
     }
 
     protected abstract String select(List<String> urls);
