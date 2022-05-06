@@ -2,6 +2,7 @@ package com.simple.rpc.core.register.strategy;
 
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.core.constant.SymbolConstant;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 import redis.clients.jedis.Jedis;
@@ -43,8 +44,11 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
      */
     @Override
     public Boolean register(Request request) {
-        String set = jedis.set(request.getInterfaceName() + "_" + request.getAlias(), JSON.toJSONString(request));
-        return !Objects.isNull(set);
+        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
+        String fieldKey = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
+        String value = JSON.toJSONString(request);
+        Long hset = jedis.hset(key, fieldKey, value);
+        return hset > 0L;
     }
 
     /**

@@ -28,4 +28,18 @@ public @interface SimpleRpcReference {
      * @return
      */
     String alias() default "";
+
+    /**
+     * 是否开启接口负载均衡，针对于单个接口
+     *
+     * @return
+     */
+    boolean loadBalance() default true;
+
+    /**
+     * 负载规则
+     *
+     * @return
+     */
+    String rule() default "random";
 }
