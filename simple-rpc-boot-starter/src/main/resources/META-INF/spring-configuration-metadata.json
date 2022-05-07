@@ -1,0 +1,88 @@
+{
+  "groups": [
+    {
+      "name": "simple.rpc.base",
+      "type": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+    },
+    {
+      "name": "simple.rpc.register",
+      "type": "com.simple.rpc.springboot.config.BootRegisterConfig",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "simple.rpc.base.load-balance-rule",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": "round"
+    },
+    {
+      "name": "simple.rpc.base.retry-num",
+      "type": "java.lang.Integer",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": 10
+    },
+    {
+      "name": "simple.rpc.base.timeout",
+      "type": "java.lang.Long",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": 30
+    },
+    {
+      "name": "simple.rpc.register.address",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig",
+      "description": "地址格式案例：\n redis://127.0.0.1:6379 \n 2. mysql://127.0.0.1:3306"
+    },
+    {
+      "name": "simple.rpc.register.database",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig"
+    },
+    {
+      "name": "simple.rpc.register.password",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig"
+    },
+    {
+      "name": "simple.rpc.register.table",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig"
+    },
+    {
+      "name": "simple.rpc.register.username",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig"
+    }
+  ],
+  "hints": [
+    {
+      "name": "simple.rpc.base.load-balance-rule",
+      "values": [
+        {
+          "value": "round",
+          "description": "轮询方式."
+        },
+        {
+          "value": "random",
+          "description": "随机方式."
+        }
+      ]
+    },
+    {
+      "name": "simple.rpc.register.address",
+      "values": [
+        {
+          "value": "redis://127.0.0.1:6379",
+          "description": "redis协议注册中心."
+        },
+        {
+          "value": "mysql://127.0.0.1:3306",
+          "description": "mysql协议注册中心."
+        }
+      ]
+    }
+  ]
+}

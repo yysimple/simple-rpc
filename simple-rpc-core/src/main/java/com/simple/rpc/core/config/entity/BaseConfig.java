@@ -26,7 +26,7 @@ public class BaseConfig {
     /**
      * 重试次数
      */
-    private Long retryNum;
+    private Integer retryNum;
 
     public String getLoadBalanceRule() {
         return loadBalanceRule;
@@ -44,11 +44,11 @@ public class BaseConfig {
         this.timeout = timeout;
     }
 
-    public Long getRetryNum() {
+    public Integer getRetryNum() {
         return retryNum;
     }
 
-    public void setRetryNum(Long retryNum) {
+    public void setRetryNum(Integer retryNum) {
         this.retryNum = retryNum;
     }
 
