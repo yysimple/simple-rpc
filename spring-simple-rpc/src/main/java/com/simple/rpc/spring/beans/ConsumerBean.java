@@ -1,27 +1,19 @@
 package com.simple.rpc.spring.beans;
 
-import com.alibaba.fastjson.JSON;
+import com.simple.rpc.core.config.entity.BaseConfig;
 import com.simple.rpc.core.config.entity.CommonConfig;
 import com.simple.rpc.core.config.entity.ConsumerConfig;
 import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.exception.network.NettyInitException;
-import com.simple.rpc.core.network.client.RpcClientSocket;
-import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
-import com.simple.rpc.core.register.RegisterCenter;
-import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.core.util.ClassLoaderUtils;
 import com.simple.rpc.spring.beans.parser.ParseServerBean;
 import com.simple.rpc.spring.exception.BeanNotFoundException;
 import com.simple.rpc.spring.transfer.BaseData;
-import io.netty.channel.ChannelFuture;
 import org.springframework.beans.factory.FactoryBean;
 
 import javax.annotation.Resource;
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 项目: simple-rpc
@@ -39,8 +31,13 @@ public class ConsumerBean<T> extends ConsumerConfig implements FactoryBean<T> {
     @Override
     public T getObject() throws BeanNotFoundException, NettyInitException, ClassNotFoundException {
         RegistryConfig registryConfig = ParseServerBean.serverToRegister(serverBean);
-        // todo 构建 CommonConfig
-        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), new CommonConfig());
+        BaseConfig baseConfig = new BaseConfig();
+        baseConfig.setLoadBalanceRule("round");
+        CommonConfig config = new CommonConfig();
+        config.setConsumerConfig(this);
+        config.setRegistryConfig(registryConfig);
+        config.setBaseConfig(baseConfig);
+        return (T) RpcProxy.invoke(ClassLoaderUtils.forName(interfaceName), config);
     }
 
     @Override

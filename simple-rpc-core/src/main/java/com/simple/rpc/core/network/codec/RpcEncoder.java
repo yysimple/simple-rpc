@@ -13,6 +13,7 @@ import io.netty.handler.codec.MessageToByteEncoder;
  * @author: WuChengXing
  * @create: 2022-04-18 16:33
  **/
+@Deprecated
 public class RpcEncoder extends MessageToByteEncoder {
     private Class<?> genericClass;
 

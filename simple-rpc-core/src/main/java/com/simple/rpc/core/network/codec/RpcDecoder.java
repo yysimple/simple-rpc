@@ -15,6 +15,7 @@ import java.util.List;
  * @author: WuChengXing
  * @create: 2022-04-18 16:32
  **/
+@Deprecated
 public class RpcDecoder extends ByteToMessageDecoder {
 
     private Class<?> genericClass;
@@ -33,7 +34,6 @@ public class RpcDecoder extends ByteToMessageDecoder {
          * 指定字节数传输，这里跟NIO的byteBuffer有一些不同，这里只要是 读指针、写指针、可丢弃容量、剩余可用容量
          * 根据这些，来进行按指定缓存大小读取数据
          *
-         * todo 之后可以增加解决拆包，粘包的处理
          */
         in.markReaderIndex();
         int dataLength = in.readInt();
