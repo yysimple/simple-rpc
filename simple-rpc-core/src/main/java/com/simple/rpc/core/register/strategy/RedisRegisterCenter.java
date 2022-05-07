@@ -40,33 +40,14 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
         jedis = jedisPool.getResource();
     }
 
-    /**
-     * 注册服务
-     *
-     * @param request
-     * @return
-     */
     @Override
-    public Boolean register(Request request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
-        String fieldKey = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
-        String value = JSON.toJSONString(request);
-        Long hset = jedis.hset(key, fieldKey, value);
-        return hset > 0L;
+    protected Boolean buildDataAndSave(String key, String hostPort, String request) {
+        return jedis.hset(key, hostPort, request) > 0;
     }
 
-    /**
-     * 获取服务
-     *
-     * @param request
-     * @return
-     */
     @Override
-    public String get(Request request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
-        Map<String, String> stringStringMap = jedis.hgetAll(key);
-        String rule = Objects.isNull(request.getLoadBalanceRule()) ? LoadBalanceRule.ROUND.getName() : request.getLoadBalanceRule();
-        return LoadBalanceFactory.create(rule).loadBalance(stringStringMap);
+    protected Map<String, String> getLoadBalanceData(String key) {
+        return jedis.hgetAll(key);
     }
 
     public static Jedis jedis() {

@@ -36,4 +36,14 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
     public String get(Request request) {
         return SERVICE_CACHE.get(request.getInterfaceName() + "_" + request.getAlias());
     }
+
+    @Override
+    protected Boolean buildDataAndSave(String key, String hostPort, String request) {
+        return null;
+    }
+
+    @Override
+    protected Map<String, String> getLoadBalanceData(String key) {
+        return null;
+    }
 }

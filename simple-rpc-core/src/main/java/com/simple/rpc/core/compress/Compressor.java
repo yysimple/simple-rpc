@@ -1,5 +1,7 @@
 package com.simple.rpc.core.compress;
 
+import com.simple.rpc.core.annotation.SimpleRpcSPI;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.core.compress;
  * @author: WuChengXing
  * @create: 2022-05-02 12:04
  **/
+@SimpleRpcSPI(value = "default")
 public interface Compressor {
 
     /**

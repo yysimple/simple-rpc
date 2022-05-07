@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -53,6 +54,16 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
     public String get(Request request) {
         String key = request.getInterfaceName() + "_" + request.getAlias();
         return getOne(key);
+    }
+
+    @Override
+    protected Boolean buildDataAndSave(String key, String hostPort, String request) {
+        return null;
+    }
+
+    @Override
+    protected Map<String, String> getLoadBalanceData(String key) {
+        return null;
     }
 
     private Connection getConnection(SimpleRpcUrl url) {

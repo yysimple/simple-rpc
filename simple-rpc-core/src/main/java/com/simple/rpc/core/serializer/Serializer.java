@@ -1,5 +1,7 @@
 package com.simple.rpc.core.serializer;
 
+import com.simple.rpc.core.annotation.SimpleRpcSPI;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.core.serializer;
  * @author: WuChengXing
  * @create: 2022-05-02 12:15
  **/
+@SimpleRpcSPI(value = "protostuff")
 public interface Serializer {
 
     /**

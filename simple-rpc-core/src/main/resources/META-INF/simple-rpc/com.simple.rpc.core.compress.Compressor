@@ -1,0 +1,2 @@
+default=com.simple.rpc.core.compress.DefaultCompressor
+gzip=com.simple.rpc.core.compress.GzipCompressor
