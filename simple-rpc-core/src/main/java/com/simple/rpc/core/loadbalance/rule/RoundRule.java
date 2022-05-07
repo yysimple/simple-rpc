@@ -15,12 +15,12 @@ import java.util.concurrent.atomic.LongAdder;
  **/
 public class RoundRule extends AbstractLoadBalance {
 
-    private final LongAdder curIndex = new LongAdder();
+    private final static LongAdder CUR_INDEX = new LongAdder();
 
     @Override
     protected String select(List<String> urls) {
-        int index = (int) (curIndex.longValue() % urls.size());
-        curIndex.increment();
+        int index = (int) (CUR_INDEX.longValue() % urls.size());
+        CUR_INDEX.increment();
         return urls.get(index);
     }
 }
