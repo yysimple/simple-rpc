@@ -12,7 +12,8 @@ public enum SerializeType {
     /**
      *
      */
-    PROTOSTUFF((byte) 1, "protostuff");
+    PROTOSTUFF((byte) 1, "protostuff"),
+    SPI((byte) 2, "spi");
 
     private final byte value;
     private final String name;
@@ -23,7 +24,7 @@ public enum SerializeType {
                 return serializeType;
             }
         }
-        return null;
+        return PROTOSTUFF;
     }
 
     public static SerializeType fromName(String name) {
@@ -32,7 +33,7 @@ public enum SerializeType {
                 return serializeType;
             }
         }
-        return null;
+        return PROTOSTUFF;
     }
 
     public byte getValue() {

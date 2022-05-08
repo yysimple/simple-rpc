@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.send;
 
+import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.core.constant.MessageFormatConstant;
 import com.simple.rpc.core.constant.enums.CompressType;
 import com.simple.rpc.core.constant.enums.MessageType;
@@ -60,8 +61,10 @@ public class SyncWrite {
         RpcMessage rpcMessage = new RpcMessage();
         rpcMessage.setMessageType(MessageType.REQUEST.getValue());
         rpcMessage.setRequestId(requestId);
-        rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());
-        rpcMessage.setSerializeType(CompressType.GZIP.getValue());
+        byte serializer = SerializeType.fromName(request.getSerializer()).getValue();
+        rpcMessage.setSerializeType(serializer);
+        byte compressor = CompressType.fromName(request.getCompressor()).getValue();
+        rpcMessage.setSerializeType(compressor);
         rpcMessage.setData(request);
         // 同步写数据
         Response response = doWriteAndSync(channel, rpcMessage, timeout, future);

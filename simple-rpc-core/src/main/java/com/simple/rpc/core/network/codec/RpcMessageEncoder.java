@@ -9,6 +9,7 @@ import com.simple.rpc.core.constant.enums.CompressType;
 import com.simple.rpc.core.constant.enums.MessageType;
 import com.simple.rpc.core.constant.enums.SerializeType;
 import com.simple.rpc.core.network.message.RpcMessage;
+import com.simple.rpc.core.spi.ExtensionLoader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
@@ -90,12 +91,13 @@ public class RpcMessageEncoder extends MessageToByteEncoder<RpcMessage> {
         if (serializeType == null) {
             throw new IllegalArgumentException("codec type not found");
         }
-//        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
-        Serializer serializer = new ProtostuffSerializer();
+        Serializer serializer = ExtensionLoader.getLoader(Serializer.class).getExtension(serializeType.getName());
         // 压缩器
         CompressType compressType = CompressType.fromValue(rpcMessage.getCompressTye());
-//        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
-        Compressor compressor = new DefaultCompressor();
+        if (compressType == null) {
+            throw new IllegalArgumentException("compress type not found");
+        }
+        Compressor compressor = ExtensionLoader.getLoader(Compressor.class).getExtension(compressType.getName());
         // 序列化
         byte[] notCompressBytes = serializer.serialize(rpcMessage.getData());
         // 压缩

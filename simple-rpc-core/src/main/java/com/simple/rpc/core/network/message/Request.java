@@ -81,6 +81,21 @@ public class Request {
      */
     private String loadBalanceRule;
 
+    /**
+     * 序列化的SPI类型
+     */
+    private String serializer;
+
+    /**
+     * 压缩的SPI类型
+     */
+    private String compressor;
+
+    /**
+     * 注册中心的SPI类型
+     */
+    private String register;
+
     public ChannelFuture getChannelFuture() {
         return channelFuture;
     }
@@ -193,6 +208,30 @@ public class Request {
         this.loadBalanceRule = loadBalanceRule;
     }
 
+    public String getSerializer() {
+        return serializer;
+    }
+
+    public void setSerializer(String serializer) {
+        this.serializer = serializer;
+    }
+
+    public String getCompressor() {
+        return compressor;
+    }
+
+    public void setCompressor(String compressor) {
+        this.compressor = compressor;
+    }
+
+    public String getRegister() {
+        return register;
+    }
+
+    public void setRegister(String register) {
+        this.register = register;
+    }
+
     @Override
     public String toString() {
         return "Request{" +
@@ -210,6 +249,9 @@ public class Request {
                 ", host='" + host + '\'' +
                 ", port=" + port +
                 ", loadBalanceRule='" + loadBalanceRule + '\'' +
+                ", serializer='" + serializer + '\'' +
+                ", compressor='" + compressor + '\'' +
+                ", register='" + register + '\'' +
                 '}';
     }
 }
