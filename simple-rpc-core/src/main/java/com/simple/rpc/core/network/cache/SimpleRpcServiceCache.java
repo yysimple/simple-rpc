@@ -21,7 +21,6 @@ public class SimpleRpcServiceCache {
 
     public static void addService(String alias, Object service) {
         SERVICE_MAP.putIfAbsent(alias, service);
-        SimpleRpcLog.info(StrUtil.format("add service. alias={}, class={}", alias, service.getClass()));
     }
 
     public static Object getService(String alias) {

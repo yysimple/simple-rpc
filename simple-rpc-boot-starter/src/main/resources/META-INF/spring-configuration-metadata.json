@@ -31,6 +31,21 @@
       "defaultValue": 30
     },
     {
+      "name": "simple.rpc.base.serializer",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+    },
+    {
+      "name": "simple.rpc.base.compressor",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+    },
+    {
+      "name": "simple.rpc.base.register",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+    },
+    {
       "name": "simple.rpc.register.address",
       "type": "java.lang.String",
       "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig",

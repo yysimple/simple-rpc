@@ -64,7 +64,8 @@ public class SyncWrite {
         byte serializer = SerializeType.fromName(request.getSerializer()).getValue();
         rpcMessage.setSerializeType(serializer);
         byte compressor = CompressType.fromName(request.getCompressor()).getValue();
-        rpcMessage.setSerializeType(compressor);
+        rpcMessage.setCompressTye(compressor);
+        SimpleRpcLog.info("序列化类型：{}, 压缩类型：{}", SerializeType.fromValue(serializer), CompressType.fromValue(compressor));
         rpcMessage.setData(request);
         // 同步写数据
         Response response = doWriteAndSync(channel, rpcMessage, timeout, future);
@@ -87,24 +88,20 @@ public class SyncWrite {
                 if (!writeFuture.isWriteSuccess()) {
                     SyncWriteMap.syncKey.remove(writeFuture.requestId());
                 }
-                SimpleRpcLog.info("此次写请求的结果：{}, {}", writeFuture.isWriteSuccess(), writeFuture.cause());
             }
         });
 
-        SimpleRpcLog.info("等待服务端给我反馈，当前时间：{}", DateUtils.getTime());
         // 请求完成之后，这里会去模拟等待，get的时候是无法去拿到资源的，这里设置一个等待事件
         Response response = writeFuture.get(timeout, TimeUnit.SECONDS);
         if (response == null) {
             // 已经超时则抛出异常
             if (writeFuture.isTimeout()) {
-                SimpleRpcLog.info("此次请求已经超时，抛出超时异常，当前时间：{}", DateUtils.getTime());
                 throw new TimeoutException();
             } else {
                 // write exception
                 throw new NettyResponseException(writeFuture.cause());
             }
         }
-        SimpleRpcLog.info("写出去后，拿到返回值，当前时间：{}", DateUtils.getTime());
         // 否则返回响应，此次类似 feign的调用，等到请求，过了一段时间还没有拿到结果，则抛出超时异常，否则成功
         return response;
     }

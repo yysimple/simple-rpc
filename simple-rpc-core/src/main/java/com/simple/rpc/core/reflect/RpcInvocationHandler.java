@@ -109,6 +109,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         }
         Request request = new Request();
         ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
+        BaseConfig baseConfig = commonConfig.getBaseConfig();
         //设置参数
         request.setMethodName(methodName);
         request.setParamTypes(paramTypes);
@@ -117,6 +118,9 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setInterfaceName(consumerConfig.getInterfaceName());
         request.setChannel(channelFuture.channel());
         request.setAlias(consumerConfig.getAlias());
+        request.setSerializer(baseConfig.getSerializer());
+        request.setRegister(baseConfig.getRegister());
+        request.setCompressor(baseConfig.getCompressor());
         // 发送请求
         Response response = null;
         try {

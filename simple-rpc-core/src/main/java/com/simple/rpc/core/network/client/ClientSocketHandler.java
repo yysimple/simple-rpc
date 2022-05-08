@@ -34,7 +34,6 @@ public class ClientSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
         long requestId = rpcMessage.getRequestId();
         // 拿到此次请求的id，对应的缓存信息
         SyncWriteFuture future = (SyncWriteFuture) SyncWriteMap.syncKey.get(requestId);
-        SimpleRpcLog.info("客户端拿到了响应值：{}", JSON.toJSONString(msg));
         // 这里拿到了结果，就设置响应值
         if (future != null) {
             future.setResponse(msg);

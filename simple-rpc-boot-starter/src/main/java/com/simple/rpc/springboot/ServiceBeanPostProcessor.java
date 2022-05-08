@@ -52,6 +52,9 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
             RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
             Request request = new Request();
             request.setLoadBalanceRule(bootBaseConfig.getLoadBalanceRule());
+            request.setSerializer(bootBaseConfig.getSerializer());
+            request.setCompressor(bootBaseConfig.getCompressor());
+            request.setRegister(bootBaseConfig.getRegister());
             request.setHost(LocalAddressInfo.LOCAL_HOST);
             request.setPort(LocalAddressInfo.PORT);
             Class<?>[] interfaces = bean.getClass().getInterfaces();
