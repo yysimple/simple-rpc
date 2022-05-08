@@ -15,7 +15,7 @@ public enum CompressType {
      */
     DEFAULT((byte) 0, "default"),
     GZIP((byte) 1, "gzip"),
-    SPI((byte) 2, "spi")
+    SPI((byte) 2, "compressor")
     ;
 
     private final byte value;

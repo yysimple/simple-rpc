@@ -13,7 +13,7 @@ public enum SerializeType {
      *
      */
     PROTOSTUFF((byte) 1, "protostuff"),
-    SPI((byte) 2, "spi");
+    SPI((byte) 2, "serializer");
 
     private final byte value;
     private final String name;

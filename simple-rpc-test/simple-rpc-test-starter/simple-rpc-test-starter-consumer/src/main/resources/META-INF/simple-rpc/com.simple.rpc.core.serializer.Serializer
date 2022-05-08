@@ -1,1 +1,1 @@
-json=com.simple.rpc.test.starter.consumer.impl.JSONSerializer
+serializer=com.simple.rpc.test.starter.consumer.impl.JSONSerializer

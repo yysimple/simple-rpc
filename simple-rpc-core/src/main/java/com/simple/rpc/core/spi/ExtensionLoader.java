@@ -36,7 +36,7 @@ public class ExtensionLoader<T> {
     /**
      * 扩展类配置列表缓存 {type: {name, 扩展类}}
      */
-    private final ExtensionHolder<Map<String, Class<?>>> extensionClassesCache = new ExtensionHolder<>();
+    private static final ExtensionHolder<Map<String, Class<?>>> extensionClassesCache = new ExtensionHolder<>();
 
     /**
      * 创建扩展实例类的锁缓存 {name: synchronized 持有的锁}
