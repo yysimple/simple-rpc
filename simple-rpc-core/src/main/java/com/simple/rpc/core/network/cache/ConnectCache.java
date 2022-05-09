@@ -29,7 +29,7 @@ public class ConnectCache {
             return false;
         }
         String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
-        String url = request.getHost() + SymbolConstant.UNDERLINE + request.getAlias();
+        String url = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
         Map<String, ChannelFuture> hostPortMap = CHANNEL_MAP.get(key);
         // 判断是否是第一次，针对于接口做了缓存
         if (CollectionUtil.isEmpty(hostPortMap)) {
@@ -46,7 +46,7 @@ public class ConnectCache {
             return null;
         }
         String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
-        String url = request.getHost() + SymbolConstant.UNDERLINE + request.getAlias();
+        String url = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
         Map<String, ChannelFuture> stringChannelMap = CHANNEL_MAP.get(key);
         if (!CollectionUtil.isEmpty(stringChannelMap)) {
             return stringChannelMap.get(url);
