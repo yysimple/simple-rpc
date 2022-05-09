@@ -16,6 +16,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 项目: simple-rpc
@@ -53,6 +56,9 @@ public class RpcClientSocket implements Runnable {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(
+                            // 设定 IdleStateHandler 心跳检测每 5 秒进行一次写检测
+                            // write()方法超过 5 秒没调用，就调用 userEventTrigger
+                            new IdleStateHandler(0, 5, 0, TimeUnit.SECONDS),
                             new RpcMessageDecoder(),
                             new RpcMessageEncoder(),
                             new ClientSocketHandler());

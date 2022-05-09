@@ -16,6 +16,9 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 项目: simple-rpc
@@ -63,6 +66,8 @@ public class RpcServerSocket implements Runnable {
                         @Override
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(
+                                    // 30 秒之内没有收到客户端请求的话就关闭连接
+                                    new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS),
                                     new RpcMessageDecoder(),
                                     new RpcMessageEncoder(),
                                     new ServerSocketHandler());
