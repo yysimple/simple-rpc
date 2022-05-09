@@ -1,5 +1,7 @@
 package com.simple.rpc.core.compress;
 
+import com.simple.rpc.common.interfaces.Compressor;
+
 /**
  * 项目: simple-rpc
  * <p>

@@ -1,12 +1,12 @@
 package com.simple.rpc.spring.beans;
 
+import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.core.config.entity.BaseConfig;
 import com.simple.rpc.core.config.entity.CommonConfig;
 import com.simple.rpc.core.config.entity.ConsumerConfig;
 import com.simple.rpc.core.config.entity.RegistryConfig;
 import com.simple.rpc.core.exception.network.NettyInitException;
 import com.simple.rpc.core.reflect.RpcProxy;
-import com.simple.rpc.core.util.ClassLoaderUtils;
 import com.simple.rpc.spring.beans.parser.ParseServerBean;
 import com.simple.rpc.spring.exception.BeanNotFoundException;
 import com.simple.rpc.spring.transfer.BaseData;

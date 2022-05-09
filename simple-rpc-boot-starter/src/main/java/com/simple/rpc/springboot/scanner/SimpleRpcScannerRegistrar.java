@@ -1,18 +1,15 @@
 package com.simple.rpc.springboot.scanner;
 
 import cn.hutool.core.util.StrUtil;
-import com.simple.rpc.core.annotation.SimpleRpcService;
-import com.simple.rpc.core.util.SimpleRpcLog;
+import com.simple.rpc.common.annotation.SimpleRpcService;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.springboot.annotaton.SimpleRpcScan;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Map;
 
 /**

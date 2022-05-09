@@ -1,6 +1,6 @@
 package com.simple.rpc.test.core.common.test.spi;
 
-import com.simple.rpc.core.annotation.SimpleRpcSPI;
+import com.simple.rpc.common.annotation.SimpleRpcSPI;
 
 /**
  * 项目: simple-rpc

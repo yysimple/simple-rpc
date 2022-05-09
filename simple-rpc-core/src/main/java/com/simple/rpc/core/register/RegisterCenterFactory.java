@@ -1,6 +1,6 @@
 package com.simple.rpc.core.register;
 
-import com.simple.rpc.core.constant.enums.RegisterEnum;
+import com.simple.rpc.common.constant.enums.RegisterEnum;
 import com.simple.rpc.core.register.strategy.LocalRegisterCenter;
 import com.simple.rpc.core.register.strategy.MysqlRegisterCenter;
 import com.simple.rpc.core.register.strategy.RedisRegisterCenter;

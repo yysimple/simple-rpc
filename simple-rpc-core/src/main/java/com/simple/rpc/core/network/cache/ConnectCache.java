@@ -1,7 +1,7 @@
 package com.simple.rpc.core.network.cache;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.simple.rpc.core.constant.SymbolConstant;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.core.network.message.Request;
 import io.netty.channel.ChannelFuture;
 

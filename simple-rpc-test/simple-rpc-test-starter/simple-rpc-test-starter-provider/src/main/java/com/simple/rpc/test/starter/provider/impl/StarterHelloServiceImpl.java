@@ -1,6 +1,6 @@
 package com.simple.rpc.test.starter.provider.impl;
 
-import com.simple.rpc.core.annotation.SimpleRpcService;
+import com.simple.rpc.common.annotation.SimpleRpcService;
 import com.simple.rpc.test.common.starter.service.StarterHelloService;
 
 /**

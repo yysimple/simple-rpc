@@ -1,13 +1,9 @@
 package com.simple.rpc.core.network.server;
 
+import com.simple.rpc.common.util.NetUtil;
 import com.simple.rpc.core.config.entity.LocalAddressInfo;
-import com.simple.rpc.core.network.codec.RpcDecoder;
-import com.simple.rpc.core.network.codec.RpcEncoder;
 import com.simple.rpc.core.network.codec.RpcMessageDecoder;
 import com.simple.rpc.core.network.codec.RpcMessageEncoder;
-import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.network.message.Response;
-import com.simple.rpc.core.util.NetUtil;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -67,7 +63,7 @@ public class RpcServerSocket implements Runnable {
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(
                                     // 30 秒之内没有收到客户端请求的话就关闭连接
-                                    new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS),
+                                    // new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS),
                                     new RpcMessageDecoder(),
                                     new RpcMessageEncoder(),
                                     new ServerSocketHandler());

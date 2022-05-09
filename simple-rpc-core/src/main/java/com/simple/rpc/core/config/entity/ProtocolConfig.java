@@ -1,8 +1,8 @@
 package com.simple.rpc.core.config.entity;
 
-import com.simple.rpc.core.annotation.SimpleRpcConfig;
-import com.simple.rpc.core.constant.enums.CompressType;
-import com.simple.rpc.core.constant.enums.SerializeType;
+import com.simple.rpc.common.annotation.SimpleRpcConfig;
+import com.simple.rpc.common.constant.enums.CompressType;
+import com.simple.rpc.common.constant.enums.SerializeType;
 
 /**
  * 项目: simple-rpc

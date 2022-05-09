@@ -1,6 +1,7 @@
 package com.simple.rpc.core.compress;
 
 import cn.hutool.core.lang.Assert;
+import com.simple.rpc.common.interfaces.Compressor;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -9,7 +9,6 @@ import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
-import com.simple.rpc.core.util.SimpleRpcLog;
 import com.simple.rpc.test.core.provider.impl.CoreHelloServiceImpl;
 
 import java.util.concurrent.ExecutorService;

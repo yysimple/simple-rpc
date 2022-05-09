@@ -1,6 +1,6 @@
 package com.simple.rpc.test.starter.provider.controller;
 
-import com.simple.rpc.core.annotation.SimpleRpcReference;
+import com.simple.rpc.common.annotation.SimpleRpcReference;
 import com.simple.rpc.test.common.starter.service.StarterConsumerHelloService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

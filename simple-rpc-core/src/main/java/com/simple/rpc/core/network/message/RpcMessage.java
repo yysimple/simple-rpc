@@ -1,6 +1,7 @@
 package com.simple.rpc.core.network.message;
 
-import com.simple.rpc.core.constant.enums.MessageType;
+
+import com.simple.rpc.common.constant.enums.MessageType;
 
 /**
  * 项目: simple-rpc

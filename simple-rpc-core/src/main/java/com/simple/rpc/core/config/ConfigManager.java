@@ -2,7 +2,7 @@ package com.simple.rpc.core.config;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.simple.rpc.core.annotation.SimpleRpcConfig;
+import com.simple.rpc.common.annotation.SimpleRpcConfig;
 import com.simple.rpc.core.config.entity.BaseConfig;
 import com.simple.rpc.core.config.entity.ProtocolConfig;
 import com.simple.rpc.core.config.entity.RegistryConfig;

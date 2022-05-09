@@ -1,7 +1,7 @@
 package com.simple.rpc.core.spi;
 
 import cn.hutool.core.util.StrUtil;
-import com.simple.rpc.core.annotation.SimpleRpcSPI;
+import com.simple.rpc.common.annotation.SimpleRpcSPI;
 
 import java.io.BufferedReader;
 import java.io.IOException;

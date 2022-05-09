@@ -1,24 +1,23 @@
 package com.simple.rpc.core.network.codec;
 
-import com.simple.rpc.core.serializer.Serializer;
-import com.simple.rpc.core.serializer.protostuff.ProtostuffSerializer;
-import com.simple.rpc.core.compress.Compressor;
-import com.simple.rpc.core.compress.DefaultCompressor;
-import com.simple.rpc.core.constant.enums.CompressType;
-import com.simple.rpc.core.constant.enums.MessageType;
-import com.simple.rpc.core.constant.enums.SerializeType;
+import com.simple.rpc.common.constant.enums.CompressType;
+import com.simple.rpc.common.constant.enums.MessageType;
+import com.simple.rpc.common.constant.enums.SerializeType;
+import com.simple.rpc.common.interfaces.Compressor;
+import com.simple.rpc.common.interfaces.Serializer;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.message.RpcMessage;
 import com.simple.rpc.core.spi.ExtensionLoader;
-import com.simple.rpc.core.util.SimpleRpcLog;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
 import java.util.Arrays;
 
-import static com.simple.rpc.core.constant.MessageFormatConstant.*;
+import static com.simple.rpc.common.constant.MessageFormatConstant.*;
+
 
 /**
  * 项目: simple-rpc

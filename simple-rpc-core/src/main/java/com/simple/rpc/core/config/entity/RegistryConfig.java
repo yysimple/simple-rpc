@@ -1,6 +1,6 @@
 package com.simple.rpc.core.config.entity;
 
-import com.simple.rpc.core.annotation.SimpleRpcConfig;
+import com.simple.rpc.common.annotation.SimpleRpcConfig;
 
 /**
  * 项目: simple-rpc

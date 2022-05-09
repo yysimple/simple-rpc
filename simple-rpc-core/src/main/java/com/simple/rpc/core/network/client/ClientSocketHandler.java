@@ -1,21 +1,19 @@
 package com.simple.rpc.core.network.client;
 
-import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.constant.enums.CompressType;
-import com.simple.rpc.core.constant.enums.MessageType;
-import com.simple.rpc.core.constant.enums.SerializeType;
-import com.simple.rpc.core.exception.network.NettyResponseException;
+import com.simple.rpc.common.constant.enums.CompressType;
+import com.simple.rpc.common.constant.enums.MessageType;
+import com.simple.rpc.common.constant.enums.SerializeType;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.message.RpcMessage;
 import com.simple.rpc.core.network.send.SyncWriteFuture;
 import com.simple.rpc.core.network.send.SyncWriteMap;
-import com.simple.rpc.core.util.SimpleRpcLog;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import org.apache.commons.logging.impl.SimpleLog;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 项目: simple-rpc

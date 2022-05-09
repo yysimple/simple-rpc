@@ -1,8 +1,7 @@
 package com.simple.rpc.test.starter.consumer.impl;
 
-import com.simple.rpc.core.annotation.SimpleRpcService;
+import com.simple.rpc.common.annotation.SimpleRpcService;
 import com.simple.rpc.test.common.starter.service.StarterConsumerHelloService;
-import com.simple.rpc.test.common.starter.service.StarterHelloService;
 
 /**
  * 项目: simple-rpc
