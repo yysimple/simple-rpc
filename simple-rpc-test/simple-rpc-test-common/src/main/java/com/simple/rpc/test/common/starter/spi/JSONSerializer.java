@@ -1,4 +1,4 @@
-package com.simple.rpc.test.starter.consumer.impl;
+package com.simple.rpc.test.common.starter.spi;
 
 import cn.hutool.json.JSONUtil;
 import com.simple.rpc.core.serializer.Serializer;
@@ -9,9 +9,10 @@ import com.simple.rpc.core.serializer.Serializer;
  * 功能描述:
  *
  * @author: WuChengXing
- * @create: 2022-05-08 12:30
+ * @create: 2022-05-09 09:49
  **/
 public class JSONSerializer implements Serializer {
+
     @Override
     public byte[] serialize(Object object) {
         return JSONUtil.toJsonStr(object).getBytes();
@@ -21,5 +22,4 @@ public class JSONSerializer implements Serializer {
     public <T> T deserialize(byte[] bytes, Class<T> clazz) {
         return JSONUtil.toBean(new String(bytes), clazz);
     }
-
 }

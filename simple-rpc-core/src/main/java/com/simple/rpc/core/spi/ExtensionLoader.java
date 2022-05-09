@@ -6,8 +6,6 @@ import com.simple.rpc.core.annotation.SimpleRpcSPI;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
@@ -36,7 +34,7 @@ public class ExtensionLoader<T> {
     /**
      * 扩展类配置列表缓存 {type: {name, 扩展类}}
      */
-    private static final ExtensionHolder<Map<String, Class<?>>> extensionClassesCache = new ExtensionHolder<>();
+    private final ExtensionHolder<Map<String, Class<?>>> extensionClassesCache = new ExtensionHolder<>();
 
     /**
      * 创建扩展实例类的锁缓存 {name: synchronized 持有的锁}
