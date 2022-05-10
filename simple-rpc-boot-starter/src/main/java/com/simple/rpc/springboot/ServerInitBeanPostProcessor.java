@@ -5,6 +5,7 @@ import com.simple.rpc.core.config.entity.LocalAddressInfo;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.network.cache.RegisterInfoCache;
 import com.simple.rpc.core.network.server.RpcServerSocket;
+import com.simple.rpc.core.network.server.hook.ServerExitHook;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeansException;
@@ -64,6 +65,7 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
             } catch (InterruptedException ignore) {
             }
         }
+        ServerExitHook.addShutdownHook("redis");
         SimpleRpcLog.info("初始化生产端服务完成 {} {}", LocalAddressInfo.LOCAL_HOST, LocalAddressInfo.PORT);
     }
 

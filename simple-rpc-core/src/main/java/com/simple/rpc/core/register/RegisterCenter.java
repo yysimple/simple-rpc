@@ -2,6 +2,7 @@ package com.simple.rpc.core.register;
 
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
+import com.simple.rpc.core.network.server.hook.HookEntity;
 
 /**
  * 项目: simple-rpc
@@ -35,5 +36,13 @@ public interface RegisterCenter {
      * @return
      */
     String get(Request request);
+
+    /**
+     * 注销服务
+     *
+     * @param hookEntity
+     * @return
+     */
+    Boolean unregister(HookEntity hookEntity);
 
 }

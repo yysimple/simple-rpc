@@ -1,12 +1,16 @@
 package com.simple.rpc.core.register.strategy;
 
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.core.network.server.hook.HookEntity;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 项目: simple-rpc
@@ -41,6 +45,17 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
     @Override
     protected Map<String, String> getLoadBalanceData(String key) {
         return jedis.hgetAll(key);
+    }
+
+    @Override
+    public Boolean unregister(HookEntity hookEntity) {
+        List<String> rpcServiceNames = hookEntity.getRpcServiceNames();
+        String fieldKey = hookEntity.getServerUrl() + SymbolConstant.UNDERLINE + hookEntity.getServerPort();
+        AtomicReference<Long> hdel = new AtomicReference<>(0L);
+        rpcServiceNames.forEach(name -> {
+            hdel.set(jedis.hdel(name, fieldKey));
+        });
+        return hdel.get() > 0;
     }
 
     public static Jedis jedis() {

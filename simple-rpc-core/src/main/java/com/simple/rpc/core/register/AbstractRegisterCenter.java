@@ -6,7 +6,9 @@ import com.simple.rpc.common.constant.enums.LoadBalanceRule;
 import com.simple.rpc.core.config.entity.SimpleRpcUrl;
 import com.simple.rpc.core.loadbalance.LoadBalanceFactory;
 import com.simple.rpc.core.network.message.Request;
+import com.simple.rpc.core.network.server.hook.HookEntity;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -60,4 +62,9 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
      * @return
      */
     protected abstract Map<String, String> getLoadBalanceData(String key);
+
+    @Override
+    public Boolean unregister(HookEntity hookEntity) {
+        return null;
+    }
 }
