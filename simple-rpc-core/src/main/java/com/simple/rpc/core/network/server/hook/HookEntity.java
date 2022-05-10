@@ -22,7 +22,7 @@ public class HookEntity {
      */
     private String serverUrl;
 
-    private String serverPort;
+    private Integer serverPort;
 
     /**
      * 注册中心类型
@@ -45,11 +45,11 @@ public class HookEntity {
         this.serverUrl = serverUrl;
     }
 
-    public String getServerPort() {
+    public Integer getServerPort() {
         return serverPort;
     }
 
-    public void setServerPort(String serverPort) {
+    public void setServerPort(Integer serverPort) {
         this.serverPort = serverPort;
     }
 

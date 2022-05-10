@@ -1,7 +1,11 @@
 package com.simple.rpc.core.network.cache;
 
+import cn.hutool.core.util.StrUtil;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.core.exception.SimpleRpcBaseException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,5 +31,16 @@ public class SimpleRpcServiceCache {
             throw new SimpleRpcBaseException("rpcService not found." + alias);
         }
         return service;
+    }
+
+    public static List<String> allKey() {
+        List<String> allKey = new ArrayList<>(10);
+        SERVICE_MAP.forEach((k, v) -> {
+            Class<?>[] interfaces = v.getClass().getInterfaces();
+            for (Class<?> anInterface : interfaces) {
+                allKey.add(anInterface.getCanonicalName() + SymbolConstant.UNDERLINE + k);
+            }
+        });
+        return allKey;
     }
 }

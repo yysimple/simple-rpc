@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class RegisterInfoCache {
 
-    private static final Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
+    private static Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
     private static final String CACHE_KEY = "register_info";
 
     public static <T extends RegistryConfig> T getRegisterInfo() {

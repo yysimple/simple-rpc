@@ -70,4 +70,23 @@ public class RedisTest {
         Map<String, String> all = getAll(jedis, fieldKey);
         System.out.println(all);
     }
+
+    @Test
+    public void del() {
+        initRedis();
+        Jedis jedis = registerCenter.jedis();
+        String key = "com.simple.rpc.test.common.starter.service.StarterHelloService_starterHelloService";
+        String fieldKey = "127.0.0.1_41203";
+        System.out.println(jedis.hdel(key, fieldKey));
+    }
+
+    @Test
+    public void get(){
+        initRedis();
+        Jedis jedis = registerCenter.jedis();
+        String key = "com.simple.rpc.test.common.starter.service.StarterHelloService_starterHelloService";
+        String fieldKey = "127.0.0.1_41202";
+        System.out.println(jedis.hget(key, fieldKey));
+
+    }
 }
