@@ -30,5 +30,12 @@ public abstract class AbstractLoadBalance implements SimpleRpcLoadBalance {
         return services.get(selectUrl);
     }
 
-    protected abstract String select(List<String> urls);
+    /**
+     * 实际的负载算法
+     *
+     * @param urls
+     * @return
+     */
+    @Override
+    public abstract String select(List<String> urls);
 }

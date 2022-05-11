@@ -1,0 +1,2 @@
+round=com.simple.rpc.core.loadbalance.rule.RoundRule
+random=com.simple.rpc.core.loadbalance.rule.RandomRule

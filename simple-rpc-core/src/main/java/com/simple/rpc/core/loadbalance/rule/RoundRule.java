@@ -18,7 +18,7 @@ public class RoundRule extends AbstractLoadBalance {
     private final static LongAdder CUR_INDEX = new LongAdder();
 
     @Override
-    protected String select(List<String> urls) {
+    public String select(List<String> urls) {
         int index = (int) (CUR_INDEX.longValue() % urls.size());
         CUR_INDEX.increment();
         return urls.get(index);

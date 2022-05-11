@@ -16,7 +16,7 @@ import java.util.List;
 public class RandomRule extends AbstractLoadBalance {
 
     @Override
-    protected String select(List<String> urls) {
+    public String select(List<String> urls) {
         int size = urls.size();
         int index = RandomUtil.randomInt(size);
         return urls.get(index);
