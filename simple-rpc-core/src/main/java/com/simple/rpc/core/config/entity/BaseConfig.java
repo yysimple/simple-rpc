@@ -19,6 +19,11 @@ public class BaseConfig {
     private String loadBalanceRule;
 
     /**
+     * 权重算法的时候的权重值
+     */
+    private Integer weights;
+
+    /**
      * 超时时间
      */
     private Long timeout;
@@ -91,10 +96,19 @@ public class BaseConfig {
         this.register = register;
     }
 
+    public Integer getWeights() {
+        return weights;
+    }
+
+    public void setWeights(Integer weights) {
+        this.weights = weights;
+    }
+
     @Override
     public String toString() {
         return "BaseConfig{" +
                 "loadBalanceRule='" + loadBalanceRule + '\'' +
+                ", weights=" + weights +
                 ", timeout=" + timeout +
                 ", retryNum=" + retryNum +
                 ", serializer='" + serializer + '\'' +

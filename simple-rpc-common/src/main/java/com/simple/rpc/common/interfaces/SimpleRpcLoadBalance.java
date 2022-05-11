@@ -1,6 +1,7 @@
 package com.simple.rpc.common.interfaces;
 
 import com.simple.rpc.common.annotation.SimpleRpcSPI;
+import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
 
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,4 @@ public interface SimpleRpcLoadBalance {
      */
     String loadBalance(Map<String, String> services);
 
-    /**
-     * 实际的负载算法
-     *
-     * @param urls
-     * @return
-     */
-    String select(List<String> urls);
 }

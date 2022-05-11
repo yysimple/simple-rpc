@@ -55,6 +55,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
             request.setSerializer(bootBaseConfig.getSerializer());
             request.setCompressor(bootBaseConfig.getCompressor());
             request.setRegister(bootBaseConfig.getRegister());
+            request.setWeights(bootBaseConfig.getWeights());
             request.setHost(LocalAddressInfo.LOCAL_HOST);
             request.setPort(LocalAddressInfo.PORT);
             Class<?>[] interfaces = bean.getClass().getInterfaces();

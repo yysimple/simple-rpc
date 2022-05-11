@@ -1,8 +1,12 @@
 package com.simple.rpc.core.loadbalance.rule;
 
+import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
 import com.simple.rpc.core.loadbalance.AbstractLoadBalance;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.LongAdder;
 
 /**
@@ -18,9 +22,10 @@ public class RoundRule extends AbstractLoadBalance {
     private final static LongAdder CUR_INDEX = new LongAdder();
 
     @Override
-    public String select(List<String> urls) {
-        int index = (int) (CUR_INDEX.longValue() % urls.size());
+    public String select(Map<String, LoadBalanceParam> urls) {
+        ArrayList<String> strings = new ArrayList<>(urls.keySet());
+        int index = (int) (CUR_INDEX.longValue() % strings.size());
         CUR_INDEX.increment();
-        return urls.get(index);
+        return strings.get(index);
     }
 }

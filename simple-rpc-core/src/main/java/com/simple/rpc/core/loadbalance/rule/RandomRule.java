@@ -1,9 +1,12 @@
 package com.simple.rpc.core.loadbalance.rule;
 
 import cn.hutool.core.util.RandomUtil;
+import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
 import com.simple.rpc.core.loadbalance.AbstractLoadBalance;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 项目: simple-rpc
@@ -16,9 +19,10 @@ import java.util.List;
 public class RandomRule extends AbstractLoadBalance {
 
     @Override
-    public String select(List<String> urls) {
-        int size = urls.size();
+    public String select(Map<String, LoadBalanceParam> urls) {
+        ArrayList<String> strings = new ArrayList<>(urls.keySet());
+        int size = strings.size();
         int index = RandomUtil.randomInt(size);
-        return urls.get(index);
+        return strings.get(index);
     }
 }

@@ -82,6 +82,11 @@ public class Request {
     private String loadBalanceRule;
 
     /**
+     * 权重算法的时候的权重值
+     */
+    private Integer weights;
+
+    /**
      * 序列化的SPI类型
      */
     private String serializer;
@@ -232,6 +237,14 @@ public class Request {
         this.register = register;
     }
 
+    public Integer getWeights() {
+        return weights;
+    }
+
+    public void setWeights(Integer weights) {
+        this.weights = weights;
+    }
+
     @Override
     public String toString() {
         return "Request{" +
@@ -249,6 +262,7 @@ public class Request {
                 ", host='" + host + '\'' +
                 ", port=" + port +
                 ", loadBalanceRule='" + loadBalanceRule + '\'' +
+                ", weights=" + weights +
                 ", serializer='" + serializer + '\'' +
                 ", compressor='" + compressor + '\'' +
                 ", register='" + register + '\'' +
