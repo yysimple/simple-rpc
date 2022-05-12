@@ -7,24 +7,19 @@ import com.simple.rpc.common.interfaces.SimpleRpcLoadBalance;
 import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
 import com.simple.rpc.common.util.SimpleRpcLog;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.LongAdder;
 
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 权重负载均衡
+ * 功能描述: 抽象负载
  *
  * @author: WuChengXing
- * @create: 2022-05-11 19:30
+ * @create: 2022-05-12 09:53
  **/
-public class WeightLoadBalance implements SimpleRpcLoadBalance {
-
-    private final static LongAdder CUR_INDEX = new LongAdder();
+public abstract class AbstractLoadBalance implements SimpleRpcLoadBalance {
 
     @Override
     public String loadBalance(Map<String, String> services) {
@@ -39,11 +34,16 @@ public class WeightLoadBalance implements SimpleRpcLoadBalance {
             param.setWeights((Integer) request.get("weights"));
             selectMap.put(url, param);
         }
-        SimpleRpcLog.warn("权重方式");
-        ArrayList<String> strings = new ArrayList<>(urls);
-        int index = (int) (CUR_INDEX.longValue() % strings.size());
-        CUR_INDEX.increment();
-        return services.get(strings.get(index));
+        String selectUrl = select(selectMap);
+        SimpleRpcLog.info("负载的信息：" + selectUrl);
+        return services.get(selectUrl);
     }
 
+    /**
+     * 实际的负载算法
+     *
+     * @param urls
+     * @return
+     */
+    public abstract String select(Map<String, LoadBalanceParam> urls);
 }

@@ -1,1 +1,1 @@
-weight=com.simple.rpc.test.common.starter.spi.balance.WeightLoadBalance
+random-weight=com.simple.rpc.test.common.starter.spi.balance.RandomWeightRule

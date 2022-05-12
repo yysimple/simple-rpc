@@ -1,5 +1,5 @@
 server:
-  port: 8881
+  port: 8883
 simple:
   rpc:
     register:
@@ -8,4 +8,4 @@ simple:
     base:
       load-balance-rule: random-weight
       serializer: serializer
-      weights: 20
+      weights: 50
