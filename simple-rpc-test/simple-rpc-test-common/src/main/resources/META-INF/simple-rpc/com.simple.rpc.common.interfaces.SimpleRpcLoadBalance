@@ -1,1 +1,3 @@
 random-weight=com.simple.rpc.test.common.starter.spi.balance.RandomWeightRule
+smooth-weight-round=com.simple.rpc.test.common.starter.spi.balance.SmoothWeightRoundRule
+normal-weight-round=com.simple.rpc.test.common.starter.spi.balance.NormalWeightRoundRule
