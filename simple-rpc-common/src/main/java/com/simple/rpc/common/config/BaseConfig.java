@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config.entity;
+package com.simple.rpc.common.config;
 
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
 

@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config.entity;
+package com.simple.rpc.common.config;
 
 /**
  * 项目: simple-rpc

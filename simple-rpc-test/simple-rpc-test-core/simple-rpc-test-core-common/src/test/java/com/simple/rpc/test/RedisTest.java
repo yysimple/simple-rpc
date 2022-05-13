@@ -1,15 +1,13 @@
 package com.simple.rpc.test;
 
 import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.register.RegisterCenter;
 import com.simple.rpc.core.register.strategy.RedisRegisterCenter;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 项目: simple-rpc

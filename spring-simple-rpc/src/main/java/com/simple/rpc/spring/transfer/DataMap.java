@@ -1,7 +1,7 @@
 package com.simple.rpc.spring.transfer;
 
 
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

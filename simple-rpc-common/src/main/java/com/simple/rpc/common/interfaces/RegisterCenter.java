@@ -1,8 +1,9 @@
-package com.simple.rpc.core.register;
+package com.simple.rpc.common.interfaces;
 
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
-import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.network.server.hook.HookEntity;
+
+import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.interfaces.entity.RegisterInfo;
+import com.simple.rpc.common.network.HookEntity;
 
 /**
  * 项目: simple-rpc
@@ -27,7 +28,7 @@ public interface RegisterCenter {
      * @param request
      * @return
      */
-    Boolean register(Request request);
+    Boolean register(RegisterInfo request);
 
     /**
      * 获取服务
@@ -35,7 +36,7 @@ public interface RegisterCenter {
      * @param request
      * @return
      */
-    String get(Request request);
+    String get(RegisterInfo request);
 
     /**
      * 注销服务

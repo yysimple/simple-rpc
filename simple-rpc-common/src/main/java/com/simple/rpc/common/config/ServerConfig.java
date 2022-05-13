@@ -1,30 +1,37 @@
-package com.simple.rpc.core.config.entity;
-
-import com.simple.rpc.common.annotation.SimpleRpcConfig;
+package com.simple.rpc.common.config;
 
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 注册中心的配置
+ * 功能描述:
  *
  * @author: WuChengXing
- * @create: 2022-04-30 10:50
+ * @create: 2022-04-22 17:45
  **/
-@SimpleRpcConfig(prefix = "simple.rpc.register")
-public class RegistryConfig {
+public class ServerConfig {
 
     /**
-     * 这里的定义规定：redis://127.0.0.1:6379 mysql://127.0.0.1:3306 zk://127.0.0.1:2181等
+     * 注册地址
      */
-    private String address;
+    protected String address;
 
-    private String username;
+    protected String username;
 
-    private String password;
+    protected String password;
 
-    private String database;
+    protected String database;
 
-    private String table;
+    protected String table;
+
+    /**
+     * 超时时间
+     */
+    protected Long timeout;
+
+    /**
+     * 重试次数
+     */
+    protected Integer tryNum;
 
     public String getAddress() {
         return address;
@@ -66,14 +73,19 @@ public class RegistryConfig {
         this.table = table;
     }
 
-    @Override
-    public String toString() {
-        return "RegistryConfig{" +
-                "address='" + address + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", database='" + database + '\'' +
-                ", table='" + table + '\'' +
-                '}';
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Long timeout) {
+        this.timeout = timeout;
+    }
+
+    public Integer getTryNum() {
+        return tryNum;
+    }
+
+    public void setTryNum(Integer tryNum) {
+        this.tryNum = tryNum;
     }
 }

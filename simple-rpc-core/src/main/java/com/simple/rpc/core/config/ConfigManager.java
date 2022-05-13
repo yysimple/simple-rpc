@@ -3,10 +3,10 @@ package com.simple.rpc.core.config;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
-import com.simple.rpc.core.config.entity.BaseConfig;
-import com.simple.rpc.core.config.entity.ProtocolConfig;
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.loader.ConfigLoader;
+import com.simple.rpc.common.config.BaseConfig;
+import com.simple.rpc.common.config.ProtocolConfig;
+import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.interfaces.ConfigLoader;
 import com.simple.rpc.core.config.loader.PropertiesConfigLoader;
 
 import java.lang.reflect.Field;

@@ -1,7 +1,8 @@
 package com.simple.rpc.core.register.strategy;
 
 import com.alibaba.fastjson.JSON;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 
@@ -26,13 +27,13 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    public Boolean register(Request request) {
+    public Boolean register(RegisterInfo request) {
         SERVICE_CACHE.put(request.getInterfaceName() + "_" + request.getAlias(), JSON.toJSONString(request));
         return true;
     }
 
     @Override
-    public String get(Request request) {
+    public String get(RegisterInfo request) {
         return SERVICE_CACHE.get(request.getInterfaceName() + "_" + request.getAlias());
     }
 

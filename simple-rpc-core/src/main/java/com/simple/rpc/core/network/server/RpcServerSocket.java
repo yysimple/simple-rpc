@@ -1,7 +1,7 @@
 package com.simple.rpc.core.network.server;
 
 import com.simple.rpc.common.util.NetUtil;
-import com.simple.rpc.core.config.entity.LocalAddressInfo;
+import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.core.network.codec.RpcMessageDecoder;
 import com.simple.rpc.core.network.codec.RpcMessageEncoder;
 import io.netty.bootstrap.ServerBootstrap;

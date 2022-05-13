@@ -1,7 +1,7 @@
 package com.simple.rpc.spring.beans.parser;
 
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.spring.beans.ServerBean;
 
 /**

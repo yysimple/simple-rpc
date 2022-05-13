@@ -1,4 +1,4 @@
-package com.simple.rpc.core.exception;
+package com.simple.rpc.common.exception;
 
 /**
  * 项目: simple-rpc

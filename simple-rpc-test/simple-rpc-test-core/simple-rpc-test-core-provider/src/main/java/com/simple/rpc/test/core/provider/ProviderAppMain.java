@@ -1,13 +1,13 @@
 package com.simple.rpc.test.core.provider;
 
 import com.simple.rpc.core.config.ConfigManager;
-import com.simple.rpc.core.config.entity.LocalAddressInfo;
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.LocalAddressInfo;
+import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.server.RpcServerSocket;
-import com.simple.rpc.core.register.RegisterCenter;
+import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.test.core.provider.impl.CoreHelloServiceImpl;
 
@@ -50,7 +50,7 @@ public class ProviderAppMain {
         request.setHost(LocalAddressInfo.LOCAL_HOST);
         request.setPort(LocalAddressInfo.PORT);
         System.out.println("服务端的地址和端口：" +  request.getHost() + "-" + request.getPort());
-        registerCenter.register(request);
+        registerCenter.register(Request.request2Register(request));
         SimpleRpcServiceCache.addService("rpcProvider", new CoreHelloServiceImpl());
     }
 }

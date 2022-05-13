@@ -1,7 +1,7 @@
 package com.simple.rpc.core.reflect;
 
 import com.simple.rpc.common.util.ClassLoaderUtils;
-import com.simple.rpc.core.config.entity.CommonConfig;
+import com.simple.rpc.common.config.CommonConfig;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;

@@ -2,9 +2,10 @@ package com.simple.rpc.core.register.strategy;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.util.MysqlHelper;
 import com.simple.rpc.common.util.SimpleRpcLog;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 
@@ -39,7 +40,7 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    public Boolean register(Request request) {
+    public Boolean register(RegisterInfo request) {
         String key = request.getInterfaceName() + "_" + request.getAlias();
         String value = JSON.toJSONString(request);
         String one = getOne(key);
@@ -50,7 +51,7 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    public String get(Request request) {
+    public String get(RegisterInfo request) {
         String key = request.getInterfaceName() + "_" + request.getAlias();
         return getOne(key);
     }

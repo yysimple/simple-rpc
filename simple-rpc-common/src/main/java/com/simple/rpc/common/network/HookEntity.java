@@ -1,4 +1,4 @@
-package com.simple.rpc.core.network.server.hook;
+package com.simple.rpc.common.network;
 
 import java.util.List;
 

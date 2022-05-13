@@ -1,9 +1,9 @@
 package com.simple.rpc.test;
 
 import com.simple.rpc.core.config.ConfigManager;
-import com.simple.rpc.core.config.entity.BaseConfig;
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.BaseConfig;
+import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import org.junit.Test;
 
 /**

@@ -3,6 +3,7 @@ package com.simple.rpc.core.config.loader;
 import cn.hutool.core.io.resource.NoResourceException;
 import cn.hutool.setting.Setting;
 import cn.hutool.setting.SettingUtil;
+import com.simple.rpc.common.interfaces.ConfigLoader;
 import com.simple.rpc.common.util.SimpleRpcLog;
 
 /**

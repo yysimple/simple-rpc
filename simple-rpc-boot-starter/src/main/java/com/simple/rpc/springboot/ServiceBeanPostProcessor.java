@@ -5,14 +5,14 @@ import com.simple.rpc.common.annotation.SimpleRpcReference;
 import com.simple.rpc.common.annotation.SimpleRpcService;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
-import com.simple.rpc.core.config.entity.CommonConfig;
-import com.simple.rpc.core.config.entity.ConsumerConfig;
-import com.simple.rpc.core.config.entity.LocalAddressInfo;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
+import com.simple.rpc.common.config.CommonConfig;
+import com.simple.rpc.common.config.ConsumerConfig;
+import com.simple.rpc.common.config.LocalAddressInfo;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
-import com.simple.rpc.core.register.RegisterCenter;
+import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
@@ -65,7 +65,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
                     request.setAlias(StrUtil.isBlank(rpcService.alias()) ? alias : rpcService.alias());
                     request.setBeanName(alias);
                     request.setInterfaceName(anInterface.getCanonicalName());
-                    registerCenter.register(request);
+                    registerCenter.register(Request.request2Register(request));
                     // 将对应的bean存入到缓存之中
                     SimpleRpcServiceCache.addService(request.getAlias(), bean);
                 }

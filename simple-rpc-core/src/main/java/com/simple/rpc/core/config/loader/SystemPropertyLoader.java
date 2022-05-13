@@ -1,5 +1,7 @@
 package com.simple.rpc.core.config.loader;
 
+import com.simple.rpc.common.interfaces.ConfigLoader;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,7 +10,7 @@ package com.simple.rpc.core.config.loader;
  * @author: WuChengXing
  * @create: 2022-04-30 10:36
  **/
-public class SystemPropertyLoader implements ConfigLoader{
+public class SystemPropertyLoader implements ConfigLoader {
 
     @Override
     public String loadConfigItem(String key) {

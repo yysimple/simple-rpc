@@ -1,8 +1,8 @@
 package com.simple.rpc.core.register.strategy;
 
 import com.simple.rpc.common.constant.SymbolConstant;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
-import com.simple.rpc.core.network.server.hook.HookEntity;
+import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

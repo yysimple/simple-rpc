@@ -1,6 +1,6 @@
-package com.simple.rpc.core.exception.network;
+package com.simple.rpc.common.exception.network;
 
-import com.simple.rpc.core.exception.SimpleRpcBaseException;
+import com.simple.rpc.common.exception.SimpleRpcBaseException;
 
 /**
  * 项目: simple-rpc

@@ -1,6 +1,7 @@
-package com.simple.rpc.core.config.entity;
+package com.simple.rpc.common.config;
 
-import com.simple.rpc.core.exception.SimpleRpcBaseException;
+
+import com.simple.rpc.common.exception.SimpleRpcBaseException;
 
 import java.util.Objects;
 

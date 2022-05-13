@@ -1,6 +1,6 @@
 package com.simple.rpc.springboot.config;
 
-import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.common.config.RegistryConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

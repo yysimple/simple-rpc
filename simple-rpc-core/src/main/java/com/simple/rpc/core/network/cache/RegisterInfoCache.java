@@ -1,6 +1,6 @@
 package com.simple.rpc.core.network.cache;
 
-import com.simple.rpc.core.config.entity.RegistryConfig;
+import com.simple.rpc.common.config.RegistryConfig;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

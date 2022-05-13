@@ -1,7 +1,7 @@
 package com.simple.rpc.core.network.cache;
 
 import com.simple.rpc.common.constant.SymbolConstant;
-import com.simple.rpc.core.exception.SimpleRpcBaseException;
+import com.simple.rpc.common.exception.SimpleRpcBaseException;
 
 import java.util.ArrayList;
 import java.util.List;

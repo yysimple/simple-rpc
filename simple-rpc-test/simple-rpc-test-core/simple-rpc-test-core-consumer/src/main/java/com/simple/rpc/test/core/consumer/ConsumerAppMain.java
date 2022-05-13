@@ -1,13 +1,13 @@
 package com.simple.rpc.test.core.consumer;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.exception.network.NettyInitException;
 import com.simple.rpc.core.config.ConfigManager;
-import com.simple.rpc.core.config.entity.RegistryConfig;
-import com.simple.rpc.core.config.entity.SimpleRpcUrl;
-import com.simple.rpc.core.exception.network.NettyInitException;
+import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.register.RegisterCenter;
+import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import io.netty.channel.ChannelFuture;
 
@@ -38,7 +38,7 @@ public class ConsumerAppMain {
         request.setInterfaceName(interfaceName);
         request.setAlias("rpcProvider");
         request.setRequestId(1001L);
-        String infoStr = registerCenter.get(request);
+        String infoStr = registerCenter.get(Request.request2Register(request));
         request = JSON.parseObject(infoStr, Request.class);
         ChannelFuture channelFuture = null;
         System.out.println("服务端的地址和端口：" +  request.getHost() + "-" + request.getPort());

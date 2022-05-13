@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config.loader;
+package com.simple.rpc.common.interfaces;
 
 /**
  * 项目: simple-rpc

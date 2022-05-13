@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.message;
 
+import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
@@ -267,5 +268,39 @@ public class Request {
                 ", compressor='" + compressor + '\'' +
                 ", register='" + register + '\'' +
                 '}';
+    }
+
+    public static Request register2Request(RegisterInfo info) {
+        Request request = new Request();
+        request.setHost(info.getHost());
+        request.setPort(info.getPort());
+        request.setInterfaceName(info.getInterfaceName());
+        request.setTimeout(info.getTimeout());
+        request.setRetryNum(info.getRetryNum());
+        request.setBeanName(info.getBeanName());
+        request.setAlias(info.getAlias());
+        request.setLoadBalanceRule(info.getLoadBalanceRule());
+        request.setSerializer(info.getSerializer());
+        request.setCompressor(info.getCompressor());
+        request.setRegister(info.getRegister());
+        request.setWeights(info.getWeights());
+        return request;
+    }
+
+    public static RegisterInfo request2Register(Request request) {
+        RegisterInfo registerInfo = new RegisterInfo();
+        registerInfo.setInterfaceName(request.getInterfaceName());
+        registerInfo.setBeanName(request.getBeanName());
+        registerInfo.setAlias(request.getAlias());
+        registerInfo.setTimeout(request.getTimeout());
+        registerInfo.setRetryNum(request.getRetryNum());
+        registerInfo.setHost(request.getHost());
+        registerInfo.setPort(request.getPort());
+        registerInfo.setLoadBalanceRule(request.getLoadBalanceRule());
+        registerInfo.setWeights(request.getWeights());
+        registerInfo.setSerializer(request.getSerializer());
+        registerInfo.setCompressor(request.getCompressor());
+        registerInfo.setRegister(request.getRegister());
+        return registerInfo;
     }
 }
