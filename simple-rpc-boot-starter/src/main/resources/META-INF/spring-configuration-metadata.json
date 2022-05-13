@@ -83,6 +83,22 @@
         {
           "value": "random",
           "description": "随机方式."
+        },
+        {
+          "value": "random-weight",
+          "description": "权重随机方式（权重高的更易命中）."
+        },
+        {
+          "value": "smooth-weight-round",
+          "description": "平滑权重轮询（各权重服务在总次数中被调用次数不变，eg：ABCAAAB）."
+        },
+        {
+          "value": "normal-weight-round",
+          "description": "普通权重轮询（eg：AAAABBC）."
+        },
+        {
+          "value": "hash",
+          "description": "hash随机方式."
         }
       ]
     },

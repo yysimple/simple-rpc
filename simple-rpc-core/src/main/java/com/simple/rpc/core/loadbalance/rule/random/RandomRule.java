@@ -1,11 +1,10 @@
-package com.simple.rpc.core.loadbalance.rule;
+package com.simple.rpc.core.loadbalance.rule.random;
 
 import cn.hutool.core.util.RandomUtil;
 import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
 import com.simple.rpc.core.loadbalance.AbstractLoadBalance;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**

@@ -1,11 +1,10 @@
-package com.simple.rpc.test.common.starter.spi.balance;
+package com.simple.rpc.core.loadbalance.rule.random;
 
 import cn.hutool.core.util.RandomUtil;
 import com.simple.rpc.common.interfaces.entity.LoadBalanceParam;
-import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.core.loadbalance.AbstractLoadBalance;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 项目: simple-rpc
@@ -30,7 +29,6 @@ public class RandomWeightRule extends AbstractLoadBalance {
      */
     @Override
     public String select(Map<String, LoadBalanceParam> urls) {
-        SimpleRpcLog.warn("== 随机权重负载算法 ==");
         int range = 0;
         for (LoadBalanceParam value : urls.values()) {
             range += value.getWeights();
@@ -45,20 +43,5 @@ public class RandomWeightRule extends AbstractLoadBalance {
             index -= weights;
         }
         return "";
-    }
-
-    public static void main(String[] args) {
-        Map<String, LoadBalanceParam> urls = new ConcurrentHashMap<>(4);
-        LoadBalanceParam param1 = new LoadBalanceParam();
-        param1.setWeights(20);
-        LoadBalanceParam param2 = new LoadBalanceParam();
-        param2.setWeights(30);
-        LoadBalanceParam param3 = new LoadBalanceParam();
-        param3.setWeights(50);
-        urls.put("127.0.0.1_8081", param1);
-        urls.put("127.0.0.1_8082", param2);
-        urls.put("127.0.0.1_8083", param3);
-        RandomWeightRule rule = new RandomWeightRule();
-        System.out.println(rule.select(urls));
     }
 }

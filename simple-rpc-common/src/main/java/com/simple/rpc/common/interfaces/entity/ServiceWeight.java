@@ -1,4 +1,4 @@
-package com.simple.rpc.test.common.starter.spi.balance;
+package com.simple.rpc.common.interfaces.entity;
 
 /**
  * 项目: simple-rpc

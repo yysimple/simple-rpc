@@ -1,2 +1,5 @@
-round=com.simple.rpc.core.loadbalance.rule.RoundRule
-random=com.simple.rpc.core.loadbalance.rule.RandomRule
+random=com.simple.rpc.core.loadbalance.rule.random.RandomRule
+random-weight=com.simple.rpc.core.loadbalance.rule.random.RandomWeightRule
+round=com.simple.rpc.core.loadbalance.rule.round.RoundRule
+smooth-weight-round=com.simple.rpc.core.loadbalance.rule.round.SmoothWeightRoundRule
+normal-weight-round=com.simple.rpc.core.loadbalance.rule.round.NormalWeightRoundRule

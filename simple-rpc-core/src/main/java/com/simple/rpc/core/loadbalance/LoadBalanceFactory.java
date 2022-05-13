@@ -2,8 +2,8 @@ package com.simple.rpc.core.loadbalance;
 
 import com.simple.rpc.common.constant.enums.LoadBalanceRule;
 import com.simple.rpc.common.interfaces.SimpleRpcLoadBalance;
-import com.simple.rpc.core.loadbalance.rule.RandomRule;
-import com.simple.rpc.core.loadbalance.rule.RoundRule;
+import com.simple.rpc.core.loadbalance.rule.random.RandomRule;
+import com.simple.rpc.core.loadbalance.rule.round.RoundRule;
 
 /**
  * 项目: simple-rpc

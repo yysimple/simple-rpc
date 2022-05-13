@@ -59,7 +59,6 @@ public class SyncWrite {
         rpcMessage.setSerializeType(serializer);
         byte compressor = CompressType.fromName(request.getCompressor()).getValue();
         rpcMessage.setCompressTye(compressor);
-        SimpleRpcLog.info("序列化类型：{}, 压缩类型：{}", SerializeType.fromValue(serializer), CompressType.fromValue(compressor));
         rpcMessage.setData(request);
         // 同步写数据
         Response response = doWriteAndSync(channel, rpcMessage, timeout, future);
