@@ -1,4 +1,4 @@
-package com.simple.rpc.core.spi;
+package com.simple.rpc.common.spi;
 
 /**
  * 项目: simple-rpc

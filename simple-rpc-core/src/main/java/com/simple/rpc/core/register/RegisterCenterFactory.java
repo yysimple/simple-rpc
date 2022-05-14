@@ -1,14 +1,7 @@
 package com.simple.rpc.core.register;
 
-import com.simple.rpc.common.constant.enums.RegisterEnum;
 import com.simple.rpc.common.interfaces.RegisterCenter;
-import com.simple.rpc.core.register.strategy.LocalRegisterCenter;
-import com.simple.rpc.core.register.strategy.MysqlRegisterCenter;
-import com.simple.rpc.core.register.strategy.RedisRegisterCenter;
-
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
+import com.simple.rpc.common.spi.ExtensionLoader;
 
 /**
  * 项目: simple-rpc
@@ -20,22 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class RegisterCenterFactory {
 
-    static Map<String, RegisterCenter> REGISTER_CENTER_CACHE = new ConcurrentHashMap<>(16);
-
     public static RegisterCenter create(String registerType) {
         return getRegisterCenter(registerType);
     }
 
     private static RegisterCenter getRegisterCenter(String registerType) {
-        if (Objects.isNull(REGISTER_CENTER_CACHE.get(registerType))) {
-            if (RegisterEnum.LOCAL.getRegisterType().equals(registerType)) {
-                REGISTER_CENTER_CACHE.put(registerType, new LocalRegisterCenter());
-            } else if (RegisterEnum.REDIS.getRegisterType().equals(registerType)) {
-                REGISTER_CENTER_CACHE.put(registerType, new RedisRegisterCenter());
-            } else if (RegisterEnum.MYSQL.getRegisterType().equals(registerType)) {
-                REGISTER_CENTER_CACHE.put(registerType, new MysqlRegisterCenter());
-            }
-        }
-        return REGISTER_CENTER_CACHE.get(registerType);
+        return ExtensionLoader.getLoader(RegisterCenter.class).getExtension(registerType);
     }
 }

@@ -1,10 +1,14 @@
 package com.simple.rpc.test;
 
-import com.simple.rpc.core.config.ConfigManager;
 import com.simple.rpc.common.config.BaseConfig;
 import com.simple.rpc.common.config.RegistryConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.interfaces.ConfigLoader;
+import com.simple.rpc.core.config.ConfigManager;
+import com.simple.rpc.common.spi.ExtensionLoader;
 import org.junit.Test;
+
+import java.util.Properties;
 
 /**
  * 项目: simple-rpc
@@ -28,4 +32,15 @@ public class ConfigLoaderTest {
         BaseConfig baseConfig = ConfigManager.getInstant().loadConfig(BaseConfig.class);
         System.out.println(baseConfig);
     }
+
+    @Test
+    public void getSystemConfig() {
+        Properties properties = new Properties();
+        properties.setProperty("weights", "10");
+        System.setProperties(properties);
+        ExtensionLoader.getLoader(ConfigLoader.class).getExtension("system-property");
+        BaseConfig baseConfig = ConfigManager.getInstant().loadConfig(BaseConfig.class);
+        System.out.println(baseConfig);
+    }
+
 }

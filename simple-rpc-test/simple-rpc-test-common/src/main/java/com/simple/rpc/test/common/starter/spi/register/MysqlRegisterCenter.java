@@ -1,19 +1,18 @@
-package com.simple.rpc.core.register.strategy;
+package com.simple.rpc.test.common.starter.spi.register;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.simple.rpc.common.interfaces.entity.RegisterInfo;
+import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.constant.SymbolConstant;
+import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.util.MysqlHelper;
 import com.simple.rpc.common.util.SimpleRpcLog;
-import com.simple.rpc.common.config.SimpleRpcUrl;
-import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.register.AbstractRegisterCenter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 项目: simple-rpc
@@ -21,9 +20,8 @@ import java.util.Map;
  * 功能描述: mysql注册中心
  *
  * @author: WuChengXing
- * @create: 2022-05-04 00:46
+ * @create: 2022-05-14 12:57
  **/
-@SuppressWarnings("all")
 public class MysqlRegisterCenter extends AbstractRegisterCenter {
 
     private static Connection connection;
@@ -40,30 +38,23 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    public Boolean register(RegisterInfo request) {
-        String key = request.getInterfaceName() + "_" + request.getAlias();
-        String value = JSON.toJSONString(request);
-        String one = getOne(key);
-        if (!StrUtil.isBlank(one)) {
-            return update(key, value);
-        }
-        return insert(key, value);
-    }
-
-    @Override
-    public String get(RegisterInfo request) {
-        String key = request.getInterfaceName() + "_" + request.getAlias();
-        return getOne(key);
-    }
-
-    @Override
     protected Boolean buildDataAndSave(String key, String hostPort, String request) {
-        return null;
+        return insert(key, hostPort, request);
     }
 
     @Override
     protected Map<String, String> getLoadBalanceData(String key) {
-        return null;
+        return getService(key);
+    }
+
+    @Override
+    public Boolean unregister(HookEntity hookEntity) {
+        List<String> rpcServiceNames = hookEntity.getRpcServiceNames();
+        String urlName = hookEntity.getServerUrl() + SymbolConstant.UNDERLINE + hookEntity.getServerPort();
+        for (String rpcServiceName : rpcServiceNames) {
+            delete(rpcServiceName, urlName);
+        }
+        return true;
     }
 
     private Connection getConnection(SimpleRpcUrl url) {
@@ -71,9 +62,9 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
         return mysqlHelper.getConnection(url.getDatabase());
     }
 
-    private Boolean insert(String key, String value) {
+    private Boolean insert(String key, String hostPort, String value) {
         try {
-            String sql = "insert into " + table + " (register_key, register_value) values('" + key + "','" + value + "'" +")";
+            String sql = "insert into " + table + " (register_key, host_port, register_value) values('" + key + "','" + hostPort + "','" + value + "'" + ")";
             SimpleRpcLog.info(sql);
             Statement statement = connection.createStatement();
             return statement.execute(sql);
@@ -97,9 +88,42 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
         }
     }
 
-    private String getOne(String key) {
+    private Boolean delete(String key, String hostPort) {
         try {
-            String sql = "select * from " + table + " where register_key ='" + key + "'";
+            String sql = "delete from " + table + " where register_key ='" + key + "'" + " and host_port ='" + hostPort + "'";
+            SimpleRpcLog.info(sql);
+            Statement statement = connection.createStatement();
+            return statement.execute(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            //closeConnection(connection);
+        }
+    }
+
+    private Map<String, String> getService(String key) {
+        Map<String, String> urlMap = new ConcurrentHashMap<>(4);
+        try {
+            String sql = "select * from " + table + " where register_key = " + "'" + key + "'";
+            SimpleRpcLog.info(sql);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                String urlKey = rs.getString("host_port");
+                String urlValue = rs.getString("register_value");
+                urlMap.put(urlKey, urlValue);
+            }
+            return urlMap;
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            //closeConnection(connection);
+        }
+    }
+
+    private String getOne(String key, String hostPort) {
+        try {
+            String sql = "select * from " + table + " where register_key ='" + key + "' and host_port = '" + hostPort + "'";
             SimpleRpcLog.info(sql);
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);

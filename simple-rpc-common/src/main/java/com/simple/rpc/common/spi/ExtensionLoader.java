@@ -1,4 +1,4 @@
-package com.simple.rpc.core.spi;
+package com.simple.rpc.common.spi;
 
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcSPI;

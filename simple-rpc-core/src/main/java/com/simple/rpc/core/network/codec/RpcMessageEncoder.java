@@ -7,7 +7,7 @@ import com.simple.rpc.common.constant.enums.SerializeType;
 import com.simple.rpc.common.interfaces.Compressor;
 import com.simple.rpc.common.interfaces.Serializer;
 import com.simple.rpc.core.network.message.RpcMessage;
-import com.simple.rpc.core.spi.ExtensionLoader;
+import com.simple.rpc.common.spi.ExtensionLoader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;

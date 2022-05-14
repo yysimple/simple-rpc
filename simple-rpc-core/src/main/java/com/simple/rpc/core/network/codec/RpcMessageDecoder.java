@@ -9,7 +9,7 @@ import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.message.RpcMessage;
-import com.simple.rpc.core.spi.ExtensionLoader;
+import com.simple.rpc.common.spi.ExtensionLoader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;

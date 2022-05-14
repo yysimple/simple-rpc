@@ -1,5 +1,7 @@
 package com.simple.rpc.common.interfaces;
 
+import com.simple.rpc.common.annotation.SimpleRpcSPI;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.common.interfaces;
  * @author: WuChengXing
  * @create: 2022-04-30 10:34
  **/
+@SimpleRpcSPI(value = "simple-rpc-property")
 public interface ConfigLoader {
 
     /**

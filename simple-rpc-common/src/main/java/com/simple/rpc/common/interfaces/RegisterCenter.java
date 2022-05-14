@@ -1,6 +1,7 @@
 package com.simple.rpc.common.interfaces;
 
 
+import com.simple.rpc.common.annotation.SimpleRpcSPI;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
@@ -13,6 +14,7 @@ import com.simple.rpc.common.network.HookEntity;
  * @author: WuChengXing
  * @create: 2022-04-21 17:00
  **/
+@SimpleRpcSPI(value = "redis")
 public interface RegisterCenter {
 
     /**

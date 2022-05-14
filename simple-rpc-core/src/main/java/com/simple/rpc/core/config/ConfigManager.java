@@ -4,14 +4,14 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
 import com.simple.rpc.common.config.BaseConfig;
-import com.simple.rpc.common.config.ProtocolConfig;
 import com.simple.rpc.common.config.RegistryConfig;
 import com.simple.rpc.common.interfaces.ConfigLoader;
-import com.simple.rpc.core.config.loader.PropertiesConfigLoader;
+import com.simple.rpc.common.spi.ExtensionLoader;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,17 +35,18 @@ public class ConfigManager {
 
     private ConfigManager() {
         // 按照优先级放好
-        String[] configLoaderNames = new String[]{"system-property", "properties"};
-        configLoaders = new ArrayList<>(configLoaderNames.length);
-        // 默认先使用properties作为配置加载文件
-        ConfigLoader configLoader = new PropertiesConfigLoader();
-        configLoaders.add(configLoader);
+        List<String> configLoaderNames = Arrays.asList("system-property", "simple-rpc-property", "spi-property");
+        configLoaders = new ArrayList<>(configLoaderNames.size());
+        for (String loaderName : configLoaderNames) {
+            ConfigLoader configLoader = ExtensionLoader.getLoader(ConfigLoader.class).getExtension(loaderName);
+            configLoaders.add(configLoader);
+        }
     }
 
-    private static final ConfigManager instant = new ConfigManager();
+    private static final ConfigManager INSTANT = new ConfigManager();
 
     public static ConfigManager getInstant() {
-        return instant;
+        return INSTANT;
     }
 
 
@@ -127,13 +128,6 @@ public class ConfigManager {
      */
     public RegistryConfig getRegistryConfig() {
         return loadConfig(RegistryConfig.class);
-    }
-
-    /**
-     * 获取协议类型
-     */
-    public ProtocolConfig getProtocolConfig() {
-        return loadConfig(ProtocolConfig.class);
     }
 
     public BaseConfig getBaseConfig() {

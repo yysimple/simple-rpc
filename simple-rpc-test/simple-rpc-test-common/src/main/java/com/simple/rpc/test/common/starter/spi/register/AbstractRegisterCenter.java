@@ -1,11 +1,11 @@
-package com.simple.rpc.core.register;
+package com.simple.rpc.test.common.starter.spi.register;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.constant.enums.LoadBalanceRule;
 import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.common.interfaces.SimpleRpcLoadBalance;
-import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.spi.ExtensionLoader;
@@ -16,10 +16,10 @@ import java.util.Objects;
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 注册中心公共抽象类
+ * 功能描述:
  *
  * @author: WuChengXing
- * @create: 2022-04-21 18:44
+ * @create: 2022-05-14 12:59
  **/
 public abstract class AbstractRegisterCenter implements RegisterCenter {
 
@@ -68,4 +68,5 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
     public Boolean unregister(HookEntity hookEntity) {
         return null;
     }
+
 }
