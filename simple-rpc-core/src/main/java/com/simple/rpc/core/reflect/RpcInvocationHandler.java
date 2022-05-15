@@ -54,7 +54,8 @@ public class RpcInvocationHandler implements InvocationHandler {
             if (null == this.channelFuture) {
                 RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
                 executorService.submit(clientSocket);
-                for (int i = 0; i < 100; i++) {
+                int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
+                for (int i = 0; i < tryNum; i++) {
                     if (null != this.channelFuture) {
                         break;
                     }
@@ -91,7 +92,9 @@ public class RpcInvocationHandler implements InvocationHandler {
         //从redis获取链接
         String infoStr = registerCenter.get(Request.request2Register(request));
         RegisterInfo registerInfo = JSON.parseObject(infoStr, RegisterInfo.class);
-        return Request.register2Request(registerInfo);
+        Request returnRequest = Request.register2Request(registerInfo);
+        returnRequest.setRetryNum(baseConfig.getRetryNum());
+        return returnRequest;
     }
 
     @Override

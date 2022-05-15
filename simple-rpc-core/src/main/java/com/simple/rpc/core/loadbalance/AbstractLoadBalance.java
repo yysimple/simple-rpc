@@ -35,7 +35,6 @@ public abstract class AbstractLoadBalance implements SimpleRpcLoadBalance {
             selectMap.put(url, param);
         }
         String selectUrl = select(selectMap);
-        SimpleRpcLog.info("负载的信息：" + selectUrl);
         return services.get(selectUrl);
     }
 
