@@ -3,12 +3,13 @@ server:
 simple:
   rpc:
     register:
-      #address: redis://127.0.0.1:6379
-      address: mysql://127.0.0.1:3306
-      password: 970412@wcx.com
-      username: root
-      database: test
-      table: register_center
+      address: redis://127.0.0.1:6379
+      password: 123456
+      #address: mysql://127.0.0.1:3306
+      #password: 970412@wcx.com
+      #username: root
+      #database: test
+      #table: register_center
     base:
       load-balance-rule: random-weight
       serializer: serializer
