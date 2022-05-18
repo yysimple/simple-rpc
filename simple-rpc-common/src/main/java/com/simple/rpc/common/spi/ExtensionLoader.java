@@ -176,7 +176,7 @@ public class ExtensionLoader<T> {
      * @return {name: 扩展类}
      */
     private Map<String, Class<?>> loadClassesFromResources() {
-        Map<String, Class<?>> extensionClasses = new ConcurrentHashMap<>();
+        Map<String, Class<?>> extensionClasses = new ConcurrentHashMap<>(8);
         // 扩展配置文件名
         String fileName = EXTENSION_PATH + type.getName();
         // 拿到资源文件夹

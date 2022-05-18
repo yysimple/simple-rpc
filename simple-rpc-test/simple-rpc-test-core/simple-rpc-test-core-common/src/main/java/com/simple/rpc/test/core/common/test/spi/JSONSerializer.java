@@ -1,6 +1,7 @@
 package com.simple.rpc.test.core.common.test.spi;
 
 import cn.hutool.json.JSONUtil;
+import com.simple.rpc.common.interfaces.Serializer;
 
 /**
  * 项目: simple-rpc

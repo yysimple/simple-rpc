@@ -93,15 +93,15 @@ public class SmoothWeightRoundRule extends AbstractLoadBalance {
     public static void main(String[] args) {
         Map<String, LoadBalanceParam> urls = new ConcurrentHashMap<>(4);
         LoadBalanceParam param1 = new LoadBalanceParam();
-        param1.setWeights(20);
+        param1.setWeights(3);
         LoadBalanceParam param2 = new LoadBalanceParam();
-        param2.setWeights(30);
+        param2.setWeights(2);
         LoadBalanceParam param3 = new LoadBalanceParam();
-        param3.setWeights(50);
+        param3.setWeights(1);
         urls.put("127.0.0.1_8081", param1);
         urls.put("127.0.0.1_8082", param2);
         urls.put("127.0.0.1_8083", param3);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 7; i++) {
             SmoothWeightRoundRule rule = new SmoothWeightRoundRule();
             System.out.println(rule.select(urls));
         }

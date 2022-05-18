@@ -125,6 +125,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setSerializer(baseConfig.getSerializer());
         request.setRegister(baseConfig.getRegister());
         request.setCompressor(baseConfig.getCompressor());
+        request.setTimeout(baseConfig.getTimeout());
         // 发送请求
         Response response = null;
         try {

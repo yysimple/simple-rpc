@@ -13,6 +13,7 @@ import com.simple.rpc.common.interfaces.ConfigLoader;
 public class ConfigLoaderTest implements ConfigLoader {
     @Override
     public String loadConfigItem(String key) {
+        System.out.println("--- 走的是SPI的方式 ---");
         return null;
     }
 }

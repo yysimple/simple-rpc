@@ -2,8 +2,8 @@ package com.simple.rpc.test;
 
 import com.simple.rpc.common.interfaces.ConfigLoader;
 import com.simple.rpc.common.interfaces.RegisterCenter;
+import com.simple.rpc.common.interfaces.Serializer;
 import com.simple.rpc.common.spi.ExtensionLoader;
-import com.simple.rpc.test.core.common.test.spi.Serializer;
 import org.junit.Test;
 
 /**

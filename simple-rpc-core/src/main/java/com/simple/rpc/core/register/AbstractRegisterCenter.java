@@ -37,7 +37,12 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
     }
 
     /**
-     * 将三个字段构建然后存入
+     * 将三个字段构建然后存入：
+     *                                          --- 127.0.0.1_41201 --- {"alias":"xxx","host":"127.0.0.1","port":41201,"serializer":"serializer","weights":20}
+     *                                          -
+     * com.simple.rpc.HelloService_helloService --- 127.0.0.1_41202 --- {"alias":"xxx","host":"127.0.0.1","port":41202,"serializer":"serializer","weights":30}
+     *                                          -
+     *                                          --- 127.0.0.1_41203 --- {"alias":"xxx","host":"127.0.0.1","port":41203,"serializer":"serializer","weights":50}
      *
      * @param key
      * @param hostPort
