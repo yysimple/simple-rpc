@@ -2,6 +2,7 @@ package com.simple.rpc.core.network.client;
 
 import com.simple.rpc.core.network.codec.RpcMessageDecoder;
 import com.simple.rpc.core.network.codec.RpcMessageEncoder;
+import com.simple.rpc.core.network.message.Request;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -12,6 +13,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,13 +31,18 @@ public class RpcClientSocket implements Runnable {
     private final String host;
     private final Integer port;
 
-    public RpcClientSocket(String host, Integer port) {
-        this.host = host;
-        this.port = port;
+    private final Request request;
+
+    public RpcClientSocket(Request request) {
+        this.request = request;
+        this.host = request.getHost();
+        this.port = request.getPort();
     }
 
     @Override
     public void run() {
+        Long beatTime = Objects.isNull(request.getBeatIntervalTime()) || request.getBeatIntervalTime() <= 0 ?
+                10 : request.getBeatIntervalTime();
         // 客户端只需要一个工作事件组来处理任务即可
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -52,7 +59,7 @@ public class RpcClientSocket implements Runnable {
                     ch.pipeline().addLast(
                             // 设定 IdleStateHandler 心跳检测每 5 秒进行一次写检测
                             // write()方法超过 5 秒没调用，就调用 userEventTrigger
-                            new IdleStateHandler(0, 5, 0, TimeUnit.SECONDS),
+                            new IdleStateHandler(0, beatTime, 0, TimeUnit.SECONDS),
                             new RpcMessageDecoder(),
                             new RpcMessageEncoder(),
                             new ClientSocketHandler());

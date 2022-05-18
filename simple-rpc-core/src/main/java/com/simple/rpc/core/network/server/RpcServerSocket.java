@@ -4,6 +4,7 @@ import com.simple.rpc.common.util.NetUtil;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.core.network.codec.RpcMessageDecoder;
 import com.simple.rpc.core.network.codec.RpcMessageEncoder;
+import com.simple.rpc.core.network.message.Request;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -14,6 +15,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.timeout.IdleStateHandler;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -27,6 +29,12 @@ import java.util.concurrent.TimeUnit;
 public class RpcServerSocket implements Runnable {
 
     private ChannelFuture f;
+
+    private final Request request;
+
+    public RpcServerSocket(Request request) {
+        this.request = request;
+    }
 
     public boolean isActiveSocketServer() {
         try {
@@ -42,6 +50,8 @@ public class RpcServerSocket implements Runnable {
 
     @Override
     public void run() {
+        Long stopConnectTime = Objects.isNull(request.getStopConnectTime()) || request.getStopConnectTime() <= 0 ?
+                30 : request.getStopConnectTime();
         // 这里如果自己不指定线程数，默认是当前cpu的两倍
         EventLoopGroup dealConnGroup = new NioEventLoopGroup(128);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -63,14 +73,14 @@ public class RpcServerSocket implements Runnable {
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(
                                     // 30 秒之内没有收到客户端请求的话就关闭连接
-                                    new IdleStateHandler(30, 0, 0, TimeUnit.SECONDS),
+                                    new IdleStateHandler(stopConnectTime, 0, 0, TimeUnit.SECONDS),
                                     new RpcMessageDecoder(),
                                     new RpcMessageEncoder(),
                                     new ServerSocketHandler());
                         }
                     });
             // 默认启动初始端口
-            int port = 41200;
+            int port = Objects.isNull(request.getPort()) || request.getPort() <= 0 ? 41200 : request.getPort();
             while (NetUtil.isPortUsing(port)) {
                 port++;
             }

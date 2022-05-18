@@ -16,34 +16,54 @@
       "name": "simple.rpc.base.load-balance-rule",
       "type": "java.lang.String",
       "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
-      "defaultValue": "round"
+      "defaultValue": "round",
+      "description": "负载均衡规则"
     },
     {
       "name": "simple.rpc.base.retry-num",
       "type": "java.lang.Integer",
       "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
-      "defaultValue": 10
+      "defaultValue": 100,
+      "description": "客户端重试次数"
     },
     {
       "name": "simple.rpc.base.timeout",
       "type": "java.lang.Long",
       "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
-      "defaultValue": 30
+      "defaultValue": 30,
+      "description": "调用超时时间"
     },
     {
       "name": "simple.rpc.base.serializer",
       "type": "java.lang.String",
-      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "description": "序列化类型"
     },
     {
       "name": "simple.rpc.base.compressor",
       "type": "java.lang.String",
-      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "description": "压缩类型"
     },
     {
       "name": "simple.rpc.base.register",
       "type": "java.lang.String",
-      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig"
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "description": "注册中心类型"
+    },
+    {
+      "name": "simple.rpc.base.beat-interval-time",
+      "type": "java.lang.Long",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": 10,
+      "description": "心跳间隔时间"
+    },
+    {
+      "name": "simple.rpc.base.stop-connect-time",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": 30,
+      "description": "客户端停止心跳或者写操作后，服务端断开时间"
     },
     {
       "name": "simple.rpc.register.address",

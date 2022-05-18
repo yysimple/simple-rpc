@@ -44,7 +44,7 @@ public class ConsumerAppMain {
         System.out.println("服务端的地址和端口：" +  request.getHost() + "-" + request.getPort());
         //获取通信channel
         if (null == channelFuture) {
-            RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
+            RpcClientSocket clientSocket = new RpcClientSocket(request);
             executorService.submit(clientSocket);
             for (int i = 0; i < 100; i++) {
                 if (null != channelFuture) {

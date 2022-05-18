@@ -4,6 +4,7 @@ import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.ServerConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.spring.beans.parser.ParseServerBean;
@@ -35,7 +36,7 @@ public class ServerBean extends ServerConfig implements ApplicationContextAware 
         RegisterCenterFactory.create(simpleRpcUrl.getType()).init(simpleRpcUrl);
         SimpleRpcLog.info("注册中心初始化：{}", address);
         //初始化服务端
-        RpcServerSocket serverSocket = new RpcServerSocket();
+        RpcServerSocket serverSocket = new RpcServerSocket(new Request());
         executorService.submit(serverSocket);
         while (!serverSocket.isActiveSocketServer()) {
             try {

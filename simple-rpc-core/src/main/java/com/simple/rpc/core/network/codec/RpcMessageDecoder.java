@@ -30,6 +30,19 @@ import static com.simple.rpc.common.constant.MessageFormatConstant.*;
 public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
 
     public RpcMessageDecoder() {
+        /**
+         * 继承定长解码器，自己完成构造数据后，每次会将一次请求的消息一起解析，不会出现粘包、拆包
+         * 这里的话假设数据是（二进制不补零）：52 1 0001 1 1 00000001 1
+         * maxFrameLength： 8M
+         * lengthFieldOffset：3
+         * lengthFieldLength：todo
+         * lengthAdjustment：-7
+         * initialBytesToStrip：0
+         *
+         * 这里解析比较简单 首先是长度偏移量在 3字节后面，也就是跳过了 52 1；
+         * 然后长度为 0001，对应4个字节；
+         * 接下来就是调整消息读取位置，又到最前面去了，然后读取的初始位置就是0，从头还是读，所以52 1 0001 1 1 00000001 1都读取了
+         */
         super(
                 // 最大的长度，如果超过，会直接丢弃
                 MAX_FRAME_LENGTH,

@@ -39,7 +39,7 @@ public class ProviderAppMain {
         request.setInterfaceName(interfaceName);
         request.setAlias("rpcProvider");
         // 初始化
-        RpcServerSocket rpcServerSocket = new RpcServerSocket();
+        RpcServerSocket rpcServerSocket = new RpcServerSocket(new Request());
         executorService.submit(rpcServerSocket);
         while (!rpcServerSocket.isActiveSocketServer()) {
             try {

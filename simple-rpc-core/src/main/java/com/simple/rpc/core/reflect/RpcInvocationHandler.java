@@ -52,7 +52,7 @@ public class RpcInvocationHandler implements InvocationHandler {
             }
             //获取通信channel
             if (null == this.channelFuture) {
-                RpcClientSocket clientSocket = new RpcClientSocket(request.getHost(), request.getPort());
+                RpcClientSocket clientSocket = new RpcClientSocket(request);
                 executorService.submit(clientSocket);
                 int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
                 for (int i = 0; i < tryNum; i++) {

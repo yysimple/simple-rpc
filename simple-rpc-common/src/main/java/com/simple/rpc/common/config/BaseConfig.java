@@ -48,6 +48,16 @@ public class BaseConfig {
      */
     private String register;
 
+    /**
+     * 心跳间隔时间
+     */
+    private Long beatIntervalTime;
+
+    /**
+     * 客户端停止心跳或者写操作后，服务端断开时间
+     */
+    private Long stopConnectTime;
+
     public String getLoadBalanceRule() {
         return loadBalanceRule;
     }
@@ -104,6 +114,22 @@ public class BaseConfig {
         this.weights = weights;
     }
 
+    public Long getBeatIntervalTime() {
+        return beatIntervalTime;
+    }
+
+    public void setBeatIntervalTime(Long beatIntervalTime) {
+        this.beatIntervalTime = beatIntervalTime;
+    }
+
+    public Long getStopConnectTime() {
+        return stopConnectTime;
+    }
+
+    public void setStopConnectTime(Long stopConnectTime) {
+        this.stopConnectTime = stopConnectTime;
+    }
+
     @Override
     public String toString() {
         return "BaseConfig{" +
@@ -114,6 +140,8 @@ public class BaseConfig {
                 ", serializer='" + serializer + '\'' +
                 ", compressor='" + compressor + '\'' +
                 ", register='" + register + '\'' +
+                ", beatIntervalTime=" + beatIntervalTime +
+                ", stopConnectTime=" + stopConnectTime +
                 '}';
     }
 }
