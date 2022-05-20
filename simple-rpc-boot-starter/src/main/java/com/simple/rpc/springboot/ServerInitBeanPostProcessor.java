@@ -1,5 +1,6 @@
 package com.simple.rpc.springboot;
 
+import com.simple.rpc.common.config.BaseConfig;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
@@ -9,6 +10,7 @@ import com.simple.rpc.core.network.server.RpcServerSocket;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
@@ -61,7 +63,7 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
         RegisterCenterFactory.create(simpleRpcUrl.getType()).init(simpleRpcUrl);
         SimpleRpcLog.info("注册中心初始化：{}", bootRegisterConfig.getAddress());
         //初始化服务端
-        RpcServerSocket serverSocket = new RpcServerSocket(new Request());
+        RpcServerSocket serverSocket = new RpcServerSocket(buildRequest(bootBaseConfig));
         executorService.submit(serverSocket);
         while (!serverSocket.isActiveSocketServer()) {
             try {
@@ -70,6 +72,12 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
             }
         }
         SimpleRpcLog.info("初始化生产端服务完成 {} {}", LocalAddressInfo.LOCAL_HOST, LocalAddressInfo.PORT);
+    }
+
+    private Request buildRequest(BootBaseConfig config) {
+        Request request = new Request();
+        BeanUtils.copyProperties(config, request);
+        return request;
     }
 
     @Override
