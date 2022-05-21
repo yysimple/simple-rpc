@@ -1,5 +1,5 @@
 server:
-  port: 8883
+  port: 6881
 simple:
   rpc:
     register:

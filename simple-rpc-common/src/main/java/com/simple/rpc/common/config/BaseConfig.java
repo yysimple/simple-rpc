@@ -58,6 +58,11 @@ public class BaseConfig {
      */
     private Long stopConnectTime;
 
+    /**
+     * 服务端的port配置
+     */
+    private Integer port;
+
     public String getLoadBalanceRule() {
         return loadBalanceRule;
     }
@@ -130,6 +135,14 @@ public class BaseConfig {
         this.stopConnectTime = stopConnectTime;
     }
 
+    public Integer getPort() {
+        return port;
+    }
+
+    public void setPort(Integer port) {
+        this.port = port;
+    }
+
     @Override
     public String toString() {
         return "BaseConfig{" +
@@ -142,6 +155,7 @@ public class BaseConfig {
                 ", register='" + register + '\'' +
                 ", beatIntervalTime=" + beatIntervalTime +
                 ", stopConnectTime=" + stopConnectTime +
+                ", port=" + port +
                 '}';
     }
 }

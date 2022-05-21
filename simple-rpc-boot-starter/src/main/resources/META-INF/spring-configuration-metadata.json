@@ -52,6 +52,12 @@
       "description": "注册中心类型"
     },
     {
+      "name": "simple.rpc.base.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "description": "服务端端口"
+    },
+    {
       "name": "simple.rpc.base.beat-interval-time",
       "type": "java.lang.Long",
       "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",

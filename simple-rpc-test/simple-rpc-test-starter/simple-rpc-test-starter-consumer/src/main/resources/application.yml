@@ -14,3 +14,4 @@ simple:
       load-balance-rule: random-weight
       serializer: serializer
       weights: 10
+      port: 4321
