@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 连接缓存
+ * 功能描述: 连接缓存 todo 待改造，只需要保存 url信息就行
  *
  * @author: WuChengXing
  * @create: 2022-05-06 23:28
@@ -52,5 +52,16 @@ public class ConnectCache {
             return stringChannelMap.get(url);
         }
         return null;
+    }
+
+    public static Boolean remove(String key, String url) {
+        Map<String, ChannelFuture> stringChannelFutureMap = CHANNEL_MAP.get(key);
+        ChannelFuture channelFuture = stringChannelFutureMap.get(url);
+        if (!Objects.isNull(channelFuture)) {
+            channelFuture.channel().close();
+            ChannelFuture remove = stringChannelFutureMap.remove(url);
+            return !Objects.isNull(remove);
+        }
+        return false;
     }
 }
