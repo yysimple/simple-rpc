@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,12 +29,20 @@ public class ApplicationClosedEventListener implements ApplicationListener<Conte
 
     @Override
     public void onApplicationEvent(ContextClosedEvent contextClosedEvent) {
-        RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo()).getType());
+        String url = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
+        RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo(url)).getType());
         List<String> strings = SimpleRpcServiceCache.allKey();
         HookEntity hookEntity = new HookEntity();
         hookEntity.setRpcServiceNames(strings);
         hookEntity.setServerUrl(LocalAddressInfo.LOCAL_HOST);
         hookEntity.setServerPort(LocalAddressInfo.PORT);
         registerCenter.unregister(hookEntity);
+
+        List<String> urls = new ArrayList<>();
+        urls.add(url);
+        // 断开连接
+        ConnectCache.remove(urls);
+        // 移除注册信息
+        RegisterInfoCache.remove(urls);
     }
 }

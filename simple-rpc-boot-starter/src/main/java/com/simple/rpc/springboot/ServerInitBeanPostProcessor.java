@@ -1,6 +1,7 @@
 package com.simple.rpc.springboot;
 
 import com.simple.rpc.common.config.BaseConfig;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
@@ -57,8 +58,6 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     public void init(BootRegisterConfig bootRegisterConfig) throws BeansException {
         SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(bootRegisterConfig);
-        // 保存注册中心信息
-        RegisterInfoCache.save(bootRegisterConfig);
         //启动注册中心
         RegisterCenterFactory.create(simpleRpcUrl.getType()).init(simpleRpcUrl);
         SimpleRpcLog.info("注册中心初始化：{}", bootRegisterConfig.getAddress());
@@ -72,6 +71,8 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
             }
         }
         SimpleRpcLog.info("初始化生产端服务完成 {} {}", LocalAddressInfo.LOCAL_HOST, LocalAddressInfo.PORT);
+        // 保存注册中心信息
+        RegisterInfoCache.save(LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT, bootRegisterConfig);
     }
 
     private Request buildRequest(BootBaseConfig config) {

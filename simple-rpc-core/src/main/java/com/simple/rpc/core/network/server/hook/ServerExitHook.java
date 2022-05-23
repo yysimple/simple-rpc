@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.server.hook;
 
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
@@ -23,7 +24,8 @@ public class ServerExitHook {
     public static void addShutdownHook() {
         SimpleRpcLog.info("addShutdownHook for clearAll");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo()).getType());
+            String url = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
+            RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo(url)).getType());
             List<String> strings = SimpleRpcServiceCache.allKey();
             HookEntity hookEntity = new HookEntity();
             hookEntity.setRpcServiceNames(strings);

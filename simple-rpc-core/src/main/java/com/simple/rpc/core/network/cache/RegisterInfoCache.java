@@ -1,7 +1,9 @@
 package com.simple.rpc.core.network.cache;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.common.config.RegistryConfig;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,14 +17,23 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class RegisterInfoCache {
 
-    private static Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
-    private static final String CACHE_KEY = "register_info";
+    private static final Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
 
-    public static <T extends RegistryConfig> T getRegisterInfo() {
-        return (T) SERVICE_MAP.get(CACHE_KEY);
+    public static <T extends RegistryConfig> T getRegisterInfo(String key) {
+        return (T) SERVICE_MAP.get(key);
     }
 
-    public static <T extends RegistryConfig> void save(T config) {
-        SERVICE_MAP.put(CACHE_KEY, config);
+    public static <T extends RegistryConfig> void save(String key, T config) {
+        SERVICE_MAP.put(key, config);
+    }
+
+    public static Boolean remove(List<String> urls) {
+        if (CollectionUtil.isEmpty(urls)) {
+            return false;
+        }
+        for (String url : urls) {
+            SERVICE_MAP.remove(url);
+        }
+        return true;
     }
 }
