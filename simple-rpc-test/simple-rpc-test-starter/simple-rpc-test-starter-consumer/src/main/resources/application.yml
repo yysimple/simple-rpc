@@ -15,3 +15,4 @@ simple:
       serializer: serializer
       weights: 10
       port: 4321
+      beat-interval-time: 5

@@ -41,7 +41,7 @@ public class ApplicationClosedEventListener implements ApplicationListener<Conte
         List<String> urls = new ArrayList<>();
         urls.add(url);
         // 断开连接
-        ConnectCache.remove(urls);
+        //ConnectCache.remove(urls);
         // 移除注册信息
         RegisterInfoCache.remove(urls);
     }

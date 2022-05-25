@@ -93,6 +93,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         String infoStr = registerCenter.get(Request.request2Register(request));
         RegisterInfo registerInfo = JSON.parseObject(infoStr, RegisterInfo.class);
         Request returnRequest = Request.register2Request(registerInfo);
+        returnRequest.setBeatIntervalTime(baseConfig.getBeatIntervalTime());
         returnRequest.setRetryNum(baseConfig.getRetryNum());
         return returnRequest;
     }
