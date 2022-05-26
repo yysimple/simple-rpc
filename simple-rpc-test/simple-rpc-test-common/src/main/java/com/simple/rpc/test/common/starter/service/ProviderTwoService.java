@@ -11,4 +11,6 @@ package com.simple.rpc.test.common.starter.service;
 public interface ProviderTwoService {
 
     String helloProviderTwo(String msg);
+
+    String helloProviderTwoNoArgs();
 }

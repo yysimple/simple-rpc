@@ -20,6 +20,11 @@ public class ProviderTwoServiceImpl implements ProviderTwoService {
         return "我是第二个提供者，接收到的消息：" + s + "--" + msg;
     }
 
+    @Override
+    public String helloProviderTwoNoArgs() {
+        return "我是第二个提供者，没有参数的";
+    }
+
     private String innerProviderTwo() {
         return "inner invoke!!";
     }

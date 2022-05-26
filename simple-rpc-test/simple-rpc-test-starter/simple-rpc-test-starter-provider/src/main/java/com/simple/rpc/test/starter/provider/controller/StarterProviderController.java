@@ -27,12 +27,18 @@ public class StarterProviderController {
     private ProviderTwoService providerTwoService;
 
     @GetMapping("/info")
-    public String hello(){
+    public String hello() {
         return consumerHelloService.starterConsumer();
     }
 
     @GetMapping("/info/two")
-    public String helloTwo(){
+    public String helloTwo() {
         return providerTwoService.helloProviderTwo("1 调用 2");
     }
+
+    @GetMapping("/info/noArgs")
+    public String helloTwoNoArgs() {
+        return providerTwoService.helloProviderTwoNoArgs();
+    }
+
 }
