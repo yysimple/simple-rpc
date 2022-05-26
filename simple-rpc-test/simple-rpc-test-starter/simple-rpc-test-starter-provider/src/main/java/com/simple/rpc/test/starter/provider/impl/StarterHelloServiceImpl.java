@@ -1,6 +1,8 @@
 package com.simple.rpc.test.starter.provider.impl;
 
+import com.simple.rpc.common.annotation.SimpleRpcReference;
 import com.simple.rpc.common.annotation.SimpleRpcService;
+import com.simple.rpc.test.common.starter.service.ProviderTwoService;
 import com.simple.rpc.test.common.starter.service.StarterHelloService;
 
 /**
@@ -14,8 +16,12 @@ import com.simple.rpc.test.common.starter.service.StarterHelloService;
 @SimpleRpcService
 public class StarterHelloServiceImpl implements StarterHelloService {
 
+    @SimpleRpcReference
+    ProviderTwoService providerTwoService;
+
     @Override
     public String helloStarter() {
-        return "simple rpc consumer provider!!";
+        String s = providerTwoService.helloProviderTwo("我是第一个提供者！");
+        return "调用下一级方法：" + s;
     }
 }

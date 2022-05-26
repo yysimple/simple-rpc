@@ -1,0 +1,11 @@
+server:
+  port: 9991
+simple:
+  rpc:
+    register:
+      address: redis://127.0.0.1:6379
+      password: 123456
+    base:
+      load-balance-rule: random-weight
+      serializer: serializer
+      weights: 20

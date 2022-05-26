@@ -13,6 +13,7 @@
     <modules>
         <module>simple-rpc-test-starter-provider</module>
         <module>simple-rpc-test-starter-consumer</module>
+        <module>simple-rpc-test-starter-provider-two</module>
     </modules>
 
     <groupId>com.simple.rpc.test.starter</groupId>
