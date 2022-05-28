@@ -35,7 +35,7 @@ public class RpcMessageDecoder extends LengthFieldBasedFrameDecoder {
          * 这里的话假设数据是（二进制不补零）：52 1 0001 1 1 00000001 1
          * maxFrameLength： 8M
          * lengthFieldOffset：3
-         * lengthFieldLength：todo
+         * lengthFieldLength：
          * lengthAdjustment：-7
          * initialBytesToStrip：0
          *

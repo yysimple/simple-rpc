@@ -36,6 +36,7 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             Request msg = (Request) rpcMessage.getData();
             //调用
             Class<?> classType = ClassLoaderUtils.forName(msg.getInterfaceName());
+            // todo 序列化问题，这里无法拿到参数class
             Method addMethod = classType.getMethod(msg.getMethodName(), msg.getParamTypes());
             // 从缓存中里面获取bean信息
             Object objectBean = SimpleRpcServiceCache.getService(msg.getAlias());
