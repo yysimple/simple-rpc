@@ -5,6 +5,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * 项目: simple-rpc
@@ -35,7 +36,7 @@ public class Request {
     /**
      * 属性
      */
-    private Class[] paramTypes;
+    private List<String> paramTypes;
 
     /**
      * 入参
@@ -160,11 +161,11 @@ public class Request {
         this.methodName = methodName;
     }
 
-    public Class[] getParamTypes() {
+    public List<String> getParamTypes() {
         return paramTypes;
     }
 
-    public void setParamTypes(Class[] paramTypes) {
+    public void setParamTypes(List<String> paramTypes) {
         this.paramTypes = paramTypes;
     }
 
@@ -279,7 +280,7 @@ public class Request {
                 ", channelFuture=" + channelFuture +
                 ", requestId=" + requestId +
                 ", methodName='" + methodName + '\'' +
-                ", paramTypes=" + Arrays.toString(paramTypes) +
+                ", paramTypes=" + paramTypes +
                 ", args=" + Arrays.toString(args) +
                 ", interfaceName='" + interfaceName + '\'' +
                 ", beanName='" + beanName + '\'' +

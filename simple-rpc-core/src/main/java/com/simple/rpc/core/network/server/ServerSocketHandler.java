@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.server;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.common.constant.enums.MessageType;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
@@ -14,6 +15,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * 项目: simple-rpc
@@ -36,8 +38,14 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             Request msg = (Request) rpcMessage.getData();
             //调用
             Class<?> classType = ClassLoaderUtils.forName(msg.getInterfaceName());
-            // todo 序列化问题，这里无法拿到参数class
-            Method addMethod = classType.getMethod(msg.getMethodName(), msg.getParamTypes());
+            List<String> paramTypes = msg.getParamTypes();
+            Class[] transfer = new Class[paramTypes.size()];
+            if (!CollectionUtil.isEmpty(paramTypes)) {
+                for (int i = 0; i < paramTypes.size(); i++) {
+                    transfer[i] = Class.forName(paramTypes.get(i));
+                }
+            }
+            Method addMethod = classType.getMethod(msg.getMethodName(), transfer);
             // 从缓存中里面获取bean信息
             Object objectBean = SimpleRpcServiceCache.getService(msg.getAlias());
             // 进行反射调用

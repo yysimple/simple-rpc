@@ -18,6 +18,8 @@ import io.netty.channel.ChannelFuture;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -104,6 +106,12 @@ public class RpcInvocationHandler implements InvocationHandler {
         connect(buildRequest());
         String methodName = method.getName();
         Class[] paramTypes = method.getParameterTypes();
+        List<String> paramTypeStrs = new ArrayList<>();
+        if (paramTypes.length > 0) {
+            for (int i = 0; i < paramTypes.length; i++) {
+                paramTypeStrs.add(paramTypes[i].getCanonicalName());
+            }
+        }
         // 排除Object的方法调用
         if (JavaKeywordConstant.TO_STRING.equals(methodName) && paramTypes.length == 0) {
             return this.toString();
@@ -117,7 +125,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         BaseConfig baseConfig = commonConfig.getBaseConfig();
         //设置参数
         request.setMethodName(methodName);
-        request.setParamTypes(paramTypes);
+        request.setParamTypes(paramTypeStrs);
         request.setArgs(args);
         request.setBeanName(consumerConfig.getBeanName());
         request.setInterfaceName(consumerConfig.getInterfaceName());
