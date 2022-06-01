@@ -2,6 +2,7 @@ package com.simple.rpc.test.starter.provider.two.impl;
 
 import com.simple.rpc.common.annotation.SimpleRpcService;
 import com.simple.rpc.test.common.starter.service.ProviderTwoService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 项目: simple-rpc
@@ -13,6 +14,9 @@ import com.simple.rpc.test.common.starter.service.ProviderTwoService;
  **/
 @SimpleRpcService
 public class ProviderTwoServiceImpl implements ProviderTwoService {
+
+    @Autowired
+    ProviderTwoServiceHandle handle;
 
     @Override
     public String helloProviderTwo(String msg) {
@@ -26,6 +30,6 @@ public class ProviderTwoServiceImpl implements ProviderTwoService {
     }
 
     private String innerProviderTwo() {
-        return "inner invoke!!";
+        return "inner invoke!! -- " + handle.handle();
     }
 }
