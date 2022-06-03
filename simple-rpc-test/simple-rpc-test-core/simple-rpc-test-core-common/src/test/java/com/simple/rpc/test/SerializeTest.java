@@ -22,7 +22,7 @@ public class SerializeTest {
         RpcMessage rpcMessage = new RpcMessage();
         Request request = new Request();
         Class[] classes = {String.class, Integer.class};
-        request.setParamTypes(classes);
+        //request.setParamTypes(classes);
         rpcMessage.setData(request);
         byte[] serialize = serializer.serialize(rpcMessage);
         RpcMessage deserialize = serializer.deserialize(serialize, RpcMessage.class);

@@ -57,7 +57,7 @@ public class RpcClientSocket implements Runnable {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(
-                            // 设定 IdleStateHandler 心跳检测每 5 秒进行一次写检测
+                            // 设定 IdleStateHandler 心跳检测 每 5 秒进行一次写检测
                             // write()方法超过 5 秒没调用，就调用 userEventTrigger
                             new IdleStateHandler(0, beatTime, 0, TimeUnit.SECONDS),
                             new RpcMessageDecoder(),
