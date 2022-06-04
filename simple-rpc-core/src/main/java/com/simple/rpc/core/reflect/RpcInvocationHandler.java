@@ -5,14 +5,13 @@ import com.simple.rpc.common.config.*;
 import com.simple.rpc.common.constant.JavaKeywordConstant;
 import com.simple.rpc.common.exception.network.NettyInitException;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
-import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.common.spi.ExtensionLoader;
 import com.simple.rpc.common.exception.SimpleRpcBaseException;
 import com.simple.rpc.core.network.cache.ConnectCache;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.core.network.message.Response;
-import com.simple.rpc.core.network.send.SyncWrite;
 import com.simple.rpc.common.interfaces.RegisterCenter;
+import com.simple.rpc.core.reflect.invoke.FaultTolerantInvoker;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import io.netty.channel.ChannelFuture;
 
@@ -135,17 +134,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setRegister(baseConfig.getRegister());
         request.setCompressor(baseConfig.getCompressor());
         request.setTimeout(baseConfig.getTimeout());
-        // 发送请求
-        Response response = null;
-        try {
-            response = new SyncWrite().writeAndSync(request.getChannel(), request,
-                    Objects.isNull(request.getTimeout()) ? 30L : request.getTimeout());
-        } catch (Exception e) {
-            e.printStackTrace();
-            SimpleRpcLog.error(e.getMessage());
-        }
-
-        //异步调用
-        return response.getResult();
+        FaultTolerantInvoker faultTolerantInvoker = ExtensionLoader.getLoader(FaultTolerantInvoker.class).getExtension(baseConfig.getFaultTolerantType());
+        faultTolerantInvoker
     }
 }

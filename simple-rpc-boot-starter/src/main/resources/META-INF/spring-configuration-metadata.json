@@ -72,6 +72,13 @@
       "description": "客户端停止心跳或者写操作后，服务端断开时间"
     },
     {
+      "name": "simple.rpc.base.fault-tolerant-type",
+      "type": "java.lang.String",
+      "sourceType": "com.simple.rpc.springboot.config.BootBaseConfig",
+      "defaultValue": "fast-fail",
+      "description": "容错类型"
+    },
+    {
       "name": "simple.rpc.register.address",
       "type": "java.lang.String",
       "sourceType": "com.simple.rpc.springboot.config.BootRegisterConfig",

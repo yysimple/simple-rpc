@@ -63,6 +63,11 @@ public class BaseConfig {
      */
     private Integer port;
 
+    /**
+     * 容错类型
+     */
+    private String faultTolerantType;
+
     public String getLoadBalanceRule() {
         return loadBalanceRule;
     }
@@ -141,6 +146,14 @@ public class BaseConfig {
 
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public String getFaultTolerantType() {
+        return faultTolerantType;
+    }
+
+    public void setFaultTolerantType(String faultTolerantType) {
+        this.faultTolerantType = faultTolerantType;
     }
 
     @Override
