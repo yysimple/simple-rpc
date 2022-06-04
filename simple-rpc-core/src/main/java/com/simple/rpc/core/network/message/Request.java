@@ -1,5 +1,6 @@
 package com.simple.rpc.core.network.message;
 
+import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -146,5 +147,51 @@ public class Request {
         registerInfo.setCompressor(request.getCompressor());
         registerInfo.setRegister(request.getRegister());
         return registerInfo;
+    }
+
+    public static InvokeFilterInfo request2InvokeFilterInfo(Request request) {
+        InvokeFilterInfo invokeFilterInfo = new InvokeFilterInfo();
+        invokeFilterInfo.setRequestId(request.getRequestId());
+        invokeFilterInfo.setMethodName(request.getMethodName());
+        invokeFilterInfo.setParamTypes(request.getParamTypes());
+        invokeFilterInfo.setArgs(request.getArgs());
+        invokeFilterInfo.setInterfaceName(request.getInterfaceName());
+        invokeFilterInfo.setBeanName(request.getBeanName());
+        invokeFilterInfo.setAlias(request.getAlias());
+        invokeFilterInfo.setTimeout(request.getTimeout());
+        invokeFilterInfo.setRetryNum(request.getRetryNum());
+        invokeFilterInfo.setHost(request.getHost());
+        invokeFilterInfo.setPort(request.getPort());
+        invokeFilterInfo.setLoadBalanceRule(request.getLoadBalanceRule());
+        invokeFilterInfo.setWeights(request.getWeights());
+        invokeFilterInfo.setSerializer(request.getSerializer());
+        invokeFilterInfo.setCompressor(request.getCompressor());
+        invokeFilterInfo.setRegister(request.getRegister());
+        invokeFilterInfo.setBeatIntervalTime(request.getBeatIntervalTime());
+        invokeFilterInfo.setStopConnectTime(request.getStopConnectTime());
+        return invokeFilterInfo;
+    }
+
+    public static Request invokeFilterInfo2Request(InvokeFilterInfo invokeFilterInfo) {
+        Request request = new Request();
+        request.setRequestId(invokeFilterInfo.getRequestId());
+        request.setMethodName(invokeFilterInfo.getMethodName());
+        request.setParamTypes(invokeFilterInfo.getParamTypes());
+        request.setArgs(invokeFilterInfo.getArgs());
+        request.setInterfaceName(invokeFilterInfo.getInterfaceName());
+        request.setBeanName(invokeFilterInfo.getBeanName());
+        request.setAlias(invokeFilterInfo.getAlias());
+        request.setTimeout(invokeFilterInfo.getTimeout());
+        request.setRetryNum(invokeFilterInfo.getRetryNum());
+        request.setHost(invokeFilterInfo.getHost());
+        request.setPort(invokeFilterInfo.getPort());
+        request.setLoadBalanceRule(invokeFilterInfo.getLoadBalanceRule());
+        request.setWeights(invokeFilterInfo.getWeights());
+        request.setSerializer(invokeFilterInfo.getSerializer());
+        request.setCompressor(invokeFilterInfo.getCompressor());
+        request.setRegister(invokeFilterInfo.getRegister());
+        request.setBeatIntervalTime(invokeFilterInfo.getBeatIntervalTime());
+        request.setStopConnectTime(invokeFilterInfo.getStopConnectTime());
+        return request;
     }
 }

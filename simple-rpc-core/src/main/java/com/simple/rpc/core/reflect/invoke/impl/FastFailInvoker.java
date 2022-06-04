@@ -2,7 +2,6 @@ package com.simple.rpc.core.reflect.invoke.impl;
 
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
-import com.simple.rpc.core.reflect.invoke.FaultTolerantInvoker;
 import com.simple.rpc.core.reflect.invoke.NettyInvoker;
 
 /**
@@ -13,10 +12,10 @@ import com.simple.rpc.core.reflect.invoke.NettyInvoker;
  * @author: WuChengXing
  * @create: 2022-06-04 19:11
  **/
-public class FastFailInvoker implements FaultTolerantInvoker {
+public class FastFailInvoker extends AbstractFaultTolerantInvoker {
 
     @Override
-    public Response invoke(Request request) {
+    protected Response doInvoke(Request request) {
         return NettyInvoker.send(request);
     }
 }

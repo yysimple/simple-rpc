@@ -1,5 +1,7 @@
 package com.simple.rpc.common.interfaces;
 
+import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -10,5 +12,10 @@ package com.simple.rpc.common.interfaces;
  **/
 public interface SimpleRpcFilter {
 
-    void filter();
+    /**
+     * 拦截器
+     *
+     * @param invokeFilterInfo
+     */
+    void filter(InvokeFilterInfo invokeFilterInfo);
 }
