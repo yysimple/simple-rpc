@@ -1,0 +1,14 @@
+package com.simple.rpc.common.interfaces;
+
+/**
+ * 项目: simple-rpc
+ * <p>
+ * 功能描述: 过滤器
+ *
+ * @author: WuChengXing
+ * @create: 2022-06-04 23:49
+ **/
+public interface SimpleRpcFilter {
+
+    void filter();
+}
