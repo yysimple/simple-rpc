@@ -1,0 +1,2 @@
+fast-fail=com.simple.rpc.core.reflect.invoke.impl.FastFailInvoker
+retry=com.simple.rpc.core.reflect.invoke.impl.RetryInvoker

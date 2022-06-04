@@ -12,8 +12,14 @@ import com.simple.rpc.core.network.message.Response;
  * @author: WuChengXing
  * @create: 2022-06-04 18:44
  **/
-@SimpleRpcSPI("fail-fast")
+@SimpleRpcSPI("fast-fail")
 public interface FaultTolerantInvoker {
 
+    /**
+     * 远程调用
+     *
+     * @param request
+     * @return
+     */
     Response invoke(Request request);
 }

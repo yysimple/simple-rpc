@@ -8,15 +8,19 @@ import com.simple.rpc.core.reflect.invoke.NettyInvoker;
 /**
  * 项目: simple-rpc
  * <p>
- * 功能描述: 快速失败
+ * 功能描述: 重试机制
  *
  * @author: WuChengXing
- * @create: 2022-06-04 19:11
+ * @create: 2022-06-04 20:12
  **/
-public class FastFailInvoker implements FaultTolerantInvoker {
+public class RetryInvoker implements FaultTolerantInvoker {
 
     @Override
     public Response invoke(Request request) {
-        return NettyInvoker.send(request);
+        Response response = null;
+        for (int i = 0; i < request.getRetryNum(); i++) {
+            response = NettyInvoker.send(request);
+        }
+        return response;
     }
 }

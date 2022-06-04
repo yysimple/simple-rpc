@@ -17,6 +17,7 @@ import java.util.Objects;
  * @create: 2022-06-04 17:02
  **/
 public class NettyInvoker {
+
     public static Response send(Request request) {
         // 发送请求
         Response response = null;
