@@ -1,5 +1,7 @@
 package com.simple.rpc.common.config;
 
+import lombok.Data;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.common.config;
  * @author: WuChengXing
  * @create: 2022-04-22 17:45
  **/
+@Data
 public class ServerConfig {
 
     /**
@@ -32,60 +35,4 @@ public class ServerConfig {
      * 重试次数
      */
     protected Integer tryNum;
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(String database) {
-        this.database = database;
-    }
-
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    public Long getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Long timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getTryNum() {
-        return tryNum;
-    }
-
-    public void setTryNum(Integer tryNum) {
-        this.tryNum = tryNum;
-    }
 }

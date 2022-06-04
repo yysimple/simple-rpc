@@ -1,6 +1,7 @@
 package com.simple.rpc.core.network.message;
 
 import io.netty.channel.Channel;
+import lombok.Data;
 
 /**
  * 项目: simple-rpc
@@ -10,6 +11,7 @@ import io.netty.channel.Channel;
  * @author: WuChengXing
  * @create: 2022-04-18 18:54
  **/
+@Data
 public class Response {
     /**
      * 关联通道
@@ -26,27 +28,4 @@ public class Response {
      */
     private Object result;
 
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    public long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(long requestId) {
-        this.requestId = requestId;
-    }
-
-    public Object getResult() {
-        return result;
-    }
-
-    public void setResult(Object result) {
-        this.result = result;
-    }
 }

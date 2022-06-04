@@ -3,8 +3,8 @@ package com.simple.rpc.core.network.message;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
+import lombok.Data;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -15,6 +15,7 @@ import java.util.List;
  * @author: WuChengXing
  * @create: 2022-04-18 18:53
  **/
+@Data
 public class Request {
 
     /**
@@ -112,192 +113,6 @@ public class Request {
      * 客户端停止心跳或者写操作后，服务端断开时间
      */
     private Long stopConnectTime;
-
-    public ChannelFuture getChannelFuture() {
-        return channelFuture;
-    }
-
-    public void setChannelFuture(ChannelFuture channelFuture) {
-        this.channelFuture = channelFuture;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
-
-    public long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(long requestId) {
-        this.requestId = requestId;
-    }
-
-    public String getMethodName() {
-        return methodName;
-    }
-
-    public void setMethodName(String methodName) {
-        this.methodName = methodName;
-    }
-
-    public List<String> getParamTypes() {
-        return paramTypes;
-    }
-
-    public void setParamTypes(List<String> paramTypes) {
-        this.paramTypes = paramTypes;
-    }
-
-    public Object[] getArgs() {
-        return args;
-    }
-
-    public void setArgs(Object[] args) {
-        this.args = args;
-    }
-
-    public String getInterfaceName() {
-        return interfaceName;
-    }
-
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
-    }
-
-    public Long getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Long timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getRetryNum() {
-        return retryNum;
-    }
-
-    public void setRetryNum(Integer retryNum) {
-        this.retryNum = retryNum;
-    }
-
-    public String getBeanName() {
-        return beanName;
-    }
-
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public String getLoadBalanceRule() {
-        return loadBalanceRule;
-    }
-
-    public void setLoadBalanceRule(String loadBalanceRule) {
-        this.loadBalanceRule = loadBalanceRule;
-    }
-
-    public String getSerializer() {
-        return serializer;
-    }
-
-    public void setSerializer(String serializer) {
-        this.serializer = serializer;
-    }
-
-    public String getCompressor() {
-        return compressor;
-    }
-
-    public void setCompressor(String compressor) {
-        this.compressor = compressor;
-    }
-
-    public String getRegister() {
-        return register;
-    }
-
-    public void setRegister(String register) {
-        this.register = register;
-    }
-
-    public Integer getWeights() {
-        return weights;
-    }
-
-    public void setWeights(Integer weights) {
-        this.weights = weights;
-    }
-
-    public Long getBeatIntervalTime() {
-        return beatIntervalTime;
-    }
-
-    public void setBeatIntervalTime(Long beatIntervalTime) {
-        this.beatIntervalTime = beatIntervalTime;
-    }
-
-    public Long getStopConnectTime() {
-        return stopConnectTime;
-    }
-
-    public void setStopConnectTime(Long stopConnectTime) {
-        this.stopConnectTime = stopConnectTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Request{" +
-                "channel=" + channel +
-                ", channelFuture=" + channelFuture +
-                ", requestId=" + requestId +
-                ", methodName='" + methodName + '\'' +
-                ", paramTypes=" + paramTypes +
-                ", args=" + Arrays.toString(args) +
-                ", interfaceName='" + interfaceName + '\'' +
-                ", beanName='" + beanName + '\'' +
-                ", alias='" + alias + '\'' +
-                ", timeout=" + timeout +
-                ", retryNum=" + retryNum +
-                ", host='" + host + '\'' +
-                ", port=" + port +
-                ", loadBalanceRule='" + loadBalanceRule + '\'' +
-                ", weights=" + weights +
-                ", serializer='" + serializer + '\'' +
-                ", compressor='" + compressor + '\'' +
-                ", register='" + register + '\'' +
-                ", beatIntervalTime=" + beatIntervalTime +
-                ", stopConnectTime=" + stopConnectTime +
-                '}';
-    }
 
     public static Request register2Request(RegisterInfo info) {
         Request request = new Request();

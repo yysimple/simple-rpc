@@ -1,6 +1,7 @@
 package com.simple.rpc.common.config;
 
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
+import lombok.Data;
 
 /**
  * 项目: simple-rpc
@@ -10,6 +11,7 @@ import com.simple.rpc.common.annotation.SimpleRpcConfig;
  * @author: WuChengXing
  * @create: 2022-05-06 16:34
  **/
+@Data
 @SimpleRpcConfig(prefix = "simple.rpc.base")
 public class BaseConfig {
 
@@ -67,108 +69,4 @@ public class BaseConfig {
      * 容错类型
      */
     private String faultTolerantType;
-
-    public String getLoadBalanceRule() {
-        return loadBalanceRule;
-    }
-
-    public void setLoadBalanceRule(String loadBalanceRule) {
-        this.loadBalanceRule = loadBalanceRule;
-    }
-
-    public Long getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Long timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getRetryNum() {
-        return retryNum;
-    }
-
-    public void setRetryNum(Integer retryNum) {
-        this.retryNum = retryNum;
-    }
-
-    public String getSerializer() {
-        return serializer;
-    }
-
-    public void setSerializer(String serializer) {
-        this.serializer = serializer;
-    }
-
-    public String getCompressor() {
-        return compressor;
-    }
-
-    public void setCompressor(String compressor) {
-        this.compressor = compressor;
-    }
-
-    public String getRegister() {
-        return register;
-    }
-
-    public void setRegister(String register) {
-        this.register = register;
-    }
-
-    public Integer getWeights() {
-        return weights;
-    }
-
-    public void setWeights(Integer weights) {
-        this.weights = weights;
-    }
-
-    public Long getBeatIntervalTime() {
-        return beatIntervalTime;
-    }
-
-    public void setBeatIntervalTime(Long beatIntervalTime) {
-        this.beatIntervalTime = beatIntervalTime;
-    }
-
-    public Long getStopConnectTime() {
-        return stopConnectTime;
-    }
-
-    public void setStopConnectTime(Long stopConnectTime) {
-        this.stopConnectTime = stopConnectTime;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getFaultTolerantType() {
-        return faultTolerantType;
-    }
-
-    public void setFaultTolerantType(String faultTolerantType) {
-        this.faultTolerantType = faultTolerantType;
-    }
-
-    @Override
-    public String toString() {
-        return "BaseConfig{" +
-                "loadBalanceRule='" + loadBalanceRule + '\'' +
-                ", weights=" + weights +
-                ", timeout=" + timeout +
-                ", retryNum=" + retryNum +
-                ", serializer='" + serializer + '\'' +
-                ", compressor='" + compressor + '\'' +
-                ", register='" + register + '\'' +
-                ", beatIntervalTime=" + beatIntervalTime +
-                ", stopConnectTime=" + stopConnectTime +
-                ", port=" + port +
-                '}';
-    }
 }

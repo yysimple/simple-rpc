@@ -1,5 +1,7 @@
 package com.simple.rpc.common.config;
 
+import lombok.Data;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.common.config;
  * @author: WuChengXing
  * @create: 2022-05-06 20:05
  **/
+@Data
 public class CommonConfig {
 
     private RegistryConfig registryConfig;
@@ -15,28 +18,4 @@ public class CommonConfig {
     private BaseConfig baseConfig;
 
     private ConsumerConfig consumerConfig;
-
-    public RegistryConfig getRegistryConfig() {
-        return registryConfig;
-    }
-
-    public void setRegistryConfig(RegistryConfig registryConfig) {
-        this.registryConfig = registryConfig;
-    }
-
-    public BaseConfig getBaseConfig() {
-        return baseConfig;
-    }
-
-    public void setBaseConfig(BaseConfig baseConfig) {
-        this.baseConfig = baseConfig;
-    }
-
-    public ConsumerConfig getConsumerConfig() {
-        return consumerConfig;
-    }
-
-    public void setConsumerConfig(ConsumerConfig consumerConfig) {
-        this.consumerConfig = consumerConfig;
-    }
 }

@@ -1,5 +1,7 @@
 package com.simple.rpc.common.interfaces.entity;
 
+import lombok.Data;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.common.interfaces.entity;
  * @author: WuChengXing
  * @create: 2022-05-13 16:54
  **/
+@Data
 public class RegisterInfo {
 
     /**
@@ -69,100 +72,4 @@ public class RegisterInfo {
      * 注册中心的SPI类型
      */
     private String register;
-
-    public String getInterfaceName() {
-        return interfaceName;
-    }
-
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
-    }
-
-    public String getBeanName() {
-        return beanName;
-    }
-
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public Long getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Long timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getRetryNum() {
-        return retryNum;
-    }
-
-    public void setRetryNum(Integer retryNum) {
-        this.retryNum = retryNum;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getLoadBalanceRule() {
-        return loadBalanceRule;
-    }
-
-    public void setLoadBalanceRule(String loadBalanceRule) {
-        this.loadBalanceRule = loadBalanceRule;
-    }
-
-    public Integer getWeights() {
-        return weights;
-    }
-
-    public void setWeights(Integer weights) {
-        this.weights = weights;
-    }
-
-    public String getSerializer() {
-        return serializer;
-    }
-
-    public void setSerializer(String serializer) {
-        this.serializer = serializer;
-    }
-
-    public String getCompressor() {
-        return compressor;
-    }
-
-    public void setCompressor(String compressor) {
-        this.compressor = compressor;
-    }
-
-    public String getRegister() {
-        return register;
-    }
-
-    public void setRegister(String register) {
-        this.register = register;
-    }
 }

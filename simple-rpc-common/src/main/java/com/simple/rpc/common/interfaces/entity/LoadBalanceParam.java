@@ -1,5 +1,7 @@
 package com.simple.rpc.common.interfaces.entity;
 
+import lombok.Data;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,17 +10,10 @@ package com.simple.rpc.common.interfaces.entity;
  * @author: WuChengXing
  * @create: 2022-05-11 20:37
  **/
+@Data
 public class LoadBalanceParam {
     /**
      * 权重数值
      */
     private Integer weights;
-
-    public Integer getWeights() {
-        return weights;
-    }
-
-    public void setWeights(Integer weights) {
-        this.weights = weights;
-    }
 }

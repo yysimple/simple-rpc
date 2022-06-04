@@ -1,5 +1,7 @@
 package com.simple.rpc.common.config;
 
+import lombok.Data;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -8,6 +10,7 @@ package com.simple.rpc.common.config;
  * @author: WuChengXing
  * @create: 2022-04-22 09:32
  **/
+@Data
 public class ProviderConfig {
 
     /**
@@ -24,28 +27,4 @@ public class ProviderConfig {
      * 别名
      */
     protected String alias;
-
-    public String getInterfaceName() {
-        return interfaceName;
-    }
-
-    public void setInterfaceName(String interfaceName) {
-        this.interfaceName = interfaceName;
-    }
-
-    public String getBeanName() {
-        return beanName;
-    }
-
-    public void setBeanName(String ref) {
-        this.beanName = ref;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
 }

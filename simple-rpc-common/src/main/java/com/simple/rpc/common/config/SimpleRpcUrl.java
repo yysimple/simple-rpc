@@ -2,6 +2,7 @@ package com.simple.rpc.common.config;
 
 
 import com.simple.rpc.common.exception.SimpleRpcBaseException;
+import lombok.Data;
 
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
  * @author: WuChengXing
  * @create: 2022-04-30 10:55
  **/
+@Data
 public class SimpleRpcUrl {
 
     private String type;
@@ -61,75 +63,5 @@ public class SimpleRpcUrl {
         simpleRpcUrl.setDatabase(config.getDatabase());
         simpleRpcUrl.setTable(config.getTable());
         return simpleRpcUrl;
-    }
-
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getHost() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public void setPort(Integer port) {
-        this.port = port;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getDatabase() {
-        return database;
-    }
-
-    public void setDatabase(String database) {
-        this.database = database;
-    }
-
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    @Override
-    public String toString() {
-        return "SimpleRpcUrl{" +
-                "type='" + type + '\'' +
-                ", host='" + host + '\'' +
-                ", port=" + port +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", database='" + database + '\'' +
-                ", table='" + table + '\'' +
-                '}';
     }
 }
