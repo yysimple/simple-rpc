@@ -1,6 +1,7 @@
 package com.simple.rpc.test.starter.consumer.filter;
 
 import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
+import com.simple.rpc.common.interfaces.entity.SimpleRpcContext;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.filter.InvokeBeforeFilter;
 import com.simple.rpc.core.network.message.Request;
@@ -21,7 +22,8 @@ public class ConsumerInvokeFilter implements InvokeBeforeFilter {
     }
 
     @Override
-    public void invokeBefore(Request request) {
+    public SimpleRpcContext invokeBefore(SimpleRpcContext context) {
         SimpleRpcLog.info("=== 我是调用之前的拦截 ===");
+        return context;
     }
 }

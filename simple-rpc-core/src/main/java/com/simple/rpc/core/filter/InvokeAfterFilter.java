@@ -19,5 +19,5 @@ public interface InvokeAfterFilter extends SimpleRpcFilter {
      * @param response
      * @return
      */
-    void invokeAfter(Response response);
+    Response invokeAfter(Response response);
 }

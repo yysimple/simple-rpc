@@ -2,6 +2,7 @@ package com.simple.rpc.core.network.message;
 
 import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
+import com.simple.rpc.common.interfaces.entity.SimpleRpcContext;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class Request {
      */
     private transient Channel channel;
     private transient ChannelFuture channelFuture;
+
+    private SimpleRpcContext simpleRpcContext;
 
     /**
      * 此次请求的id

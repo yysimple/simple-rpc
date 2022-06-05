@@ -1,11 +1,14 @@
 package com.simple.rpc.core.reflect.invoke.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.simple.rpc.common.interfaces.entity.SimpleRpcContext;
 import com.simple.rpc.core.filter.impl.FilterInvoke;
 import com.simple.rpc.core.filter.impl.SpiLoadFilter;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.reflect.invoke.FaultTolerantInvoker;
+
+import java.util.Date;
 
 /**
  * 项目: simple-rpc
@@ -20,14 +23,12 @@ public abstract class AbstractFaultTolerantInvoker implements FaultTolerantInvok
     @Override
     public Response invoke(Request request) {
         SpiLoadFilter.loadFilters();
-        Request sendRequest = new Request();
-        BeanUtil.copyProperties(request, sendRequest);
-        FilterInvoke.loadInvokeBeforeFilters(sendRequest);
+        SimpleRpcContext context = new SimpleRpcContext();
+        context.setEntryTime(new Date());
+        request.setSimpleRpcContext(FilterInvoke.loadInvokeBeforeFilters(context));
         Response response = doInvoke(request);
-        Response sendResponse = new Response();
-        BeanUtil.copyProperties(response, sendRequest);
-        FilterInvoke.loadInvokeAfterFilters(sendResponse);
-        return response;
+        return FilterInvoke.loadInvokeAfterFilters(response);
+//        return doInvoke(request);
     }
 
     /**

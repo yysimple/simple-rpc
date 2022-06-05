@@ -1,6 +1,7 @@
 package com.simple.rpc.core.filter.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.simple.rpc.common.interfaces.entity.SimpleRpcContext;
 import com.simple.rpc.core.filter.InvokeAfterFilter;
 import com.simple.rpc.core.filter.InvokeBeforeFilter;
 import com.simple.rpc.core.filter.RemoteInvokeBeforeFilter;
@@ -20,30 +21,36 @@ import java.util.List;
  **/
 public class FilterInvoke {
 
-    public static void loadInvokeBeforeFilters(Request request) {
+    public static SimpleRpcContext loadInvokeBeforeFilters(SimpleRpcContext simpleRpcContext) {
+        SimpleRpcContext updateContext = simpleRpcContext;
         List<InvokeBeforeFilter> invokeBeforeFilters = FilterCache.allInvokeBeforeFilters();
         if (!CollectionUtil.isEmpty(invokeBeforeFilters)) {
             for (InvokeBeforeFilter invokeBeforeFilter : invokeBeforeFilters) {
-                invokeBeforeFilter.invokeBefore(request);
+                updateContext = invokeBeforeFilter.invokeBefore(simpleRpcContext);
             }
         }
+        return updateContext;
     }
 
-    public static void loadInvokeAfterFilters(Response response) {
+    public static Response loadInvokeAfterFilters(Response response) {
+        Response updateResponse = response;
         List<InvokeAfterFilter> invokeAfterFilters = FilterCache.allInvokeAfterFilter();
         if (!CollectionUtil.isEmpty(invokeAfterFilters)) {
             for (InvokeAfterFilter invokeAfterFilter : invokeAfterFilters) {
-                invokeAfterFilter.invokeAfter(response);
+                updateResponse = invokeAfterFilter.invokeAfter(response);
             }
         }
+        return updateResponse;
     }
 
-    public static void loadRemoteInvokeAfterFilters(Request request) {
+    public static SimpleRpcContext loadRemoteInvokeBeforeFilters(SimpleRpcContext context) {
+        SimpleRpcContext updateContext = context;
         List<RemoteInvokeBeforeFilter> remoteInvokeBeforeFilters = FilterCache.allRemoteInvokeBeforeFilter();
         if (!CollectionUtil.isEmpty(remoteInvokeBeforeFilters)) {
             for (RemoteInvokeBeforeFilter remoteInvokeBeforeFilter : remoteInvokeBeforeFilters) {
-                remoteInvokeBeforeFilter.invokeBefore(request);
+                updateContext = remoteInvokeBeforeFilter.invokeBefore(context);
             }
         }
+        return updateContext;
     }
 }
