@@ -1,0 +1,1 @@
+consumer-invoke-before-filter=com.simple.rpc.test.starter.consumer.filter.ConsumerInvokeFilter

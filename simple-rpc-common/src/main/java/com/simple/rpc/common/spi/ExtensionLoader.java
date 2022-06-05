@@ -68,6 +68,26 @@ public class ExtensionLoader<T> {
     }
 
     /**
+     * 获取某种加载器所有加载到的spi实现类
+     *
+     * @return
+     */
+    public Map<String, Class<?>> getExtensionClassesCache() {
+        Map<String, Class<?>> extensionClasses = extensionClassesCache.get();
+        if (extensionClasses != null && extensionClasses.size() > 0) {
+            return extensionClasses;
+        }
+        synchronized (extensionClassesCache) {
+            extensionClasses = extensionClassesCache.get();
+            if (extensionClasses == null || extensionClasses.size() < 1) {
+                extensionClasses = loadClassesFromResources();
+                extensionClassesCache.set(extensionClasses);
+            }
+        }
+        return extensionClasses;
+    }
+
+    /**
      * 获取对应类型的扩展加载器实例
      *
      * @param type 扩展类加载器的类型

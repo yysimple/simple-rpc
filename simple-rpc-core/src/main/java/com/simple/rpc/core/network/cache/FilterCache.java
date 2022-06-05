@@ -1,11 +1,13 @@
 package com.simple.rpc.core.network.cache;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.common.constant.FilterConstant;
 import com.simple.rpc.common.interfaces.SimpleRpcFilter;
 import com.simple.rpc.core.filter.InvokeAfterFilter;
 import com.simple.rpc.core.filter.InvokeBeforeFilter;
 import com.simple.rpc.core.filter.RemoteInvokeBeforeFilter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,19 +31,34 @@ public class FilterCache {
     public static Map<String, List<RemoteInvokeBeforeFilter>> REMOTE_INVOKE_BEFORE_FILTERS = new ConcurrentHashMap<>(4);
 
     public static List<InvokeBeforeFilter> allInvokeBeforeFilters() {
+        List<InvokeBeforeFilter> invokeBeforeFilters = INVOKE_BEFORE_FILTERS.get(INVOKE_BEFORE_FILTER);
+        if (CollectionUtil.isEmpty(invokeBeforeFilters)) {
+            invokeBeforeFilters = new ArrayList<>();
+            INVOKE_BEFORE_FILTERS.put(INVOKE_BEFORE_FILTER, invokeBeforeFilters);
+        }
         return INVOKE_BEFORE_FILTERS.get(INVOKE_BEFORE_FILTER);
     }
 
     public static List<InvokeAfterFilter> allInvokeAfterFilter() {
+        List<InvokeAfterFilter> invokeAfterFilters = INVOKE_AFTER_FILTERS.get(INVOKE_AFTER_FILTER);
+        if (CollectionUtil.isEmpty(invokeAfterFilters)) {
+            invokeAfterFilters = new ArrayList<>();
+            INVOKE_AFTER_FILTERS.put(INVOKE_AFTER_FILTER, invokeAfterFilters);
+        }
         return INVOKE_AFTER_FILTERS.get(INVOKE_AFTER_FILTER);
     }
 
     public static List<RemoteInvokeBeforeFilter> allRemoteInvokeBeforeFilter() {
+        List<RemoteInvokeBeforeFilter> remoteInvokeBeforeFilters = REMOTE_INVOKE_BEFORE_FILTERS.get(REMOTE_INVOKE_BEFORE_FILTER);
+        if (CollectionUtil.isEmpty(remoteInvokeBeforeFilters)) {
+            remoteInvokeBeforeFilters = new ArrayList<>();
+            REMOTE_INVOKE_BEFORE_FILTERS.put(REMOTE_INVOKE_BEFORE_FILTER, remoteInvokeBeforeFilters);
+        }
         return REMOTE_INVOKE_BEFORE_FILTERS.get(REMOTE_INVOKE_BEFORE_FILTER);
     }
 
     @SuppressWarnings("all")
-    public static <T extends SimpleRpcFilter> T addInvokeBeforeFilter(String filterType, T filter) {
+    public static <T extends SimpleRpcFilter> T addInvokeFilter(String filterType, Object filter) {
         if (INVOKE_BEFORE_FILTER.equals(filterType)) {
             return (T) addInvokeBeforeFilter((InvokeBeforeFilter) filter);
         } else if (INVOKE_AFTER_FILTER.equals(filterType)) {

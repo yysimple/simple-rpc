@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.core.filter.InvokeAfterFilter;
 import com.simple.rpc.core.filter.InvokeBeforeFilter;
+import com.simple.rpc.core.filter.SpiLoadFilter;
 import com.simple.rpc.core.network.cache.FilterCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
@@ -23,6 +24,7 @@ public abstract class AbstractFaultTolerantInvoker implements FaultTolerantInvok
 
     @Override
     public Response invoke(Request request) {
+        SpiLoadFilter.loadFilters();
         Request sendRequest = new Request();
         BeanUtil.copyProperties(request, sendRequest);
         loadInvokeBeforeFilters(sendRequest);

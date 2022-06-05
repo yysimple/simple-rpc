@@ -1,5 +1,6 @@
 package com.simple.rpc.common.interfaces;
 
+import com.simple.rpc.common.annotation.SimpleRpcSPI;
 import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
 
 /**
@@ -10,6 +11,7 @@ import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
  * @author: WuChengXing
  * @create: 2022-06-04 23:49
  **/
+@SimpleRpcSPI
 public interface SimpleRpcFilter {
 
     /**

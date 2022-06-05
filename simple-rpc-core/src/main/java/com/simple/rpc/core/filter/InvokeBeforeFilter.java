@@ -1,7 +1,6 @@
 package com.simple.rpc.core.filter;
 
 import com.simple.rpc.common.interfaces.SimpleRpcFilter;
-import com.simple.rpc.common.interfaces.entity.InvokeFilterInfo;
 import com.simple.rpc.core.network.message.Request;
 
 /**
