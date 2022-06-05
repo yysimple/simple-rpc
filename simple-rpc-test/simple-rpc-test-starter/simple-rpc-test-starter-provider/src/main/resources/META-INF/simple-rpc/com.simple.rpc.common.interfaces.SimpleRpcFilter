@@ -1,0 +1,1 @@
+provider-remote-invoker-filter=com.simple.rpc.test.starter.provider.filter.ProviderRemoteInvokerFilter

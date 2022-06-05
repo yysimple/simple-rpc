@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.common.constant.enums.MessageType;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.core.filter.impl.FilterInvoke;
+import com.simple.rpc.core.filter.impl.SpiLoadFilter;
 import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
@@ -48,6 +50,9 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             Method addMethod = classType.getMethod(msg.getMethodName(), transfer);
             // 从缓存中里面获取bean信息
             Object objectBean = SimpleRpcServiceCache.getService(msg.getAlias());
+            // todo 远程方法调用之前的初始化
+            SpiLoadFilter.loadFilters();
+            FilterInvoke.loadRemoteInvokeAfterFilters(msg);
             // 进行反射调用
             Object result = addMethod.invoke(objectBean, msg.getArgs());
             //反馈
