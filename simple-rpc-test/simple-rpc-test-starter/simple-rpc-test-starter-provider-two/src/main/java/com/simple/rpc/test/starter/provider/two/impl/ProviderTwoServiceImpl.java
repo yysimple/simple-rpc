@@ -15,8 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SimpleRpcService
 public class ProviderTwoServiceImpl implements ProviderTwoService {
 
-    @Autowired
-    ProviderTwoServiceHandle handle;
+//    @Autowired
+//    ProviderTwoServiceHandle handle;
 
     @Override
     public String helloProviderTwo(String msg) {
@@ -30,6 +30,6 @@ public class ProviderTwoServiceImpl implements ProviderTwoService {
     }
 
     private String innerProviderTwo() {
-        return "inner invoke!! -- " + handle.handle();
+        return "inner invoke!! -- ";
     }
 }

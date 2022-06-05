@@ -21,8 +21,9 @@ public class StarterHelloServiceImpl implements StarterHelloService {
 
     @Override
     public String helloStarter() {
-        //String s = providerTwoService.helloProviderTwo("我是第一个提供者！");
-        String s = providerTwoService.helloProviderTwoNoArgs();
+        String s = providerTwoService.helloProviderTwo("我是第一个提供者！");
+        // String s = providerTwoService.helloProviderTwoNoArgs();
         return "调用下一级方法：" + s;
+//        return "provider!!";
     }
 }

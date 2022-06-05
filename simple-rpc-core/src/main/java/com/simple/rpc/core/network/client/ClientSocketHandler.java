@@ -44,7 +44,7 @@ public class ClientSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             // 心跳
             IdleState state = ((IdleStateEvent) evt).state();
             if (state == IdleState.WRITER_IDLE) {
-                SimpleRpcLog.info("write idle happen [{}]", ctx.channel().remoteAddress());
+                //SimpleRpcLog.info("write idle happen [{}]", ctx.channel().remoteAddress());
                 Channel channel = ctx.channel();
                 RpcMessage rpcMessage = new RpcMessage();
                 rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());

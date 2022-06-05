@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 @SpringBootApplication
 @Configuration
 @SimpleRpcScan(basePackages = {"com.simple.rpc"})
-public class ProviderTwoApplication {
+public class ProviderDeepApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ProviderTwoApplication.class, args);
+        SpringApplication.run(ProviderDeepApplication.class, args);
     }
 }
