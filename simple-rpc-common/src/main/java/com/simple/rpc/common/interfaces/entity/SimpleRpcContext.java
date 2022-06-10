@@ -18,4 +18,13 @@ public class SimpleRpcContext {
     private String traceId;
 
     private Date entryTime;
+
+    private String spanId;
+
+    private Integer level;
+
+    /**
+     * 1=进入，2=退出
+     */
+    private Integer enterOrExit;
 }
