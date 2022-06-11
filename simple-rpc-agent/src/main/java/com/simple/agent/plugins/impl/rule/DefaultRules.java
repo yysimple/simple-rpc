@@ -32,6 +32,7 @@ public class DefaultRules {
         return ElementMatchers.not(ElementMatchers.named("main")
                 .or(ElementMatchers.nameStartsWith("hashCode"))
                 .or(ElementMatchers.nameStartsWith("toString"))
+                .or(ElementMatchers.nameStartsWith("helloWorld"))
         );
     }
 
