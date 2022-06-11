@@ -15,6 +15,7 @@
         <fastjson.version>1.2.67</fastjson.version>
         <junit.version>4.12</junit.version>
         <logback.version>1.2.10</logback.version>
+        <simple-rpc-core.version>1.0.0</simple-rpc-core.version>
         <!-- 自定义MANIFEST.MF -->
         <maven.configuration.manifestFile>src/main/resources/META-INF/MANIFEST.MF</maven.configuration.manifestFile>
     </properties>
@@ -45,6 +46,12 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.simple.core</groupId>
+            <artifactId>simple-rpc-core</artifactId>
+            <version>${simple-rpc-core.version}</version>
         </dependency>
     </dependencies>
 

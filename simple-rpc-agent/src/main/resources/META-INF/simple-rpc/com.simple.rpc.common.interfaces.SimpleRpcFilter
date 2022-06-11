@@ -1,0 +1,2 @@
+agent-remote-invoker-filter=com.simple.agent.rpc.ConsumerRpcFilter
+agent-invoker-filter=com.simple.agent.rpc.ProviderRpcFilter

@@ -55,8 +55,15 @@
       <version>1.2.10</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.simple.core</groupId>
+      <artifactId>simple-rpc-core</artifactId>
+      <version>1.0.0</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <properties>
+    <simple-rpc-core.version>1.0.0</simple-rpc-core.version>
     <logback.version>1.2.10</logback.version>
     <maven.configuration.manifestFile>src/main/resources/META-INF/MANIFEST.MF</maven.configuration.manifestFile>
     <bytebuddy.version>1.8.0</bytebuddy.version>

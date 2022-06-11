@@ -1,5 +1,7 @@
 package com.simple.agent.trace;
 
+import cn.hutool.core.util.StrUtil;
+
 import java.util.Stack;
 
 /**
@@ -52,6 +54,9 @@ public class TrackManager {
     }
 
     public static Span getCurrentSpan() {
+        if (!StrUtil.isBlank(TrackContext.getTraceId())) {
+            return new Span(TrackContext.getTraceId());
+        }
         Stack<Span> stack = track.get();
         if (stack == null || stack.isEmpty()) {
             return null;
