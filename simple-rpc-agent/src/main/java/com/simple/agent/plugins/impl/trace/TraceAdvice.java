@@ -8,6 +8,7 @@ import com.simple.agent.trace.TrackManager;
 import com.simple.agent.util.AgentLog;
 import net.bytebuddy.asm.Advice;
 
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -21,8 +22,10 @@ import java.util.UUID;
 public class TraceAdvice {
 
     @Advice.OnMethodEnter()
-    public static void enter(@Advice.Origin("#t") String className, @Advice.Origin("#m") String methodName) {
-        AgentLog.info("进入方法，类方法信息：{}", className + "#" + methodName);
+    public static void enter(@Advice.Origin("#t") String className,
+                             @Advice.Origin("#m") String methodName,
+                             @Advice.AllArguments Object[] args) {
+        AgentLog.info("进入方法，类方法信息：{}, 参数：{}", className + "#" + methodName, JSON.toJSONString(args));
         Span currentSpan = TrackManager.getCurrentSpan();
         String traceId = "";
         if (null == currentSpan) {
@@ -40,9 +43,15 @@ public class TraceAdvice {
         AgentLog.info("进入方法，当前Span信息：{}", JSON.toJSONString(spanContext));
     }
 
-    @Advice.OnMethodExit()
-    public static void exit(@Advice.Origin("#t") String className, @Advice.Origin("#m") String methodName) {
-        AgentLog.info("退出方法，类方法信息：{}", className + "#" + methodName);
+    @Advice.OnMethodExit(onThrowable = Throwable.class)
+    public static void exit(@Advice.Origin("#t") String className,
+                            @Advice.Origin("#m") String methodName,
+                            @Advice.Return String returnInfo,
+                            @Advice.Thrown Throwable thrown) {
+        AgentLog.info("退出方法，类方法信息：{}， 返回值信息：{}", className + "#" + methodName, returnInfo);
+        if (!Objects.isNull(thrown)) {
+            AgentLog.error("异常类型：{}, 异常信息：{}", thrown.getClass().getName(), thrown.getMessage());
+        }
         Span spanContext = SpanContext.getSpan();
         spanContext = SpanContext.calExitSpan(spanContext);
         SpanContext.setSpan(spanContext);

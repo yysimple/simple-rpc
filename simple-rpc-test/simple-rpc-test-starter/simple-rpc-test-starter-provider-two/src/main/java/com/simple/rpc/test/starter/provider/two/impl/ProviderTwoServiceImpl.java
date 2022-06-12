@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SimpleRpcService
 public class ProviderTwoServiceImpl implements ProviderTwoService {
 
-//    @Autowired
-//    ProviderTwoServiceHandle handle;
+    @Autowired
+    ProviderTwoServiceHandle handle;
 
     @Override
     public String helloProviderTwo(String msg) {
-        String s = innerProviderTwo();
+        String s = this.innerProviderTwo();
         return "我是第二个提供者，接收到的消息：" + s + "--" + msg;
     }
 
