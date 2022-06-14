@@ -24,6 +24,7 @@ public class DefaultRules {
         return ElementMatchers.not(ElementMatchers.nameStartsWith("org.slf4j")
                 .or(ElementMatchers.nameStartsWith("com.simple.classbytecode.bytebuddy.common"))
                 .or(ElementMatchers.nameStartsWith("net.buddy"))
+                .or(ElementMatchers.nameStartsWith("org.springframework.beans"))
                 .or(ElementMatchers.nameStartsWith("java.lang"))
         );
     }
@@ -32,6 +33,7 @@ public class DefaultRules {
         return ElementMatchers.not(ElementMatchers.named("main")
                 .or(ElementMatchers.nameStartsWith("hashCode"))
                 .or(ElementMatchers.nameStartsWith("toString"))
+                .or(ElementMatchers.nameStartsWith("setBeanFactory"))
                 .or(ElementMatchers.nameStartsWith("helloWorld"))
         );
     }

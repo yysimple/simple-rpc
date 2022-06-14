@@ -9,4 +9,5 @@ package com.simple.agent.data;
  * @create: 2022-06-13 23:56
  **/
 public interface DataCollection {
+
 }
