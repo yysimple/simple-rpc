@@ -34,6 +34,11 @@ public class Request {
     private long requestId;
 
     /**
+     * 应用名称
+     */
+    private String applicationName;
+
+    /**
      * 方法
      */
     private String methodName;
