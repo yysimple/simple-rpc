@@ -1,6 +1,7 @@
 package com.simple.agent.plugins.impl.trace;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.agent.data.DataBuilder;
 import com.simple.agent.trace.Span;
 import com.simple.agent.trace.SpanContext;
 import com.simple.agent.trace.TrackContext;
@@ -33,13 +34,18 @@ public class TraceAdvice {
             TrackContext.setTraceId(traceId);
         }
         Span spanContext = SpanContext.getSpan();
+        String preSpanId = "";
         if (spanContext == null) {
             spanContext = new Span(traceId, "0", 0, 1);
         } else {
+            preSpanId = spanContext.getSpanId();
             spanContext = SpanContext.calEntrySpan(spanContext);
         }
         SpanContext.setSpan(spanContext);
         TrackManager.createEntrySpan();
+        DataBuilder.buildEntry("", className, methodName, spanContext.getTraceId(),
+                spanContext.getSpanId(), preSpanId, spanContext.getEnterTime(), spanContext.getLevel(),
+                JSON.toJSONString(args));
         AgentLog.info("进入方法，当前Span信息：{}", JSON.toJSONString(spanContext));
     }
 
@@ -49,13 +55,22 @@ public class TraceAdvice {
                             @Advice.Return String returnInfo,
                             @Advice.Thrown Throwable thrown) {
         AgentLog.info("退出方法，类方法信息：{}， 返回值信息：{}", className + "#" + methodName, returnInfo);
+        String exceptionInfo = "";
         if (!Objects.isNull(thrown)) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(thrown.getClass().getName()).append("\n");
+            stringBuilder.append(thrown.getMessage()).append("\n");
+            exceptionInfo = stringBuilder.toString();
             AgentLog.error("异常类型：{}, 异常信息：{}", thrown.getClass().getName(), thrown.getMessage());
         }
         Span spanContext = SpanContext.getSpan();
+        String preSpanId = spanContext.getSpanId();
         spanContext = SpanContext.calExitSpan(spanContext);
         SpanContext.setSpan(spanContext);
         Span exitSpan = TrackManager.getExitSpan();
+        DataBuilder.buildExist("", className, methodName, spanContext.getTraceId(),
+                spanContext.getSpanId(), preSpanId, spanContext.getEnterTime(), spanContext.getLevel(),
+                JSON.toJSONString(returnInfo), exceptionInfo);
         if (null == exitSpan) {
             return;
         }

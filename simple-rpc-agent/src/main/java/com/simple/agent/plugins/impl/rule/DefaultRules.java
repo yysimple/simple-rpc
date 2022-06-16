@@ -24,8 +24,11 @@ public class DefaultRules {
         return ElementMatchers.not(ElementMatchers.nameStartsWith("org.slf4j")
                 .or(ElementMatchers.nameStartsWith("com.simple.classbytecode.bytebuddy.common"))
                 .or(ElementMatchers.nameStartsWith("net.buddy"))
-                .or(ElementMatchers.nameStartsWith("org.springframework.beans"))
+                .or(ElementMatchers.nameStartsWith("org.springframework"))
+                .or(ElementMatchers.nameStartsWith("com.simple.rpc.springboot"))
+                .or(ElementMatchers.nameStartsWith("io.netty"))
                 .or(ElementMatchers.nameStartsWith("java.lang"))
+                .or(ElementMatchers.nameStartsWith("org.apache"))
         );
     }
 

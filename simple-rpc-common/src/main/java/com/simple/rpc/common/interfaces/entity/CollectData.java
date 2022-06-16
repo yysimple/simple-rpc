@@ -1,4 +1,4 @@
-package com.simple.agent.data;
+package com.simple.rpc.common.interfaces.entity;
 
 import java.util.Date;
 

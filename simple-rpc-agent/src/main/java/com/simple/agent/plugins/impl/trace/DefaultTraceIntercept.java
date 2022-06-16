@@ -21,6 +21,7 @@ public class DefaultTraceIntercept implements InterceptPoint {
     @Override
     public ElementMatcher<TypeDescription> buildTypesMatcher(AgentParam agentParam) {
         return ElementMatchers.nameStartsWith(agentParam.getInterceptClassRule())
+                .and(ElementMatchers.not(ElementMatchers.nameStartsWith("com.simple.agent")))
                 .and(DefaultRules.defaultIgnoreClass());
     }
 
