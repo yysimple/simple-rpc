@@ -6,7 +6,6 @@ import com.simple.rpc.core.filter.InvokeAfterFilter;
 import com.simple.rpc.core.filter.InvokeBeforeFilter;
 import com.simple.rpc.core.filter.RemoteInvokeBeforeFilter;
 import com.simple.rpc.core.network.cache.FilterCache;
-import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 
 import java.util.List;

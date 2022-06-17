@@ -9,7 +9,7 @@ import com.simple.rpc.common.config.CommonConfig;
 import com.simple.rpc.common.config.ConsumerConfig;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
-import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
+import com.simple.rpc.common.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
 import com.simple.rpc.common.interfaces.RegisterCenter;

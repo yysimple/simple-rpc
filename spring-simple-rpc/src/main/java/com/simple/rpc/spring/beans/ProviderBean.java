@@ -5,7 +5,7 @@ import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.ProviderConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;
-import com.simple.rpc.core.network.cache.SimpleRpcServiceCache;
+import com.simple.rpc.common.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
