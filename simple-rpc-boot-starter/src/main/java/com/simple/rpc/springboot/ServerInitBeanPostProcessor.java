@@ -82,6 +82,6 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Override
     public int getOrder() {
-        return 0;
+        return 10;
     }
 }

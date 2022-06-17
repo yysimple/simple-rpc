@@ -3,16 +3,17 @@ package com.simple.rpc.springboot;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcReference;
 import com.simple.rpc.common.annotation.SimpleRpcService;
-import com.simple.rpc.common.util.ClassLoaderUtils;
-import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.common.cache.ApplicationCache;
+import com.simple.rpc.common.cache.SimpleRpcServiceCache;
 import com.simple.rpc.common.config.CommonConfig;
 import com.simple.rpc.common.config.ConsumerConfig;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
-import com.simple.rpc.common.cache.SimpleRpcServiceCache;
+import com.simple.rpc.common.interfaces.RegisterCenter;
+import com.simple.rpc.common.util.ClassLoaderUtils;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.reflect.RpcProxy;
-import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
@@ -51,6 +52,8 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
         if (rpcService != null) {
             RegisterCenter registerCenter = RegisterCenterFactory.create(simpleRpcUrl.getType());
             Request request = new Request();
+            String applicationName = ApplicationCache.APPLICATION_NAME;
+            request.setApplicationName(applicationName);
             request.setLoadBalanceRule(bootBaseConfig.getLoadBalanceRule());
             request.setSerializer(bootBaseConfig.getSerializer());
             request.setCompressor(bootBaseConfig.getCompressor());
@@ -127,6 +130,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Override
     public int getOrder() {
-        return 1;
+        return 20;
     }
+
 }

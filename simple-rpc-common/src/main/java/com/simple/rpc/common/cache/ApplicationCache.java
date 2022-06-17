@@ -9,4 +9,9 @@ package com.simple.rpc.common.cache;
  * @create: 2022-06-17 23:57
  **/
 public class ApplicationCache {
+
+    /**
+     * 应用名
+     */
+    public static String APPLICATION_NAME;
 }
