@@ -4,7 +4,7 @@ import com.simple.rpc.common.config.BaseConfig;
 import com.simple.rpc.common.config.RegistryConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.ConfigLoader;
-import com.simple.rpc.core.config.ConfigManager;
+import com.simple.rpc.common.util.ConfigManager;
 import com.simple.rpc.common.spi.ExtensionLoader;
 import org.junit.Test;
 

@@ -1,7 +1,16 @@
 package com.simple.rpc.test.common.starter.spi.collect;
 
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.DataCollection;
 import com.simple.rpc.common.interfaces.entity.CollectData;
+import com.simple.rpc.common.util.MysqlHelper;
+import com.simple.rpc.common.util.SimpleRpcLog;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Objects;
 
 /**
  * 项目: simple-rpc
@@ -12,9 +21,62 @@ import com.simple.rpc.common.interfaces.entity.CollectData;
  * @create: 2022-06-16 23:54
  **/
 public class LogCollectData implements DataCollection {
+
     @Override
     public Boolean collect(CollectData collectData) {
-        System.out.println("收集的数据：==> " + collectData);
-        return null;
+        System.out.println("收集的===数据：==> " + collectData);
+        // SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(ConfigManager.getInstant().loadConfig(RegistryConfig.class));
+        SimpleRpcUrl simpleRpcUrl = new SimpleRpcUrl();
+        simpleRpcUrl.setUsername("root");
+        simpleRpcUrl.setDatabase("simple_collect_log");
+        simpleRpcUrl.setPassword("970412@wcx.com");
+        simpleRpcUrl.setHost("127.0.0.1");
+        simpleRpcUrl.setPort(3306);
+        simpleRpcUrl.setTable("simple_agent_log");
+        System.out.println("收集中间件的配置信息：==> " + simpleRpcUrl);
+        Connection connection = getConnection(simpleRpcUrl);
+        insert(simpleRpcUrl, collectData, connection);
+        return true;
+    }
+
+    private Connection getConnection(SimpleRpcUrl url) {
+        MysqlHelper mysqlHelper = new MysqlHelper(url.getHost(), url.getPort(), url.getUsername(), url.getPassword(), url.getDatabase());
+        return mysqlHelper.getConnection(url.getDatabase());
+    }
+
+    private Boolean insert(SimpleRpcUrl url, CollectData data, Connection connection) {
+        try {
+            String sql = "insert into " + url.getTable()
+                    + "(trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,clazz_name,method_name,request_info,result_info,exception_info) values('"
+                    + data.getTraceId() + "','"
+                    + data.getSpanId() + "','"
+                    + data.getParentSpanId() + "','"
+                    + data.getLevel() + "','"
+                    + (Objects.isNull(data.getEntryTime()) ? 0 : data.getEntryTime().getTime()) + "','"
+                    + (Objects.isNull(data.getExitTime()) ? 0 : data.getExitTime().getTime()) + "','"
+                    + data.getAppName() + "','"
+                    + data.getClazzName() + "','"
+                    + data.getMethodName() + "','"
+                    + data.getRequestInfo() + "','"
+                    + data.getResultInfo() + "','"
+                    + data.getExceptionInfo() + "'"
+                    + ")";
+            SimpleRpcLog.info("收集的sql语句：==> " + sql);
+            Statement statement = connection.createStatement();
+            return statement.execute(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } finally {
+            closeConnection(connection);
+        }
+    }
+
+    private void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException ignored) {
+            }
+        }
     }
 }

@@ -1,10 +1,11 @@
-package com.simple.rpc.core.config;
+package com.simple.rpc.common.util;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
 import com.simple.rpc.common.config.BaseConfig;
 import com.simple.rpc.common.config.RegistryConfig;
+import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.ConfigLoader;
 import com.simple.rpc.common.spi.ExtensionLoader;
 
@@ -132,6 +133,10 @@ public class ConfigManager {
 
     public BaseConfig getBaseConfig() {
         return loadConfig(BaseConfig.class);
+    }
+
+    public SimpleRpcUrl getSimpleRpcUrl() {
+        return loadConfig(SimpleRpcUrl.class);
     }
 
 }
