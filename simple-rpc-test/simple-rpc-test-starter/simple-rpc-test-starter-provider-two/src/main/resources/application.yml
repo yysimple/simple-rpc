@@ -10,3 +10,6 @@ simple:
       load-balance-rule: random-weight
       serializer: serializer
       weights: 20
+spring:
+  application:
+    name: simple-rpc-test-provider-two

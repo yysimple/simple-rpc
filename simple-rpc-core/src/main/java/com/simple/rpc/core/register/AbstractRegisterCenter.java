@@ -30,7 +30,9 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
     public Boolean register(RegisterInfo request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
+        String key = request.getApplicationName() + SymbolConstant.UNDERLINE +
+                request.getInterfaceName() + SymbolConstant.UNDERLINE +
+                request.getAlias();
         String fieldKey = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
         String value = JSON.toJSONString(request);
         return buildDataAndSave(key, fieldKey, value);
@@ -53,7 +55,9 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
     public String get(RegisterInfo request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE + request.getAlias();
+        String key = request.getApplicationName() + SymbolConstant.UNDERLINE +
+                request.getInterfaceName() + SymbolConstant.UNDERLINE +
+                request.getAlias();
         Map<String, String> stringStringMap = getLoadBalanceData(key);
         String rule = Objects.isNull(request.getLoadBalanceRule()) ? LoadBalanceRule.ROUND.getName() : request.getLoadBalanceRule();
         return ExtensionLoader.getLoader(SimpleRpcLoadBalance.class).getExtension(rule).loadBalance(stringStringMap);

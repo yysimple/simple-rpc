@@ -1,6 +1,7 @@
 package com.simple.rpc.core.reflect;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.cache.ApplicationCache;
 import com.simple.rpc.common.config.*;
 import com.simple.rpc.common.constant.JavaKeywordConstant;
 import com.simple.rpc.common.exception.network.NettyInitException;
@@ -83,6 +84,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         BaseConfig baseConfig = commonConfig.getBaseConfig();
         // 构建请求参数
         Request request = new Request();
+        request.setApplicationName(ApplicationCache.APPLICATION_NAME);
         request.setInterfaceName(consumerConfig.getInterfaceName());
         request.setAlias(consumerConfig.getAlias());
         request.setLoadBalanceRule(baseConfig.getLoadBalanceRule());

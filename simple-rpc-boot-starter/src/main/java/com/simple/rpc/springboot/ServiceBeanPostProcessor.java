@@ -18,6 +18,7 @@ import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;

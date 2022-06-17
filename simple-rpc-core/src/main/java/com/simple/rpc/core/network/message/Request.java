@@ -137,6 +137,7 @@ public class Request {
         request.setCompressor(info.getCompressor());
         request.setRegister(info.getRegister());
         request.setWeights(info.getWeights());
+        request.setApplicationName(info.getApplicationName());
         return request;
     }
 
@@ -154,6 +155,7 @@ public class Request {
         registerInfo.setSerializer(request.getSerializer());
         registerInfo.setCompressor(request.getCompressor());
         registerInfo.setRegister(request.getRegister());
+        registerInfo.setApplicationName(request.getApplicationName());
         return registerInfo;
     }
 
@@ -177,6 +179,7 @@ public class Request {
         invokeFilterInfo.setRegister(request.getRegister());
         invokeFilterInfo.setBeatIntervalTime(request.getBeatIntervalTime());
         invokeFilterInfo.setStopConnectTime(request.getStopConnectTime());
+        invokeFilterInfo.setApplicationName(request.getApplicationName());
         return invokeFilterInfo;
     }
 
@@ -200,6 +203,7 @@ public class Request {
         request.setRegister(invokeFilterInfo.getRegister());
         request.setBeatIntervalTime(invokeFilterInfo.getBeatIntervalTime());
         request.setStopConnectTime(invokeFilterInfo.getStopConnectTime());
+        request.setApplicationName(invokeFilterInfo.getApplicationName());
         return request;
     }
 }

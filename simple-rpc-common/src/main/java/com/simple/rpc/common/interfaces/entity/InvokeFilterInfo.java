@@ -105,6 +105,11 @@ public class InvokeFilterInfo {
      */
     private Long stopConnectTime;
 
+    /**
+     * 应用名称
+     */
+    private String applicationName;
+
     public static InvokeFilterInfo register2Request(RegisterInfo info) {
         InvokeFilterInfo invokeFilterInfo = new InvokeFilterInfo();
         invokeFilterInfo.setHost(info.getHost());
@@ -119,6 +124,7 @@ public class InvokeFilterInfo {
         invokeFilterInfo.setCompressor(info.getCompressor());
         invokeFilterInfo.setRegister(info.getRegister());
         invokeFilterInfo.setWeights(info.getWeights());
+        invokeFilterInfo.setApplicationName(info.getApplicationName());
         return invokeFilterInfo;
     }
 
@@ -136,6 +142,7 @@ public class InvokeFilterInfo {
         registerInfo.setSerializer(request.getSerializer());
         registerInfo.setCompressor(request.getCompressor());
         registerInfo.setRegister(request.getRegister());
+        registerInfo.setApplicationName(request.getApplicationName());
         return registerInfo;
     }
 }

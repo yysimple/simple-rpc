@@ -1,5 +1,6 @@
 package com.simple.rpc.springboot;
 
+import com.simple.rpc.common.cache.ApplicationCache;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.common.config.LocalAddressInfo;
@@ -12,6 +13,7 @@ import com.simple.rpc.springboot.config.BootBaseConfig;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -41,9 +43,13 @@ public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
     @Resource
     private BootBaseConfig bootBaseConfig;
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (initFlag) {
+            ApplicationCache.APPLICATION_NAME = applicationName;
             init(bootRegisterConfig);
             initFlag = false;
         }

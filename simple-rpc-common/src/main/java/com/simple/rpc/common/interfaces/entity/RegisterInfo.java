@@ -72,4 +72,9 @@ public class RegisterInfo {
      * 注册中心的SPI类型
      */
     private String register;
+
+    /**
+     * 应用名称
+     */
+    private String applicationName;
 }
