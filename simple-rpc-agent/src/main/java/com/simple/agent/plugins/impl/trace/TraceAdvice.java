@@ -7,6 +7,7 @@ import com.simple.agent.trace.SpanContext;
 import com.simple.agent.trace.TrackContext;
 import com.simple.agent.trace.TrackManager;
 import com.simple.agent.util.AgentLog;
+import com.simple.rpc.common.cache.ApplicationCache;
 import net.bytebuddy.asm.Advice;
 
 import java.util.Objects;
@@ -43,7 +44,7 @@ public class TraceAdvice {
         }
         SpanContext.setSpan(spanContext);
         TrackManager.createEntrySpan();
-        DataBuilder.buildEntry("", className, methodName, spanContext.getTraceId(),
+        DataBuilder.buildEntry(ApplicationCache.APPLICATION_NAME, className, methodName, spanContext.getTraceId(),
                 spanContext.getSpanId(), preSpanId, spanContext.getEnterTime(), spanContext.getLevel(),
                 JSON.toJSONString(args));
         AgentLog.info("进入方法，当前Span信息：{}", JSON.toJSONString(spanContext));
@@ -68,7 +69,7 @@ public class TraceAdvice {
         spanContext = SpanContext.calExitSpan(spanContext);
         SpanContext.setSpan(spanContext);
         Span exitSpan = TrackManager.getExitSpan();
-        DataBuilder.buildExist("", className, methodName, spanContext.getTraceId(),
+        DataBuilder.buildExist(ApplicationCache.APPLICATION_NAME, className, methodName, spanContext.getTraceId(),
                 spanContext.getSpanId(), preSpanId, spanContext.getEnterTime(), spanContext.getLevel(),
                 JSON.toJSONString(returnInfo), exceptionInfo);
         if (null == exitSpan) {
