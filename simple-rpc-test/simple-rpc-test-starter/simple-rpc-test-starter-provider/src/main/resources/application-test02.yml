@@ -16,4 +16,4 @@ simple:
       weights: 30
 spring:
   application:
-    name: simple-rpc-test-provider-test01
+    name: simple-rpc-test-provider
