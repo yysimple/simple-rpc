@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config.loader;
+package com.simple.rpc.common.config.loader;
 
 import com.simple.rpc.common.interfaces.ConfigLoader;
 

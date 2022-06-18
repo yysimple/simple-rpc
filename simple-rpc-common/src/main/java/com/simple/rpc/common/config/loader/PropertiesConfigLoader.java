@@ -1,4 +1,4 @@
-package com.simple.rpc.core.config.loader;
+package com.simple.rpc.common.config.loader;
 
 import cn.hutool.core.io.resource.NoResourceException;
 import cn.hutool.setting.Setting;

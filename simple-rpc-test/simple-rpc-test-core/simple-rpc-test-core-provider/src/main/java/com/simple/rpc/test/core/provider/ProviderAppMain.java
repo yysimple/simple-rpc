@@ -1,6 +1,6 @@
 package com.simple.rpc.test.core.provider;
 
-import com.simple.rpc.common.util.ConfigManager;
+import com.simple.rpc.common.config.ConfigManager;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.RegistryConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;

@@ -1,2 +1,0 @@
-simple-rpc-property=com.simple.rpc.core.config.loader.PropertiesConfigLoader
-system-property=com.simple.rpc.core.config.loader.SystemPropertyLoader

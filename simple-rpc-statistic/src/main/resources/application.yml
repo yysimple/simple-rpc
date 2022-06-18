@@ -1,0 +1,14 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: simple-rpc-statistic
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 970412@wcx.com
+    url: 127.0.0.1
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456

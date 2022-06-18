@@ -1,20 +1,14 @@
-package com.simple.rpc.common.util;
+package com.simple.rpc.common.config;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.simple.rpc.common.annotation.SimpleRpcConfig;
-import com.simple.rpc.common.config.BaseConfig;
-import com.simple.rpc.common.config.RegistryConfig;
-import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.ConfigLoader;
 import com.simple.rpc.common.spi.ExtensionLoader;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**

@@ -2,7 +2,7 @@ package com.simple.rpc.test.core.consumer;
 
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.common.exception.network.NettyInitException;
-import com.simple.rpc.common.util.ConfigManager;
+import com.simple.rpc.common.config.ConfigManager;
 import com.simple.rpc.common.config.RegistryConfig;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.core.network.client.RpcClientSocket;
