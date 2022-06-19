@@ -1,10 +1,14 @@
 package com.simple.statistic;
 
+import com.simple.statistic.service.register.RedisRegisterCenterService;
 import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 项目: simple-rpc
@@ -20,6 +24,9 @@ public class RedisTest {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Resource
+    private RedisRegisterCenterService redisRegisterCenterService;
+
     @Test
     public void testSaveHash() {
         redisTemplate.boundHashOps("user").put("name", "zyy");
@@ -31,9 +38,10 @@ public class RedisTest {
         redisTemplate.boundHashOps("");
     }
 
-    @Data
-    class User{
-        private String name;
-        private Integer age;
+    @Test
+    public void initCache(){
+        Map<String, Map<String, Map<String, String>>> stringMapMap = redisRegisterCenterService.initCache();
+        System.out.println(stringMapMap);
+        System.out.println("== init finish ==");
     }
 }
