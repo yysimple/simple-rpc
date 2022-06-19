@@ -9,6 +9,7 @@ import com.simple.rpc.common.config.CommonConfig;
 import com.simple.rpc.common.config.ConsumerConfig;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
+import com.simple.rpc.common.constant.enums.HealthStatus;
 import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
@@ -62,6 +63,7 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
             request.setWeights(bootBaseConfig.getWeights());
             request.setHost(LocalAddressInfo.LOCAL_HOST);
             request.setPort(LocalAddressInfo.PORT);
+            request.setHealth(HealthStatus.IS_HEALTH.getCode());
             Class<?>[] interfaces = bean.getClass().getInterfaces();
             if (!CollectionUtils.isEmpty(Arrays.asList(interfaces))) {
                 for (Class<?> anInterface : interfaces) {

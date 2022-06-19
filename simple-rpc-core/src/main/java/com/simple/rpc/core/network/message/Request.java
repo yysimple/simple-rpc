@@ -123,6 +123,11 @@ public class Request {
      */
     private Long stopConnectTime;
 
+    /**
+     * 用来判断当前hsf服务是否健康
+     */
+    private String health;
+
     public static Request register2Request(RegisterInfo info) {
         Request request = new Request();
         request.setHost(info.getHost());
@@ -138,6 +143,7 @@ public class Request {
         request.setRegister(info.getRegister());
         request.setWeights(info.getWeights());
         request.setApplicationName(info.getApplicationName());
+        request.setHealth(info.getHealth());
         return request;
     }
 
@@ -156,6 +162,7 @@ public class Request {
         registerInfo.setCompressor(request.getCompressor());
         registerInfo.setRegister(request.getRegister());
         registerInfo.setApplicationName(request.getApplicationName());
+        registerInfo.setHealth(request.getHealth());
         return registerInfo;
     }
 

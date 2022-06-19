@@ -77,4 +77,9 @@ public class RegisterInfo {
      * 应用名称
      */
     private String applicationName;
+
+    /**
+     * 服务健康状态；1=健康
+     */
+    private String health;
 }

@@ -110,6 +110,11 @@ public class InvokeFilterInfo {
      */
     private String applicationName;
 
+    /**
+     * 服务健康状态；1=健康
+     */
+    private String health;
+
     public static InvokeFilterInfo register2Request(RegisterInfo info) {
         InvokeFilterInfo invokeFilterInfo = new InvokeFilterInfo();
         invokeFilterInfo.setHost(info.getHost());
@@ -125,6 +130,7 @@ public class InvokeFilterInfo {
         invokeFilterInfo.setRegister(info.getRegister());
         invokeFilterInfo.setWeights(info.getWeights());
         invokeFilterInfo.setApplicationName(info.getApplicationName());
+        invokeFilterInfo.setHealth(info.getHealth());
         return invokeFilterInfo;
     }
 
@@ -143,6 +149,7 @@ public class InvokeFilterInfo {
         registerInfo.setCompressor(request.getCompressor());
         registerInfo.setRegister(request.getRegister());
         registerInfo.setApplicationName(request.getApplicationName());
+        registerInfo.setHealth(request.getHealth());
         return registerInfo;
     }
 }
