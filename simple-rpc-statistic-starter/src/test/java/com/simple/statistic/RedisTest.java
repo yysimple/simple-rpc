@@ -1,5 +1,6 @@
 package com.simple.statistic;
 
+import lombok.Data;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,16 +18,22 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisTest {
 
     @Autowired
-    private RedisTemplate<String, String> redisTemplate;
+    private RedisTemplate redisTemplate;
 
     @Test
     public void testSaveHash() {
         redisTemplate.boundHashOps("user").put("name", "zyy");
-        redisTemplate.boundHashOps("user").put("name", "wcx");
+        redisTemplate.boundHashOps("user").put("age", "18");
     }
 
     @Test
     public void testHash() {
         redisTemplate.boundHashOps("");
+    }
+
+    @Data
+    class User{
+        private String name;
+        private Integer age;
     }
 }
