@@ -10,5 +10,4 @@ package com.simple.rpc.statistic.service.register;
  **/
 public class RegisterDataDealService {
 
-
 }
