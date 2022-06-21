@@ -20,26 +20,19 @@ public class SimpleRpcServiceCache {
 
     private static final Map<String, Object> SERVICE_MAP = new ConcurrentHashMap<>();
 
-    public static void addService(String alias, Object service) {
-        SERVICE_MAP.putIfAbsent(alias, service);
+    public static void addService(String registerKey, Object service) {
+        SERVICE_MAP.putIfAbsent(registerKey, service);
     }
 
-    public static Object getService(String alias) {
-        Object service = SERVICE_MAP.get(alias);
+    public static Object getService(String registerKey) {
+        Object service = SERVICE_MAP.get(registerKey);
         if (service == null) {
-            throw new SimpleRpcBaseException("rpcService not found." + alias);
+            throw new SimpleRpcBaseException("rpcService not found." + registerKey);
         }
         return service;
     }
 
     public static List<String> allKey() {
-        List<String> allKey = new ArrayList<>(10);
-        SERVICE_MAP.forEach((k, v) -> {
-            Class<?>[] interfaces = v.getClass().getInterfaces();
-            for (Class<?> anInterface : interfaces) {
-                allKey.add(anInterface.getCanonicalName() + SymbolConstant.UNDERLINE + k);
-            }
-        });
-        return allKey;
+        return new ArrayList<>(SERVICE_MAP.keySet());
     }
 }

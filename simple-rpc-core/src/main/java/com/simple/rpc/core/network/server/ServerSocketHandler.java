@@ -1,6 +1,8 @@
 package com.simple.rpc.core.network.server;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.simple.rpc.common.constant.CommonConstant;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.constant.enums.MessageType;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
@@ -48,8 +50,11 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
                 }
             }
             Method addMethod = classType.getMethod(msg.getMethodName(), transfer);
-            // 从缓存中里面获取bean信息
-            Object objectBean = SimpleRpcServiceCache.getService(msg.getAlias());
+            // 从缓存中里面获取bean信息,并构建key
+            String registerKey = CommonConstant.RPC_SERVICE_PREFIX +
+                    SymbolConstant.UNDERLINE + msg.getInterfaceName() +
+                    SymbolConstant.UNDERLINE + msg.getAlias();
+            Object objectBean = SimpleRpcServiceCache.getService(registerKey);
             // todo 远程方法调用之前的初始化
             SpiLoadFilter.loadFilters();
             msg.setSimpleRpcContext(FilterInvoke.loadRemoteInvokeBeforeFilters(msg.getSimpleRpcContext()));

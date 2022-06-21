@@ -30,7 +30,7 @@ public interface RegisterCenter {
      * @param request
      * @return
      */
-    Boolean register(RegisterInfo request);
+    String register(RegisterInfo request);
 
     /**
      * 获取服务

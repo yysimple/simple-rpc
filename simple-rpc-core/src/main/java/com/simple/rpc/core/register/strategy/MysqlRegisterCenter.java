@@ -1,10 +1,11 @@
-package com.simple.rpc.test.common.starter.spi.register;
+package com.simple.rpc.core.register.strategy;
 
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.util.MysqlHelper;
 import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.core.register.AbstractRegisterCenter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -40,6 +41,11 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
     @Override
     protected Boolean buildDataAndSave(String key, String hostPort, String request) {
         return insert(key, hostPort, request);
+    }
+
+    @Override
+    protected Boolean buildAppName(String appName, String rpcService) {
+        return null;
     }
 
     @Override

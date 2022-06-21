@@ -26,4 +26,7 @@ public interface CommonConstant {
 
     String SIMPLE_RPC_PROTOCOL = "simple-rpc";
 
+    String RPC_SERVICE_PREFIX = "rpcService";
+    String RPC_APP_PREFIX = "rpcApp";
+    String RPC_URL_PREFIX = "rpcUrl";
 }

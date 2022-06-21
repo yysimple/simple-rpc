@@ -1,5 +1,6 @@
 package com.simple.rpc.springboot;
 
+import com.simple.rpc.common.cache.ApplicationCache;
 import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.constant.SymbolConstant;
@@ -35,6 +36,7 @@ public class ApplicationClosedEventListener implements ApplicationListener<Conte
         hookEntity.setRpcServiceNames(strings);
         hookEntity.setServerUrl(LocalAddressInfo.LOCAL_HOST);
         hookEntity.setServerPort(LocalAddressInfo.PORT);
+        hookEntity.setApplicationName(ApplicationCache.APPLICATION_NAME);
         registerCenter.unregister(hookEntity);
 
         List<String> urls = new ArrayList<>();

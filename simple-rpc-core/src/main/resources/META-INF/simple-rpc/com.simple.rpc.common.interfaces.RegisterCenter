@@ -1,1 +1,2 @@
 redis=com.simple.rpc.core.register.strategy.RedisRegisterCenter
+mysql=com.simple.rpc.core.register.strategy.MysqlRegisterCenter

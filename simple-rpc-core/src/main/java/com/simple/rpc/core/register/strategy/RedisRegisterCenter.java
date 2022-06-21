@@ -1,5 +1,7 @@
 package com.simple.rpc.core.register.strategy;
 
+import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.constant.CommonConstant;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.network.HookEntity;
@@ -43,6 +45,11 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
+    protected Boolean buildAppName(String appName, String rpcService) {
+        return jedis.lpush(appName, rpcService) > 0;
+    }
+
+    @Override
     protected Map<String, String> getLoadBalanceData(String key) {
         return jedis.hgetAll(key);
     }
@@ -55,12 +62,21 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
         rpcServiceNames.forEach(name -> {
             hdel.set(jedis.hdel(name, fieldKey));
         });
-
+        // 删除该应用对应的app对应的信息
+        jedis.del(CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + hookEntity.getApplicationName());
         return hdel.get() > 0;
     }
 
     public static Jedis jedis() {
         return jedis;
+    }
+
+    public <T> void setList(String key, List<T> list) {
+        try {
+            jedis.set(key.getBytes(), JSON.toJSONBytes(list));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

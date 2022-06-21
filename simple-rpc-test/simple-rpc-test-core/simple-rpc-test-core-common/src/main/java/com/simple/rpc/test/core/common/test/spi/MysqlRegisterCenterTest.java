@@ -20,7 +20,7 @@ public class MysqlRegisterCenterTest implements RegisterCenter {
     }
 
     @Override
-    public Boolean register(RegisterInfo request) {
+    public String register(RegisterInfo request) {
         return null;
     }
 

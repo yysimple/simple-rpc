@@ -71,9 +71,9 @@ public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
                     request.setAlias(StrUtil.isBlank(rpcService.alias()) ? alias : rpcService.alias());
                     request.setBeanName(alias);
                     request.setInterfaceName(anInterface.getCanonicalName());
-                    registerCenter.register(Request.request2Register(request));
+                    String registerKey = registerCenter.register(Request.request2Register(request));
                     // 将对应的bean存入到缓存之中
-                    SimpleRpcServiceCache.addService(request.getAlias(), bean);
+                    SimpleRpcServiceCache.addService(registerKey, bean);
                 }
             }
         }

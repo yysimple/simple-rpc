@@ -1,5 +1,7 @@
 package com.simple.rpc.common.network;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
  * @author: WuChengXing
  * @create: 2022-05-10 15:09
  **/
+@Data
 public class HookEntity {
 
     /**
@@ -29,35 +32,5 @@ public class HookEntity {
      */
     private String registerType;
 
-    public List<String> getRpcServiceNames() {
-        return rpcServiceNames;
-    }
-
-    public void setRpcServiceNames(List<String> rpcServiceNames) {
-        this.rpcServiceNames = rpcServiceNames;
-    }
-
-    public String getServerUrl() {
-        return serverUrl;
-    }
-
-    public void setServerUrl(String serverUrl) {
-        this.serverUrl = serverUrl;
-    }
-
-    public Integer getServerPort() {
-        return serverPort;
-    }
-
-    public void setServerPort(Integer serverPort) {
-        this.serverPort = serverPort;
-    }
-
-    public String getRegisterType() {
-        return registerType;
-    }
-
-    public void setRegisterType(String registerType) {
-        this.registerType = registerType;
-    }
+    private String applicationName;
 }

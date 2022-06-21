@@ -1,6 +1,7 @@
 package com.simple.rpc.core.register;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.constant.CommonConstant;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.constant.enums.LoadBalanceRule;
 import com.simple.rpc.common.interfaces.RegisterCenter;
@@ -29,12 +30,15 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
     }
 
     @Override
-    public Boolean register(RegisterInfo request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE +
+    public String register(RegisterInfo request) {
+        String key = CommonConstant.RPC_SERVICE_PREFIX + SymbolConstant.UNDERLINE + request.getInterfaceName() + SymbolConstant.UNDERLINE +
                 request.getAlias();
         String fieldKey = request.getHost() + SymbolConstant.UNDERLINE + request.getPort();
         String value = JSON.toJSONString(request);
-        return buildDataAndSave(key, fieldKey, value);
+        String appName = CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + request.getApplicationName();
+        buildAppName(appName, key);
+        buildDataAndSave(key, fieldKey, value);
+        return key;
     }
 
     /**
@@ -52,9 +56,18 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
      */
     protected abstract Boolean buildDataAndSave(String key, String hostPort, String request);
 
+    /**
+     * 构建appName - rpcService相关的数据
+     *
+     * @param appName
+     * @param rpcService
+     * @return
+     */
+    protected abstract Boolean buildAppName(String appName, String rpcService);
+
     @Override
     public String get(RegisterInfo request) {
-        String key = request.getInterfaceName() + SymbolConstant.UNDERLINE +
+        String key = CommonConstant.RPC_SERVICE_PREFIX + SymbolConstant.UNDERLINE + request.getInterfaceName() + SymbolConstant.UNDERLINE +
                 request.getAlias();
         Map<String, String> stringStringMap = getLoadBalanceData(key);
         String rule = Objects.isNull(request.getLoadBalanceRule()) ? LoadBalanceRule.ROUND.getName() : request.getLoadBalanceRule();

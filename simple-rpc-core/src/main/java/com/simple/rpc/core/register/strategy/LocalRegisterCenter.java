@@ -27,9 +27,9 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    public Boolean register(RegisterInfo request) {
+    public String register(RegisterInfo request) {
         SERVICE_CACHE.put(request.getInterfaceName() + "_" + request.getAlias(), JSON.toJSONString(request));
-        return true;
+        return "";
     }
 
     @Override
@@ -39,6 +39,11 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
 
     @Override
     protected Boolean buildDataAndSave(String key, String hostPort, String request) {
+        return null;
+    }
+
+    @Override
+    protected Boolean buildAppName(String appName, String rpcService) {
         return null;
     }
 
