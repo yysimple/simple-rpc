@@ -1,9 +1,13 @@
 package com.simple.statistic.service.register.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.simple.rpc.common.constant.CommonConstant;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.statistic.entity.ApplicationEntity;
 import com.simple.statistic.service.register.RedisRegisterCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,13 +101,14 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
 
     @Override
     public List<ApplicationEntity> listApp(String name) {
+        SimpleRpcLog.info("key信息：{}", CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + name + "*");
         // 根据应用名拿到对应的key
-        Set<String> keys = redisTemplate.keys(name);
+        Set<String> keys = redisTemplate.keys(CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + name + "*");
         List<ApplicationEntity> applicationEntities = new ArrayList<>();
         // 然后在拿到对应的ServiceName
         keys.forEach(key -> {
             ApplicationEntity applicationEntity = new ApplicationEntity();
-            applicationEntity.setApplicationName(key);
+            applicationEntity.setApplicationName(dealPrefix(key));
             List<String> services = redisTemplate.opsForList().range(key, 0, -1);
             if (!CollectionUtil.isEmpty(services)) {
                 applicationEntity.setServiceNum((long) services.size());
@@ -116,5 +121,17 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
             applicationEntities.add(applicationEntity);
         });
         return applicationEntities;
+    }
+
+    private String dealPrefix(String key) {
+        String returnKey = "";
+        if (StrUtil.startWith(key, CommonConstant.RPC_APP_PREFIX)) {
+            returnKey = key.substring(CommonConstant.RPC_APP_PREFIX.length() + 1);
+        } else if (StrUtil.startWith(key, CommonConstant.RPC_SERVICE_PREFIX)) {
+            returnKey = key.substring(CommonConstant.RPC_SERVICE_PREFIX.length() + 1);
+        } else if (StrUtil.startWith(key, CommonConstant.RPC_URL_PREFIX)) {
+            returnKey = key.substring(CommonConstant.RPC_URL_PREFIX.length() + 1);
+        }
+        return returnKey;
     }
 }
