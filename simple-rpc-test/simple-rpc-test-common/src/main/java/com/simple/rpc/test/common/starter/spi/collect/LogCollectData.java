@@ -55,6 +55,7 @@ public class LogCollectData implements DataCollection {
                     + (Objects.isNull(data.getEntryTime()) ? 0 : data.getEntryTime().getTime()) + "','"
                     + (Objects.isNull(data.getExitTime()) ? 0 : data.getExitTime().getTime()) + "','"
                     + data.getAppName() + "','"
+                    + data.getHost() + "','"
                     + data.getClazzName() + "','"
                     + data.getMethodName() + "','"
                     + data.getRequestInfo() + "','"

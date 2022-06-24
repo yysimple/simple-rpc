@@ -1,5 +1,6 @@
 package com.simple.statistic.service.register.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
@@ -95,7 +96,25 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
     }
 
     @Override
-    public List<ApplicationEntity> listApp() {
-        return null;
+    public List<ApplicationEntity> listApp(String name) {
+        // 根据应用名拿到对应的key
+        Set<String> keys = redisTemplate.keys(name);
+        List<ApplicationEntity> applicationEntities = new ArrayList<>();
+        // 然后在拿到对应的ServiceName
+        keys.forEach(key -> {
+            ApplicationEntity applicationEntity = new ApplicationEntity();
+            applicationEntity.setApplicationName(key);
+            List<String> services = redisTemplate.opsForList().range(key, 0, -1);
+            if (!CollectionUtil.isEmpty(services)) {
+                applicationEntity.setServiceNum((long) services.size());
+                Set<String> hosts = redisTemplate.boundHashOps(services.get(0)).keys();
+                applicationEntity.setMachineNum(CollectionUtil.isEmpty(hosts) ? 0 : hosts.size());
+            } else {
+                applicationEntity.setServiceNum(0L);
+                applicationEntity.setMachineNum(0);
+            }
+            applicationEntities.add(applicationEntity);
+        });
+        return applicationEntities;
     }
 }

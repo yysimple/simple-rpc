@@ -37,7 +37,13 @@ public interface RedisRegisterCenterService {
      */
     Set<String> allService();
 
-    List<ApplicationEntity> listApp();
+    /**
+     * 查询所有应用
+     *
+     * @param appName
+     * @return
+     */
+    List<ApplicationEntity> listApp(String appName);
 
     /**
      * 初始化缓存

@@ -2,7 +2,9 @@ package com.simple.agent.data;
 
 import com.simple.rpc.common.interfaces.DataCollection;
 import com.simple.rpc.common.interfaces.entity.CollectData;
+import com.simple.rpc.common.util.NetUtil;
 
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,6 +34,10 @@ public class DataBuilder {
         data.setEntryTime(entryTime);
         data.setLevel(level);
         data.setRequestInfo(requestInfo);
+        try {
+            data.setHost(NetUtil.getHost());
+        } catch (UnknownHostException ignored) {
+        }
         service.submit(() -> {
             for (DataCollection dataCollection : DataCollectionCache.DATA_COLLECTION_MAP) {
                 dataCollection.collect(data);
@@ -54,6 +60,10 @@ public class DataBuilder {
         data.setLevel(level);
         data.setResultInfo(resultInfo);
         data.setExceptionInfo(exceptionInfo);
+        try {
+            data.setHost(NetUtil.getHost());
+        } catch (UnknownHostException ignored) {
+        }
         service.submit(() -> {
             for (DataCollection dataCollection : DataCollectionCache.DATA_COLLECTION_MAP) {
                 dataCollection.collect(data);
