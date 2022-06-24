@@ -1,9 +1,10 @@
-package com.simple.statistic.service.register;
+package com.simple.statistic.service.register.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.statistic.entity.ApplicationEntity;
+import com.simple.statistic.service.register.RedisRegisterCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -84,6 +85,7 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
 
     @Override
     public Set<String> allApplication() {
+        Set<String> keys = redisTemplate.keys("*");
         return null;
     }
 
