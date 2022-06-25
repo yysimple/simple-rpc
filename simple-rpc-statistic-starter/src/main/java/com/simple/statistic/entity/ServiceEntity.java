@@ -26,4 +26,9 @@ public class ServiceEntity extends RegisterInfo {
      */
     private Integer machineNum;
 
+    /**
+     * url信息
+     */
+    private String url;
+
 }

@@ -115,6 +115,7 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
                 serviceEntity.setMachineNum(hosts.size());
                 RegisterInfo registerInfo = JSON.parseObject(String.valueOf(boundHashOperations.get(hosts.get(0))), RegisterInfo.class);
                 BeanUtils.copyProperties(registerInfo, serviceEntity);
+                serviceEntity.setUrl(registerInfo.getHost() + ":" + registerInfo.getPort());
                 serviceEntities.add(serviceEntity);
             }
         });
