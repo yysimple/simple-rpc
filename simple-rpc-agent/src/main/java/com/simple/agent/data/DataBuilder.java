@@ -1,5 +1,6 @@
 package com.simple.agent.data;
 
+import com.simple.agent.constant.AgentConstant;
 import com.simple.rpc.common.interfaces.DataCollection;
 import com.simple.rpc.common.interfaces.entity.CollectData;
 import com.simple.rpc.common.util.NetUtil;
@@ -23,7 +24,7 @@ public class DataBuilder {
 
     public static void buildEntry(String appName, String clazzName, String methodName,
                                   String traceId, String spanId, String parentSpanId,
-                                  Date entryTime, Integer level, String requestInfo) {
+                                  Date entryTime, Integer level, String requestInfo, Integer invoker) {
         CollectData data = new CollectData();
         data.setAppName(appName);
         data.setClazzName(clazzName);
@@ -34,6 +35,8 @@ public class DataBuilder {
         data.setEntryTime(entryTime);
         data.setLevel(level);
         data.setRequestInfo(requestInfo);
+        data.setInvoker(invoker);
+        data.setInvokeStatus(AgentConstant.ENTRY);
         try {
             data.setHost(NetUtil.getHost());
         } catch (UnknownHostException ignored) {
@@ -60,6 +63,8 @@ public class DataBuilder {
         data.setLevel(level);
         data.setResultInfo(resultInfo);
         data.setExceptionInfo(exceptionInfo);
+        data.setInvoker(0);
+        data.setInvokeStatus(AgentConstant.EXIT);
         try {
             data.setHost(NetUtil.getHost());
         } catch (UnknownHostException ignored) {

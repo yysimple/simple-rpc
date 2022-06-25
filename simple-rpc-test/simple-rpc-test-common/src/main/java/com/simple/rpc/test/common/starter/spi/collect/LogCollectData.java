@@ -45,11 +45,13 @@ public class LogCollectData implements DataCollection {
     private Boolean insert(SimpleRpcUrl url, CollectData data, Connection connection) {
         try {
             String sql = "insert into " + url.getTable()
-                    + "(trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info) values('"
+                    + "(trace_id,span_id,parent_span_id,level,invoke_status,invoker,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info) values('"
                     + data.getTraceId() + "','"
                     + data.getSpanId() + "','"
                     + data.getParentSpanId() + "','"
                     + data.getLevel() + "','"
+                    + data.getInvokeStatus() + "','"
+                    + data.getInvoker() + "','"
                     + (Objects.isNull(data.getEntryTime()) ? 0 : data.getEntryTime().getTime()) + "','"
                     + (Objects.isNull(data.getExitTime()) ? 0 : data.getExitTime().getTime()) + "','"
                     + data.getAppName() + "','"

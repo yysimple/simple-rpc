@@ -41,4 +41,8 @@ public class CollectData {
 
     private String exceptionInfo;
 
+    private Integer invokeStatus;
+
+    private Integer invoker;
+
 }

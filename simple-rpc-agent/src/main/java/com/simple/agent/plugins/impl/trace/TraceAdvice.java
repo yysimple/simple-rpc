@@ -1,5 +1,8 @@
 package com.simple.agent.plugins.impl.trace;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.simple.agent.data.DataBuilder;
 import com.simple.agent.trace.Span;
@@ -30,8 +33,11 @@ public class TraceAdvice {
         AgentLog.info("进入方法，类方法信息：{}, 参数：{}", className + "#" + methodName, JSON.toJSONString(args));
         Span currentSpan = TrackManager.getCurrentSpan();
         String traceId = "";
+        int invoker = 0;
         if (null == currentSpan) {
-            traceId = UUID.randomUUID().toString();
+            Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+            traceId = Long.toString(snowflake.nextId());
+            invoker = 1;
             TrackContext.setTraceId(traceId);
         }
         Span spanContext = SpanContext.getSpan();
@@ -46,7 +52,7 @@ public class TraceAdvice {
         TrackManager.createEntrySpan();
         DataBuilder.buildEntry(ApplicationCache.APPLICATION_NAME, className, methodName, spanContext.getTraceId(),
                 spanContext.getSpanId(), preSpanId, spanContext.getEnterTime(), spanContext.getLevel(),
-                JSON.toJSONString(args));
+                JSON.toJSONString(args), invoker);
         AgentLog.info("进入方法，当前Span信息：{}", JSON.toJSONString(spanContext));
     }
 
