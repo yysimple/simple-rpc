@@ -68,4 +68,14 @@ public class SimpleAgentLog {
      * 异常信息
      */
     private String exceptionInfo;
+
+    /**
+     * 调用状态：0-退出；1-进入
+     */
+    private Integer invokeStatus;
+
+    /**
+     * 是否是调用者
+     */
+    private Integer invoker;
 }

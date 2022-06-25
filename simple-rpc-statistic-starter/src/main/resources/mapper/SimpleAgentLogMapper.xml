@@ -17,10 +17,12 @@
         <result property="requestInfo" column="request_info"/>
         <result property="resultInfo" column="result_info"/>
         <result property="exceptionInfo" column="exception_info"/>
+        <result property="invokeStatus" column="invoke_status"/>
+        <result property="invoker" column="invoker"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info
+        id,trace_id,span_id,parent_span_id,`level`,entry_time,exit_time,app_name,`host`,clazz_name,method_name,request_info,result_info,exception_info,invoke_status,`invoker`
     </sql>
 
     <!--通过ID查询单个日志链路监控表-->
