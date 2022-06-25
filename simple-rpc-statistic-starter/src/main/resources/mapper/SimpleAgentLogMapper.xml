@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.simple.statistic.mapper.SimpleAgentLogMapper">
+
+    <resultMap id="simpleAgentLogMap" type="com.simple.statistic.entity.SimpleAgentLog">
+        <id property="id" column="id"/>
+        <result property="traceId" column="trace_id"/>
+        <result property="spanId" column="span_id"/>
+        <result property="parentSpanId" column="parent_span_id"/>
+        <result property="level" column="level"/>
+        <result property="entryTime" column="entry_time"/>
+        <result property="exitTime" column="exit_time"/>
+        <result property="appName" column="app_name"/>
+        <result property="host" column="host"/>
+        <result property="clazzName" column="clazz_name"/>
+        <result property="methodName" column="method_name"/>
+        <result property="requestInfo" column="request_info"/>
+        <result property="resultInfo" column="result_info"/>
+        <result property="exceptionInfo" column="exception_info"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info
+    </sql>
+
+    <!--通过ID查询单个日志链路监控表-->
+    <select id="findSimpleAgentLogById" resultMap="simpleAgentLogMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM simple_agent_log
+        WHERE id=#{id}
+    </select>
+
+    <!--多条件查询SimpleAgentLog列表-->
+    <select id="listSimpleAgentLog" resultMap="simpleAgentLogMap">
+        SELECT
+            <include refid="Base_Column_List"/>
+        FROM simple_agent_log
+        WHERE 1=1
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="traceId != null">
+            and trace_id=#{traceId}
+        </if>
+        <if test="spanId != null">
+            and span_id=#{spanId}
+        </if>
+        <if test="parentSpanId != null">
+            and parent_span_id=#{parentSpanId}
+        </if>
+        <if test="level != null">
+            and level=#{level}
+        </if>
+        <if test="entryTime != null">
+            and entry_time=#{entryTime}
+        </if>
+        <if test="exitTime != null">
+            and exit_time=#{exitTime}
+        </if>
+        <if test="appName != null">
+            and app_name=#{appName}
+        </if>
+        <if test="host != null">
+            and host=#{host}
+        </if>
+        <if test="clazzName != null">
+            and clazz_name=#{clazzName}
+        </if>
+        <if test="methodName != null">
+            and method_name=#{methodName}
+        </if>
+        <if test="requestInfo != null">
+            and request_info=#{requestInfo}
+        </if>
+        <if test="resultInfo != null">
+            and result_info=#{resultInfo}
+        </if>
+        <if test="exceptionInfo != null">
+            and exception_info=#{exceptionInfo}
+        </if>
+    </select>
+
+    <!--新增日志链路监控表-->
+    <insert id="insertSimpleAgentLog">
+        INSERT INTO simple_agent_log(id,trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info)
+        VALUES (#{id},#{traceId},#{spanId},#{parentSpanId},#{level},#{entryTime},#{exitTime},#{appName},#{host},#{clazzName},#{methodName},#{requestInfo},#{resultInfo},#{exceptionInfo})
+    </insert>
+
+    <!--修改日志链路监控表-->
+    <update id="updateSimpleAgentLog">
+        UPDATE simple_agent_log SET trace_id=#{traceId},span_id=#{spanId},parent_span_id=#{parentSpanId},level=#{level},entry_time=#{entryTime},exit_time=#{exitTime},app_name=#{appName},host=#{host},clazz_name=#{clazzName},method_name=#{methodName},request_info=#{requestInfo},result_info=#{resultInfo},exception_info=#{exceptionInfo}
+        WHERE id=#{id}
+    </update>
+
+    <!--通过ID删除单个日志链路监控表-->
+    <delete id="deleteSimpleAgentLogById">
+        DELETE FROM simple_agent_log
+        WHERE id=#{id}
+    </delete>
+
+</mapper>

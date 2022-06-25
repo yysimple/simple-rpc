@@ -24,7 +24,6 @@ public class LogCollectData implements DataCollection {
 
     @Override
     public Boolean collect(CollectData collectData) {
-        System.out.println("收集的===数据：==> " + collectData);
         // SimpleRpcUrl simpleRpcUrl = SimpleRpcUrl.toSimpleRpcUrl(ConfigManager.getInstant().loadConfig(RegistryConfig.class));
         SimpleRpcUrl simpleRpcUrl = new SimpleRpcUrl();
         simpleRpcUrl.setUsername("root");
@@ -33,7 +32,6 @@ public class LogCollectData implements DataCollection {
         simpleRpcUrl.setHost("127.0.0.1");
         simpleRpcUrl.setPort(3306);
         simpleRpcUrl.setTable("simple_agent_log");
-        System.out.println("收集中间件的配置信息：==> " + simpleRpcUrl);
         Connection connection = getConnection(simpleRpcUrl);
         insert(simpleRpcUrl, collectData, connection);
         return true;
@@ -47,7 +45,7 @@ public class LogCollectData implements DataCollection {
     private Boolean insert(SimpleRpcUrl url, CollectData data, Connection connection) {
         try {
             String sql = "insert into " + url.getTable()
-                    + "(trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,clazz_name,method_name,request_info,result_info,exception_info) values('"
+                    + "(trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info) values('"
                     + data.getTraceId() + "','"
                     + data.getSpanId() + "','"
                     + data.getParentSpanId() + "','"
@@ -62,7 +60,6 @@ public class LogCollectData implements DataCollection {
                     + data.getResultInfo() + "','"
                     + data.getExceptionInfo() + "'"
                     + ")";
-            SimpleRpcLog.info("收集的sql语句：==> " + sql);
             Statement statement = connection.createStatement();
             return statement.execute(sql);
         } catch (SQLException e) {
