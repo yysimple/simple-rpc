@@ -1,6 +1,7 @@
 package com.simple.statistic.service.register;
 
 import com.simple.statistic.entity.ApplicationEntity;
+import com.simple.statistic.entity.ServiceEntity;
 
 import java.util.List;
 import java.util.Map;
@@ -31,11 +32,12 @@ public interface RedisRegisterCenterService {
     Set<String> allApplication();
 
     /**
-     * 获取所有的接口信息
+     * 查询所有的RPC服务
      *
+     * @param serviceName
      * @return
      */
-    Set<String> allService();
+    List<ServiceEntity> listService(String serviceName);
 
     /**
      * 查询所有应用

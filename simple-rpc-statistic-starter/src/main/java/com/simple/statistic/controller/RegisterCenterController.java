@@ -2,6 +2,7 @@ package com.simple.statistic.controller;
 
 import com.simple.statistic.constant.StatisticConstant;
 import com.simple.statistic.entity.ApplicationEntity;
+import com.simple.statistic.entity.ServiceEntity;
 import com.simple.statistic.entity.SimpleResponse;
 import com.simple.statistic.service.register.RedisRegisterCenterService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,4 +34,10 @@ public class RegisterCenterController {
     public SimpleResponse<List<ApplicationEntity>> listApp(String appName) {
         return new SimpleResponse<>(service.listApp(appName));
     }
+
+    @PostMapping("/listService")
+    public SimpleResponse<List<ServiceEntity>> listService(String serviceName) {
+        return new SimpleResponse<>(service.listService(serviceName));
+    }
+
 }

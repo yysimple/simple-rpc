@@ -9,7 +9,9 @@ import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.statistic.entity.ApplicationEntity;
+import com.simple.statistic.entity.ServiceEntity;
 import com.simple.statistic.service.register.RedisRegisterCenterService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -95,13 +97,33 @@ public class RegisterDataDealService implements RedisRegisterCenterService {
     }
 
     @Override
-    public Set<String> allService() {
-        return null;
+    public List<ServiceEntity> listService(String serviceName) {
+        // 根据RPC服务名拿到对应的key
+        String pattern = CommonConstant.RPC_SERVICE_PREFIX + SymbolConstant.UNDERLINE + "*";
+        if (!StrUtil.isBlank(serviceName)) {
+            pattern = CommonConstant.RPC_SERVICE_PREFIX + SymbolConstant.UNDERLINE + "*" + serviceName + "*";
+        }
+        SimpleRpcLog.info("查询RPC服务的key信息：{}", pattern);
+        Set<String> keys = redisTemplate.keys(pattern);
+        List<ServiceEntity> serviceEntities = new ArrayList<>();
+        keys.forEach(key -> {
+            ServiceEntity serviceEntity = new ServiceEntity();
+            serviceEntity.setServiceKey(key);
+            BoundHashOperations boundHashOperations = redisTemplate.boundHashOps(key);
+            ArrayList hosts = new ArrayList<>(boundHashOperations.keys());
+            if (!CollectionUtil.isEmpty(hosts)) {
+                serviceEntity.setMachineNum(hosts.size());
+                RegisterInfo registerInfo = JSON.parseObject(String.valueOf(boundHashOperations.get(hosts.get(0))), RegisterInfo.class);
+                BeanUtils.copyProperties(registerInfo, serviceEntity);
+                serviceEntities.add(serviceEntity);
+            }
+        });
+        return serviceEntities;
     }
 
     @Override
     public List<ApplicationEntity> listApp(String name) {
-        SimpleRpcLog.info("key信息：{}", CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + name + "*");
+        SimpleRpcLog.info("查询应用的key信息：{}", CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + name + "*");
         // 根据应用名拿到对应的key
         Set<String> keys = redisTemplate.keys(CommonConstant.RPC_APP_PREFIX + SymbolConstant.UNDERLINE + name + "*");
         List<ApplicationEntity> applicationEntities = new ArrayList<>();
