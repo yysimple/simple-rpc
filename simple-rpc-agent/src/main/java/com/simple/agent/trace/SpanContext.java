@@ -62,7 +62,7 @@ public class SpanContext {
         }
         int i = spanId.lastIndexOf(".");
         Integer newLevel = Integer.valueOf(spanId.substring(i + 1));
-        String newSpanId = i < 0 ? "0" : spanId.substring(0, i);
+        String newSpanId = i < 0 ? "" : spanId.substring(0, i);
         return new Span(traceId, newSpanId, newLevel, 2);
     }
 }

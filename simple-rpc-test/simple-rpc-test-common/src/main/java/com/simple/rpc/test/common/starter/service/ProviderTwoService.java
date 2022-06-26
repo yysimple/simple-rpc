@@ -13,4 +13,8 @@ public interface ProviderTwoService {
     String helloProviderTwo(String msg);
 
     String helloProviderTwoNoArgs();
+
+    String pt1(String name);
+
+    String et1(String name);
 }

@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 970412@wcx.com
-    url: 127.0.0.1
+    url: jdbc:mysql://127.0.0.1:3306/simple_collect_log?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
   redis:
     port: 6379
     host: 127.0.0.1
@@ -31,4 +31,11 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     lazy-loading-enabled: false
+# 分页配置
+simple:
+  pagination:
+    enabled: true
+    page-field: pageIndex
+    size-field: pageSize
+
 

@@ -17,4 +17,20 @@ public interface StarterProviderService {
      * @return
      */
     String provider(String name);
+
+    /**
+     * 用于构建树
+     *
+     * @param name
+     * @return
+     */
+    String p1(String name);
+
+    /**
+     * 用于构建树；异常的情况
+     *
+     * @param name
+     * @return
+     */
+    String e1(String name);
 }

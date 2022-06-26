@@ -33,7 +33,15 @@ public class AgentLogView {
     /**
      * 是否存在异常
      */
-    private Integer existException;
+    private Integer health;
 
+    /**
+     * 链路调用开始时间
+     */
     private Date invokeTime;
+
+    /**
+     * 链路调用总耗时
+     */
+    private Long fullTime;
 }

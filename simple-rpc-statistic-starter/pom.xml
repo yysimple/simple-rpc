@@ -15,14 +15,26 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
-        <mybatis.plus.boot.starter>3.2.0</mybatis.plus.boot.starter>
-        <mybatis.plus.generator.version>3.2.0</mybatis.plus.generator.version>
+        <mybatis.plus.boot.starter>3.5.2</mybatis.plus.boot.starter>
+        <pagination.version>1.0.0</pagination.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.simple.pagination</groupId>
+            <artifactId>pagination-spring-boot-starter</artifactId>
+            <version>${pagination.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -47,13 +59,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis.plus.boot.starter}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis.plus.generator.version}</version>
+            <version>3.5.2</version>
         </dependency>
 
         <dependency>
@@ -82,6 +88,12 @@
             <groupId>com.simple.rpc.common</groupId>
             <artifactId>simple-rpc-common</artifactId>
             <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.1.4</version>
         </dependency>
 
     </dependencies>

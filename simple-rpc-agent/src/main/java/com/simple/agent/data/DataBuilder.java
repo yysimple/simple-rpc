@@ -36,6 +36,7 @@ public class DataBuilder {
         data.setLevel(level);
         data.setRequestInfo(requestInfo);
         data.setInvoker(invoker);
+        data.setExceptionInfo("");
         data.setInvokeStatus(AgentConstant.ENTRY);
         try {
             data.setHost(NetUtil.getHost());
@@ -63,6 +64,7 @@ public class DataBuilder {
         data.setLevel(level);
         data.setResultInfo(resultInfo);
         data.setExceptionInfo(exceptionInfo);
+        data.setRequestInfo("");
         data.setInvoker(0);
         data.setInvokeStatus(AgentConstant.EXIT);
         try {

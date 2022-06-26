@@ -28,7 +28,7 @@
     <!--通过ID查询单个日志链路监控表-->
     <select id="findSimpleAgentLogById" resultMap="simpleAgentLogMap">
         SELECT
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         FROM simple_agent_log
         WHERE id=#{id}
     </select>
@@ -36,7 +36,7 @@
     <!--多条件查询SimpleAgentLog列表-->
     <select id="listSimpleAgentLog" resultMap="simpleAgentLogMap">
         SELECT
-            <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         FROM simple_agent_log
         WHERE 1=1
         <if test="id != null">
@@ -81,24 +81,12 @@
         <if test="exceptionInfo != null">
             and exception_info=#{exceptionInfo}
         </if>
+        <if test="invokeStatus != null">
+            and invoke_status=#{invokeStatus}
+        </if>
+        <if test="invoker != null">
+            and invoker=#{invoker}
+        </if>
     </select>
-
-    <!--新增日志链路监控表-->
-    <insert id="insertSimpleAgentLog">
-        INSERT INTO simple_agent_log(id,trace_id,span_id,parent_span_id,level,entry_time,exit_time,app_name,host,clazz_name,method_name,request_info,result_info,exception_info)
-        VALUES (#{id},#{traceId},#{spanId},#{parentSpanId},#{level},#{entryTime},#{exitTime},#{appName},#{host},#{clazzName},#{methodName},#{requestInfo},#{resultInfo},#{exceptionInfo})
-    </insert>
-
-    <!--修改日志链路监控表-->
-    <update id="updateSimpleAgentLog">
-        UPDATE simple_agent_log SET trace_id=#{traceId},span_id=#{spanId},parent_span_id=#{parentSpanId},level=#{level},entry_time=#{entryTime},exit_time=#{exitTime},app_name=#{appName},host=#{host},clazz_name=#{clazzName},method_name=#{methodName},request_info=#{requestInfo},result_info=#{resultInfo},exception_info=#{exceptionInfo}
-        WHERE id=#{id}
-    </update>
-
-    <!--通过ID删除单个日志链路监控表-->
-    <delete id="deleteSimpleAgentLogById">
-        DELETE FROM simple_agent_log
-        WHERE id=#{id}
-    </delete>
 
 </mapper>

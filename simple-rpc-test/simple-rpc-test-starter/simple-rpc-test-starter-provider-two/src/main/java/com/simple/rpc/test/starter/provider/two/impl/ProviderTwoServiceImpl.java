@@ -29,6 +29,16 @@ public class ProviderTwoServiceImpl implements ProviderTwoService {
         return "我是第二个提供者，没有参数的";
     }
 
+    @Override
+    public String pt1(String name) {
+        return "two-pt1" + name;
+    }
+
+    @Override
+    public String et1(String name) {
+        return "two-et1" + name;
+    }
+
     private String innerProviderTwo() {
         return "inner invoke!! -- ";
     }

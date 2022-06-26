@@ -33,25 +33,4 @@ public interface SimpleAgentLogMapper extends BaseMapper<SimpleAgentLog> {
     */
     List<SimpleAgentLog> listSimpleAgentLog(SimpleAgentLog simpleAgentLog);
 
-    /**
-    * 新增日志链路监控表
-    *
-    * @param simpleAgentLog 日志链路监控表
-    */
-    void insertSimpleAgentLog(SimpleAgentLog simpleAgentLog);
-
-    /**
-    * 修改日志链路监控表
-    *
-    * @param simpleAgentLog 日志链路监控表
-    */
-    void updateSimpleAgentLog(SimpleAgentLog simpleAgentLog);
-
-    /**
-    * 通过ID删除单个日志链路监控表
-    *
-    * @param id ID
-    */
-    void deleteSimpleAgentLogById(@Param("id") Long id);
-
 }
