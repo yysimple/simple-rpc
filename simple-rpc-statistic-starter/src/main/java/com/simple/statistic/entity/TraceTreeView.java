@@ -25,6 +25,10 @@ public class TraceTreeView {
 
     private String methodName;
 
+    private String showTitle;
+
+    private String idAndTraceId;
+
     private String parentSpanId;
 
     private List<TraceTreeView> children;

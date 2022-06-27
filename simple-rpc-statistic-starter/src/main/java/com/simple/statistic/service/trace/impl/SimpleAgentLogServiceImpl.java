@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.statistic.entity.AgentLogView;
 import com.simple.statistic.entity.TraceSearchRequest;
 import com.simple.statistic.entity.TraceTreeView;
@@ -144,6 +145,8 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
         traceTreeView.setClazzName(log.getClazzName());
         traceTreeView.setMethodName(log.getMethodName());
         traceTreeView.setParentSpanId(log.getParentSpanId());
+        traceTreeView.setShowTitle(log.getClazzName() + " --> " + log.getMethodName());
+        traceTreeView.setIdAndTraceId(log.getId() + "-" + log.getTraceId());
         return traceTreeView;
     }
 
