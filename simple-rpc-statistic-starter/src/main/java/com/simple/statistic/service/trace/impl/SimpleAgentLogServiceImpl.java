@@ -146,7 +146,6 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
         traceTreeView.setMethodName(log.getMethodName());
         traceTreeView.setParentSpanId(log.getParentSpanId());
         traceTreeView.setShowTitle(log.getClazzName() + " --> " + log.getMethodName());
-        traceTreeView.setIdAndTraceId(log.getId() + "-" + log.getTraceId());
         return traceTreeView;
     }
 
@@ -176,5 +175,21 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
                 .collect(Collectors.toList());
     }
 
-
+    @Override
+    public SimpleAgentLog getSimpleAgentLog(Long id) {
+        SimpleAgentLog resLog = this.getById(id);
+        if (Objects.isNull(resLog)) {
+            return null;
+        }
+        LambdaQueryWrapper<SimpleAgentLog> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(SimpleAgentLog::getTraceId, resLog.getTraceId())
+                .eq(SimpleAgentLog::getClazzName, resLog.getClazzName())
+                .eq(SimpleAgentLog::getMethodName, resLog.getMethodName())
+                .eq(SimpleAgentLog::getInvokeStatus, 0);
+        SimpleAgentLog exitLog = this.getOne(queryWrapper);
+        resLog.setExitTime(exitLog.getExitTime());
+        resLog.setResultInfo(exitLog.getResultInfo());
+        resLog.setExceptionInfo(exitLog.getExceptionInfo());
+        return resLog;
+    }
 }

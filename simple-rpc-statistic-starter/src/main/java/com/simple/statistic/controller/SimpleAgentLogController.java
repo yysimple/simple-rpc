@@ -69,4 +69,9 @@ public class SimpleAgentLogController {
         return new SimpleResponse<>(simpleAgentLogService.traceExitTreeView(traceId));
     }
 
+    @GetMapping("/getSimpleAgentLog")
+    public SimpleResponse<SimpleAgentLog> getSimpleAgentLog(Long id) {
+        return new SimpleResponse<>(simpleAgentLogService.getSimpleAgentLog(id));
+    }
+
 }

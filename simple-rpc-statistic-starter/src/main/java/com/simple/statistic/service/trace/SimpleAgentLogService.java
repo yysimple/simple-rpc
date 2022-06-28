@@ -53,8 +53,17 @@ public interface SimpleAgentLogService extends IService<SimpleAgentLog> {
 
     /**
      * 拿到对应traceId退出方法的调用链路
+     *
      * @param traceId
      * @return
      */
     List<TraceTreeView> traceExitTreeView(String traceId);
+
+    /**
+     * 根据id——traceId去查询方法进入和退出
+     *
+     * @param id
+     * @return
+     */
+    SimpleAgentLog getSimpleAgentLog(Long id);
 }
