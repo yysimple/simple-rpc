@@ -1,0 +1,41 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: simple-rpc-statistic
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: simple_log
+    password: simple_log
+    url: jdbc:mysql://127.0.0.1:3306/simple_log?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    database: 0
+    password: 123456
+    timeout: 180000ms
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+mybatis-plus:
+  type-aliases-package: com.simple.statistic.entity
+  mapper-locations: classpath*:mapper/*.xml
+  # mybatis-plus 的全局配置
+  global-config:
+    banner: false
+  # mybatis 原生配置
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    lazy-loading-enabled: false
+# 分页配置
+simple:
+  pagination:
+    enabled: true
+    page-field: pageIndex
+    size-field: pageSize
+
+
