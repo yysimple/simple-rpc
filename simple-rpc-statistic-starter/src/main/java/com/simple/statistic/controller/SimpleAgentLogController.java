@@ -4,6 +4,10 @@ import javax.annotation.Resource;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.simple.statistic.entity.*;
+import com.simple.statistic.entity.request.TraceSearchRequest;
+import com.simple.statistic.entity.response.AgentLogView;
+import com.simple.statistic.entity.response.SimpleResponse;
+import com.simple.statistic.entity.response.TraceTreeView;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

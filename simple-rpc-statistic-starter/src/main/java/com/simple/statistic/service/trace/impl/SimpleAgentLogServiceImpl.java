@@ -3,14 +3,14 @@ package com.simple.statistic.service.trace.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.simple.rpc.common.constant.SymbolConstant;
-import com.simple.statistic.entity.AgentLogView;
-import com.simple.statistic.entity.TraceSearchRequest;
-import com.simple.statistic.entity.TraceTreeView;
+import com.simple.statistic.entity.request.StatisticTraceRequest;
+import com.simple.statistic.entity.response.AgentLogView;
+import com.simple.statistic.entity.request.TraceSearchRequest;
+import com.simple.statistic.entity.response.StatisticTraceLog;
+import com.simple.statistic.entity.response.TraceTreeView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -191,5 +191,10 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
         resLog.setResultInfo(exitLog.getResultInfo());
         resLog.setExceptionInfo(exitLog.getExceptionInfo());
         return resLog;
+    }
+
+    @Override
+    public StatisticTraceLog statisticTraceLog(StatisticTraceRequest request) {
+        return null;
     }
 }

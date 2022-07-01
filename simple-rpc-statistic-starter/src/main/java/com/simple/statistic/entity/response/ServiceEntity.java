@@ -1,4 +1,4 @@
-package com.simple.statistic.entity;
+package com.simple.statistic.entity.response;
 
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import lombok.Data;

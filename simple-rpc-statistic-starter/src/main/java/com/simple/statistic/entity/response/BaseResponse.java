@@ -1,4 +1,4 @@
-package com.simple.statistic.entity;
+package com.simple.statistic.entity.response;
 
 /**
 * 项目: simple-rpc

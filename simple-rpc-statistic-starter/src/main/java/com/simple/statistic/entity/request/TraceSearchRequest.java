@@ -1,4 +1,4 @@
-package com.simple.statistic.entity;
+package com.simple.statistic.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

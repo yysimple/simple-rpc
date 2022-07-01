@@ -1,7 +1,7 @@
 package com.simple.statistic.service.register;
 
-import com.simple.statistic.entity.ApplicationEntity;
-import com.simple.statistic.entity.ServiceEntity;
+import com.simple.statistic.entity.response.ApplicationEntity;
+import com.simple.statistic.entity.response.ServiceEntity;
 
 import java.util.List;
 import java.util.Map;
