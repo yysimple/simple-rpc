@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.simple.statistic.entity.request.StatisticTraceRequest;
+import com.simple.statistic.config.StatisticProperties;
+import com.simple.statistic.entity.statistic.StatisticTraceRequest;
 import com.simple.statistic.entity.response.AgentLogView;
 import com.simple.statistic.entity.request.TraceSearchRequest;
-import com.simple.statistic.entity.response.StatisticTraceLog;
+import com.simple.statistic.entity.statistic.StatisticTraceLog;
 import com.simple.statistic.entity.response.TraceTreeView;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
 
     @Resource
     private SimpleAgentLogMapper simpleAgentLogMapper;
+
+    @Resource
+    private StatisticProperties properties;
 
     /**
      * 通过ID查询单个日志链路监控表
@@ -195,6 +199,20 @@ public class SimpleAgentLogServiceImpl extends ServiceImpl<SimpleAgentLogMapper,
 
     @Override
     public StatisticTraceLog statisticTraceLog(StatisticTraceRequest request) {
-        return null;
+        StatisticTraceLog statisticTraceLog = new StatisticTraceLog();
+        List<SimpleAgentLog> simpleAgentLogs = simpleAgentLogMapper.listStatisticData(request);
+        // 设置请求次数
+        statisticTraceLog.setRequestNum((long) simpleAgentLogs.size());
+        // 设置异常调用数量
+        List<String> collect = simpleAgentLogs.stream().map(SimpleAgentLog::getTraceId).collect(Collectors.toList());
+        long exceptionNum = simpleAgentLogMapper.totalExceptionNum(collect);
+        statisticTraceLog.setExceptionNum(exceptionNum);
+        // 统计慢接口数量
+        long slowApiNum = simpleAgentLogMapper.totalSlowApiNum(collect, Objects.isNull(properties.getSlowTime()) ? 10*1000L : properties.getSlowTime());
+        statisticTraceLog.setShowApiNum(slowApiNum);
+        //
+        return statisticTraceLog;
     }
+
+
 }

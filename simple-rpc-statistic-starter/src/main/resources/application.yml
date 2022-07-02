@@ -37,5 +37,8 @@ simple:
     enabled: true
     page-field: pageIndex
     size-field: pageSize
+# 统计配置
+statistic:
+  slow-time: 8000
 
 

@@ -1,6 +1,8 @@
-package com.simple.statistic.entity.response;
+package com.simple.statistic.entity.statistic;
 
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * 项目: simple-rpc
@@ -21,10 +23,20 @@ public class StatisticTraceLog {
     /**
      * 调用次数
      */
-    private Long traceNum;
+    private Long requestNum;
 
     /**
-     *
+     * 慢接口数量
      */
     private Long showApiNum;
+
+    /**
+     * 异常请求数
+     */
+    private Long exceptionNum;
+
+    /**
+     * 接口数量
+     */
+    private String showApiNumPercentage;
 }

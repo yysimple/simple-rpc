@@ -89,4 +89,45 @@
         </if>
     </select>
 
+    <select id="listStatisticData" resultMap="simpleAgentLogMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM simple_agent_log
+        WHERE 1=1
+        <if test="appName != null">
+            and app_name = #{appName}
+        </if>
+        <if test="apiName != null">
+            and clazz_name = #{apiName}
+        </if>
+        <if test="startTime != null and endTime != null">
+            and entry_time between #{startTime} and #{endTime} and invoker = 1
+        </if>
+    </select>
+    <select id="totalExceptionNum" resultType="java.lang.Long">
+        select count(distinct trace_id)
+        from simple_agent_log
+        where invoke_status = 0
+        and exception_info != ''
+        and trace_id in
+        <foreach item="item" collection="collect" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+
+    </select>
+
+    <select id="totalSlowApiNum" resultType="java.lang.Long">
+        select count(distinct trace_id)
+        from simple_agent_log exit_log
+        left join (select concat(app_name, clazz_name, method_name) onlyName, entry_time
+        from simple_agent_log
+        where trace_id in
+        <foreach item="item" collection="collect" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        and invoker = 1) entry_log
+        on entry_log.onlyName = concat(exit_log.app_name, exit_log.clazz_name, exit_log.method_name)
+        where exit_log.exit_time - entry_log.entry_time > 300;
+    </select>
+
 </mapper>

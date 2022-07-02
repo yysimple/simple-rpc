@@ -1,4 +1,4 @@
-package com.simple.statistic.entity.request;
+package com.simple.statistic.entity.statistic;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -25,11 +25,6 @@ public class StatisticTraceRequest {
      * 接口名
      */
     private String apiName;
-
-    /**
-     * 慢接口的时间值
-     */
-    private Long slowTime;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     public Date startTime;

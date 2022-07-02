@@ -6,10 +6,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 import com.simple.statistic.entity.*;
-import com.simple.statistic.entity.request.StatisticTraceRequest;
+import com.simple.statistic.entity.statistic.StatisticTraceRequest;
 import com.simple.statistic.entity.request.TraceSearchRequest;
 import com.simple.statistic.entity.response.AgentLogView;
-import com.simple.statistic.entity.response.StatisticTraceLog;
+import com.simple.statistic.entity.statistic.StatisticTraceLog;
 import com.simple.statistic.entity.response.TraceTreeView;
 
 /**

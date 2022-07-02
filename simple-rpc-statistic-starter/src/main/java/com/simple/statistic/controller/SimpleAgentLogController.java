@@ -8,6 +8,8 @@ import com.simple.statistic.entity.request.TraceSearchRequest;
 import com.simple.statistic.entity.response.AgentLogView;
 import com.simple.statistic.entity.response.SimpleResponse;
 import com.simple.statistic.entity.response.TraceTreeView;
+import com.simple.statistic.entity.statistic.StatisticTraceLog;
+import com.simple.statistic.entity.statistic.StatisticTraceRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -76,6 +78,11 @@ public class SimpleAgentLogController {
     @GetMapping("/getSimpleAgentLog")
     public SimpleResponse<SimpleAgentLog> getSimpleAgentLog(Long id) {
         return new SimpleResponse<>(simpleAgentLogService.getSimpleAgentLog(id));
+    }
+
+    @PostMapping("/statisticTraceLog")
+    public SimpleResponse<StatisticTraceLog> statisticTraceLog(@RequestBody StatisticTraceRequest request) {
+        return new SimpleResponse<>(simpleAgentLogService.statisticTraceLog(request));
     }
 
 }
