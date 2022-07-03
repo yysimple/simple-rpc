@@ -24,6 +24,11 @@ public class Response {
     private long requestId;
 
     /**
+     * 异常信息
+     */
+    private Object exceptionInfo;
+
+    /**
      * 返回的信息
      */
     private Object result;

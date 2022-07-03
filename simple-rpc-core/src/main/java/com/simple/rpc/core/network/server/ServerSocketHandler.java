@@ -72,6 +72,15 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             //释放
             ReferenceCountUtil.release(msg);
         } catch (Exception e) {
+            // 异常的时候返回，终端客户端等待
+            Response response = new Response();
+            response.setRequestId(rpcMessage.getRequestId());
+            response.setExceptionInfo(e.getMessage());
+            // 构建返回值
+            RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
+            responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
+            responseRpcMsg.setData(response);
+            ctx.writeAndFlush(responseRpcMsg);
             e.printStackTrace();
         }
     }
