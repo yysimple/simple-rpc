@@ -1,13 +1,16 @@
 package com.simple.rpc.core.reflect;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.simple.rpc.common.cache.ApplicationCache;
 import com.simple.rpc.common.config.*;
 import com.simple.rpc.common.constant.JavaKeywordConstant;
 import com.simple.rpc.common.exception.network.NettyInitException;
+import com.simple.rpc.common.exception.network.NettyInvokeException;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.spi.ExtensionLoader;
 import com.simple.rpc.common.exception.SimpleRpcBaseException;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.cache.ConnectCache;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
@@ -140,6 +143,14 @@ public class RpcInvocationHandler implements InvocationHandler {
         // 容错机制
         FaultTolerantInvoker faultTolerantInvoker = ExtensionLoader.getLoader(FaultTolerantInvoker.class).getExtension(baseConfig.getFaultTolerantType());
         Response response = faultTolerantInvoker.invoke(request);
+        SimpleRpcLog.info("返回值：===> {}", JSON.toJSONString(response));
+        Object exceptionInfo = response.getExceptionInfo();
+        if (!Objects.isNull(exceptionInfo)) {
+            String s = exceptionInfo.toString();
+            if (StrUtil.isNotBlank(s)) {
+                throw new NettyInvokeException("remote invoke fail!");
+            }
+        }
         return response.getResult();
     }
 }

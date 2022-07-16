@@ -18,6 +18,7 @@ import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.ReferenceCountUtil;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -71,7 +72,8 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             ctx.writeAndFlush(responseRpcMsg);
             //释放
             ReferenceCountUtil.release(msg);
-        } catch (Exception e) {
+        } catch (InvocationTargetException t) {
+            Throwable e = t.getTargetException();
             // 异常的时候返回，终端客户端等待
             Response response = new Response();
             response.setRequestId(rpcMessage.getRequestId());
