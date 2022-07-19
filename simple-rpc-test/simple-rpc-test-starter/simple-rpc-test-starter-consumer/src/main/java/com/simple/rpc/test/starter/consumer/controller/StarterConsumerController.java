@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @RequestMapping("/starter/consumer")
 public class StarterConsumerController {
 
-    @Resource
+    @SimpleRpcReference
     private StarterHelloService service;
 
     @Resource
