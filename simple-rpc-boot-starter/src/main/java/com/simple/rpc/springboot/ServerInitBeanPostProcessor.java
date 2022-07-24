@@ -30,7 +30,6 @@ import java.util.concurrent.Executors;
  * @author: WuChengXing
  * @create: 2022-05-04 18:44
  **/
-@Component
 public class ServerInitBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);

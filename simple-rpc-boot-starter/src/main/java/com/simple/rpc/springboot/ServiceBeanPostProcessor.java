@@ -37,7 +37,6 @@ import java.util.Arrays;
  * @author: WuChengXing
  * @create: 2022-05-04 17:09
  **/
-@Component
 public class ServiceBeanPostProcessor implements BeanPostProcessor, Ordered {
 
     @Resource

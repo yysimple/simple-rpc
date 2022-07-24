@@ -24,7 +24,6 @@ import java.util.List;
  * @author: WuChengXing
  * @create: 2022-05-10 19:11
  **/
-@Component
 public class ApplicationClosedEventListener implements ApplicationListener<ContextClosedEvent> {
 
     @Override
