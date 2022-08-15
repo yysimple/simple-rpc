@@ -31,6 +31,7 @@ public class ProviderBean extends ProviderConfig implements ApplicationContextAw
     @Resource
     private ServerBean serverBean;
 
+    // 测试git提交
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         SimpleRpcUrl simpleRpcUrl = ParseServerBean.parse(serverBean);
