@@ -45,7 +45,7 @@ public class ProviderBean extends ProviderConfig implements ApplicationContextAw
         providerRequest.setHost(LocalAddressInfo.LOCAL_HOST);
         providerRequest.setPort(LocalAddressInfo.PORT);
         //注册生产者
-        boolean flag = registerCenter.register(Request.request2Register(providerRequest));
+        boolean flag = Boolean.parseBoolean(registerCenter.register(Request.request2Register(providerRequest)));
         SimpleRpcServiceCache.addService(alias, applicationContext.getBean(beanName));
         SimpleRpcLog.info("注册生产者：{}, 是否成功：{} ", JSON.toJSONString(providerRequest), flag);
     }
