@@ -2,6 +2,7 @@ package com.simple.agent;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.simple.agent.constant.AgentConstant;
 import com.simple.agent.entity.AgentParam;
 import com.simple.agent.plugins.IPlugin;
 import com.simple.agent.plugins.InterceptPoint;
@@ -34,6 +35,10 @@ public class AgentMain {
         AgentParam agentParam = new AgentParam();
         if (!StrUtil.isBlank(agentArgs)) {
             agentParam = JSON.parseObject(agentArgs, AgentParam.class);
+        } else {
+            // 默认设置插件trace
+            agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
+            agentParam.setInterceptClassRule("com.simple.rpc");
         }
         List<IPlugin> pluginGroup = PluginFactory.listPlugins(agentParam);
         for (IPlugin plugin : pluginGroup) {
