@@ -1,5 +1,6 @@
 package com.simple.agent;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.simple.agent.entity.AgentParam;
 import com.simple.agent.plugins.IPlugin;
@@ -30,14 +31,17 @@ public class AgentMain {
         System.out.println(agentArgs);
         AgentLog.info("====== agent start =====");
         AgentBuilder agentBuilder = new AgentBuilder.Default();
-        AgentParam agentParam = JSON.parseObject(agentArgs, AgentParam.class);
+        AgentParam agentParam = new AgentParam();
+        if (!StrUtil.isBlank(agentArgs)) {
+            agentParam = JSON.parseObject(agentArgs, AgentParam.class);
+        }
         List<IPlugin> pluginGroup = PluginFactory.listPlugins(agentParam);
         for (IPlugin plugin : pluginGroup) {
             List<InterceptPoint> interceptPoints = plugin.buildInterceptPoint();
             for (InterceptPoint point : interceptPoints) {
-
+                AgentParam finalAgentParam = agentParam;
                 AgentBuilder.Transformer transformer = (builder, typeDescription, classLoader, javaModule) -> {
-                    builder = builder.visit(Advice.to(plugin.adviceClass()).on(point.buildMethodsMatcher(agentParam)));
+                    builder = builder.visit(Advice.to(plugin.adviceClass()).on(point.buildMethodsMatcher(finalAgentParam)));
                     return builder;
                 };
                 agentBuilder = agentBuilder.type(point.buildTypesMatcher(agentParam)).transform(transformer).asDecorator();
