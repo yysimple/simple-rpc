@@ -1,5 +1,7 @@
 package com.simple.agent.trace;
 
+import com.simple.agent.constant.AgentConstant;
+
 import java.util.Objects;
 
 /**
@@ -48,9 +50,9 @@ public class SpanContext {
             newEnterOrExit = 1;
         }
         newSpanId = newSpanId + "." + (newLevel + 1);
-        if (newEnterOrExit == 2) {
+        if (AgentConstant.EXIT.equals(newEnterOrExit)) {
             newLevel = 0;
-            newEnterOrExit = 1;
+            newEnterOrExit = AgentConstant.ENTRY;
         }
         return new Span(traceId, newSpanId, newLevel, newEnterOrExit);
     }
