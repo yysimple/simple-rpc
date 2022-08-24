@@ -27,7 +27,12 @@ import java.util.List;
  **/
 public class AgentMain {
 
-    //JVM 首先尝试在代理类上调用以下方法
+    /**
+     * JVM 首先尝试在代理类上调用以下方法
+     *
+     * @param agentArgs
+     * @param inst
+     */
     public static void premain(String agentArgs, Instrumentation inst) {
         System.out.println(agentArgs);
         AgentLog.info("====== agent start =====");
@@ -38,7 +43,6 @@ public class AgentMain {
         } else {
             // 默认设置插件trace
             agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
-            agentParam.setInterceptClassRule("com.simple.rpc");
         }
         List<IPlugin> pluginGroup = PluginFactory.listPlugins(agentParam);
         for (IPlugin plugin : pluginGroup) {

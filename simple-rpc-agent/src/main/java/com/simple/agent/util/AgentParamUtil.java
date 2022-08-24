@@ -1,5 +1,8 @@
 package com.simple.agent.util;
 
+import com.alibaba.fastjson.JSON;
+import com.simple.agent.entity.AgentParam;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,5 +29,12 @@ public class AgentParamUtil {
             return new ArrayList<>();
         }
         return new ArrayList<>(Arrays.asList(param.split(";")));
+    }
+
+    public static void main(String[] args) {
+        AgentParam agentParam= new AgentParam();
+        agentParam.setPlugins("trace");
+        agentParam.setInterceptClassRule("com.simple.rpc");
+        System.out.println(JSON.toJSONString(agentParam));
     }
 }

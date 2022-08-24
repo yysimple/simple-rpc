@@ -1,5 +1,7 @@
 package com.simple.agent.trace;
 
+import java.util.Objects;
+
 /**
  * 项目: class-byte-code
  * <p>
@@ -39,6 +41,12 @@ public class SpanContext {
         String newSpanId = spanContext.getSpanId();
         Integer newEnterOrExit = spanContext.getEnterOrExit();
         Integer newLevel = spanContext.getLevel();
+        if (Objects.isNull(newLevel)) {
+            newLevel = 0;
+        }
+        if (Objects.isNull(newEnterOrExit)) {
+            newEnterOrExit = 1;
+        }
         newSpanId = newSpanId + "." + (newLevel + 1);
         if (newEnterOrExit == 2) {
             newLevel = 0;
