@@ -18,7 +18,8 @@ public class AgentParam {
     /**
      * 匹配规则选择
      */
-    private String rules;
+    private String containRules;
+    private String ignoreRules;
 
     /**
      * 前缀相关：com.simple.agent;com.test;com.agent
@@ -116,19 +117,27 @@ public class AgentParam {
         this.ignoreMethodNames = ignoreMethodNames;
     }
 
-    public String getRules() {
-        return rules;
+    public String getContainRules() {
+        return containRules;
     }
 
-    public void setRules(String rules) {
-        this.rules = rules;
+    public void setContainRules(String containRules) {
+        this.containRules = containRules;
+    }
+
+    public String getIgnoreRules() {
+        return ignoreRules;
+    }
+
+    public void setIgnoreRules(String ignoreRules) {
+        this.ignoreRules = ignoreRules;
     }
 
     @Override
     public String toString() {
         return "AgentParam{" +
                 "plugins='" + plugins + '\'' +
-                ", rules='" + rules + '\'' +
+                ", containRules='" + containRules + '\'' +
                 ", classPrefix='" + classPrefix + '\'' +
                 ", ignoreClassPrefix='" + ignoreClassPrefix + '\'' +
                 ", classNames='" + classNames + '\'' +

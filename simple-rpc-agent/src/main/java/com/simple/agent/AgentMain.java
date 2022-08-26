@@ -86,7 +86,7 @@ public class AgentMain {
 
         @Override
         public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b, DynamicType dynamicType) {
-            System.out.println("onTransformation：" + typeDescription);
+
         }
 
         @Override

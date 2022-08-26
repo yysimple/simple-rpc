@@ -15,6 +15,8 @@ public enum MatchEnums {
      */
     PREFIX("01", "prefix"),
     NAMED("02", "named"),
+    IGNORE_PREFIX("03", "ignore prefix"),
+    IGNORE_NAMED("04", "ignore named"),
     ;
 
     private final String code;
