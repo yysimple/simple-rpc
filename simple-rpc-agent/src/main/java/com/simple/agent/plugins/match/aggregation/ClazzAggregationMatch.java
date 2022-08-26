@@ -1,5 +1,6 @@
 package com.simple.agent.plugins.match.aggregation;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.agent.entity.AgentParam;
 import com.simple.agent.plugins.match.ClazzMatch;
 import com.simple.agent.plugins.match.common.MultiNamedMatch;
@@ -8,6 +9,7 @@ import com.simple.agent.plugins.match.common.PrefixMatch;
 import com.simple.agent.entity.MatchEnums;
 import com.simple.agent.util.AgentParamUtil;
 import net.bytebuddy.matcher.ElementMatcher;
+import net.bytebuddy.matcher.ElementMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,9 @@ public class ClazzAggregationMatch {
 
     public static ElementMatcher.Junction buildAllMatch(AgentParam agentParam) {
         List<String> rules = AgentParamUtil.dealParam(agentParam.getRules());
+        if (CollectionUtil.isEmpty(rules)) {
+            return ElementMatchers.none();
+        }
         List<ClazzMatch> clazzMatches = new ArrayList<>();
         rules.forEach(r -> {
             if (MatchEnums.PREFIX.getCode().equals(r)) {

@@ -76,7 +76,7 @@
     <simple-rpc-core.version>1.0.0</simple-rpc-core.version>
     <logback.version>1.2.10</logback.version>
     <maven.configuration.manifestFile>src/main/resources/META-INF/MANIFEST.MF</maven.configuration.manifestFile>
-    <bytebuddy.version>1.8.0</bytebuddy.version>
+    <bytebuddy.version>1.12.13</bytebuddy.version>
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <junit.version>4.12</junit.version>

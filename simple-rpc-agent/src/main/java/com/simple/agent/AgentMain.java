@@ -12,9 +12,11 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.matcher.ElementMatchers;
 import net.bytebuddy.utility.JavaModule;
 
 import java.lang.instrument.Instrumentation;
+import java.security.ProtectionDomain;
 import java.util.List;
 
 /**
@@ -48,45 +50,58 @@ public class AgentMain {
         for (IPlugin plugin : pluginGroup) {
             List<InterceptPoint> interceptPoints = plugin.buildInterceptPoint();
             for (InterceptPoint point : interceptPoints) {
-                AgentParam finalAgentParam = agentParam;
-                AgentBuilder.Transformer transformer = (builder, typeDescription, classLoader, javaModule) -> {
-                    builder = builder.visit(Advice.to(plugin.adviceClass()).on(point.buildMethodsMatcher(finalAgentParam)));
-                    return builder;
-                };
-                agentBuilder = agentBuilder.type(point.buildTypesMatcher(agentParam)).transform(transformer).asDecorator();
+                agentBuilder.type(point.buildTypesMatcher(agentParam))
+                        .transform(new Transformer(plugin, point, agentParam))
+                        .with(AgentBuilder.RedefinitionStrategy.RETRANSFORMATION)
+                        .with(new Listener())
+                        .installOn(inst);
             }
         }
+    }
 
-        //监听
-        AgentBuilder.Listener listener = new AgentBuilder.Listener() {
-            @Override
-            public void onDiscovery(String s, ClassLoader classLoader, JavaModule javaModule, boolean b) {
+    private static class Transformer implements AgentBuilder.Transformer {
 
-            }
+        IPlugin plugin;
+        InterceptPoint interceptPoint;
+        AgentParam agentParam;
 
-            @Override
-            public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b, DynamicType dynamicType) {
+        Transformer(IPlugin plugin, InterceptPoint interceptPoint, AgentParam agentParam) {
+            this.plugin = plugin;
+            this.interceptPoint = interceptPoint;
+            this.agentParam = agentParam;
+        }
 
-            }
+        @Override
+        public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, ProtectionDomain protectionDomain) {
+            return builder.visit(Advice.to(plugin.adviceClass()).on(interceptPoint.buildMethodsMatcher(agentParam)));
+        }
+    }
 
-            @Override
-            public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b) {
+    private static class Listener implements AgentBuilder.Listener {
 
-            }
+        @Override
+        public void onDiscovery(String s, ClassLoader classLoader, JavaModule javaModule, boolean b) {
 
-            @Override
-            public void onError(String s, ClassLoader classLoader, JavaModule javaModule, boolean b, Throwable throwable) {
+        }
 
-            }
+        @Override
+        public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b, DynamicType dynamicType) {
+            System.out.println("onTransformation：" + typeDescription);
+        }
 
-            @Override
-            public void onComplete(String s, ClassLoader classLoader, JavaModule javaModule, boolean b) {
+        @Override
+        public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule, boolean b) {
 
-            }
+        }
 
-        };
+        @Override
+        public void onError(String s, ClassLoader classLoader, JavaModule javaModule, boolean b, Throwable throwable) {
 
-        agentBuilder.with(listener).installOn(inst);
+        }
 
+        @Override
+        public void onComplete(String s, ClassLoader classLoader, JavaModule javaModule, boolean b) {
+
+        }
     }
 }
