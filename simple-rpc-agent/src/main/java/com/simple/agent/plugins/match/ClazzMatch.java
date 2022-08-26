@@ -1,4 +1,6 @@
-package com.simple.agent.plugins.match.clazz;
+package com.simple.agent.plugins.match;
+
+import com.simple.agent.plugins.match.Match;
 
 /**
  * 项目: simple-rpc
@@ -8,6 +10,6 @@ package com.simple.agent.plugins.match.clazz;
  * @author: WuChengXing
  * @create: 2022-08-26 12:01
  **/
-public interface ClazzMatch {
+public interface ClazzMatch extends Match {
 
 }

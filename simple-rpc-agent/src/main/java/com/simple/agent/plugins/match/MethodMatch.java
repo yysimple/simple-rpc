@@ -1,4 +1,6 @@
-package com.simple.agent.plugins.match.method;
+package com.simple.agent.plugins.match;
+
+import com.simple.agent.plugins.match.Match;
 
 /**
  * 项目: simple-rpc
@@ -8,5 +10,6 @@ package com.simple.agent.plugins.match.method;
  * @author: WuChengXing
  * @create: 2022-08-26 12:05
  **/
-public interface MethodMatch {
+public interface MethodMatch extends Match {
+
 }
