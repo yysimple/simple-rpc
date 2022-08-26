@@ -13,12 +13,12 @@ import net.bytebuddy.matcher.ElementMatcher;
 public abstract class AbstractMatch implements ClazzMatch, MethodMatch {
 
     @Override
-    public ElementMatcher.Junction containJunction() {
+    public ElementMatcher.Junction andJunction() {
         return null;
     }
 
     @Override
-    public ElementMatcher.Junction ignoreJunction() {
+    public ElementMatcher.Junction orJunction() {
         return null;
     }
 }

@@ -34,7 +34,7 @@ public class AgentParamUtil {
     public static void main(String[] args) {
         AgentParam agentParam= new AgentParam();
         agentParam.setPlugins("trace");
-        agentParam.setInterceptClassRule("com.simple.rpc");
+        agentParam.setClassPrefix("com.simple.rpc");
         System.out.println(JSON.toJSONString(agentParam));
     }
 }

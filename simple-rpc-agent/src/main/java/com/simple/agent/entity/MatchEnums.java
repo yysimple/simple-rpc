@@ -1,4 +1,4 @@
-package com.simple.agent.plugins.match.entity;
+package com.simple.agent.entity;
 
 /**
  * 项目: simple-rpc

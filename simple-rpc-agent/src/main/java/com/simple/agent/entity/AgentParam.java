@@ -16,13 +16,30 @@ public class AgentParam {
     private String plugins;
 
     /**
-     * 规则相关  com.simple.agent
+     * 匹配规则选择
      */
-    private String interceptClassRule;
-    private String ignoreClassRule;
+    private String rules;
 
     /**
-     * main
+     * 前缀相关：com.simple.agent;com.test;com.agent
+     */
+    private String classPrefix;
+    private String ignoreClassPrefix;
+
+    /**
+     * 类名称匹配：main;hello
+     */
+    private String classNames;
+    private String ignoreClassNames;
+
+    /**
+     * 方法名拦截
+     */
+    private String methodNames;
+    private String ignoreMethodNames;
+
+    /**
+     * main;hello;toString
      */
     private String interceptMethodRule;
     private String ignoreMethodRule;
@@ -35,20 +52,20 @@ public class AgentParam {
         this.plugins = plugins;
     }
 
-    public String getInterceptClassRule() {
-        return interceptClassRule;
+    public String getClassPrefix() {
+        return classPrefix;
     }
 
-    public void setInterceptClassRule(String interceptClassRule) {
-        this.interceptClassRule = interceptClassRule;
+    public void setClassPrefix(String classPrefix) {
+        this.classPrefix = classPrefix;
     }
 
-    public String getIgnoreClassRule() {
-        return ignoreClassRule;
+    public String getIgnoreClassPrefix() {
+        return ignoreClassPrefix;
     }
 
-    public void setIgnoreClassRule(String ignoreClassRule) {
-        this.ignoreClassRule = ignoreClassRule;
+    public void setIgnoreClassPrefix(String ignoreClassPrefix) {
+        this.ignoreClassPrefix = ignoreClassPrefix;
     }
 
     public String getInterceptMethodRule() {
@@ -67,12 +84,57 @@ public class AgentParam {
         this.ignoreMethodRule = ignoreMethodRule;
     }
 
+    public String getClassNames() {
+        return classNames;
+    }
+
+    public void setClassNames(String classNames) {
+        this.classNames = classNames;
+    }
+
+    public String getIgnoreClassNames() {
+        return ignoreClassNames;
+    }
+
+    public void setIgnoreClassNames(String ignoreClassNames) {
+        this.ignoreClassNames = ignoreClassNames;
+    }
+
+    public String getMethodNames() {
+        return methodNames;
+    }
+
+    public void setMethodNames(String methodNames) {
+        this.methodNames = methodNames;
+    }
+
+    public String getIgnoreMethodNames() {
+        return ignoreMethodNames;
+    }
+
+    public void setIgnoreMethodNames(String ignoreMethodNames) {
+        this.ignoreMethodNames = ignoreMethodNames;
+    }
+
+    public String getRules() {
+        return rules;
+    }
+
+    public void setRules(String rules) {
+        this.rules = rules;
+    }
+
     @Override
     public String toString() {
         return "AgentParam{" +
                 "plugins='" + plugins + '\'' +
-                ", interceptClassRule='" + interceptClassRule + '\'' +
-                ", ignoreClassRule='" + ignoreClassRule + '\'' +
+                ", rules='" + rules + '\'' +
+                ", classPrefix='" + classPrefix + '\'' +
+                ", ignoreClassPrefix='" + ignoreClassPrefix + '\'' +
+                ", classNames='" + classNames + '\'' +
+                ", ignoreClassNames='" + ignoreClassNames + '\'' +
+                ", methodNames='" + methodNames + '\'' +
+                ", ignoreMethodNames='" + ignoreMethodNames + '\'' +
                 ", interceptMethodRule='" + interceptMethodRule + '\'' +
                 ", ignoreMethodRule='" + ignoreMethodRule + '\'' +
                 '}';

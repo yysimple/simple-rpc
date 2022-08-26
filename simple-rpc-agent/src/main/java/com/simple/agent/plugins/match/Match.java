@@ -17,12 +17,12 @@ public interface Match {
      *
      * @return
      */
-    ElementMatcher.Junction containJunction();
+    ElementMatcher.Junction andJunction();
 
     /**
      * 构建忽略匹配规则
      *
      * @return
      */
-    ElementMatcher.Junction ignoreJunction();
+    ElementMatcher.Junction orJunction();
 }

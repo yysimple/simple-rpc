@@ -1,5 +1,6 @@
 package com.simple.agent.plugins.match.common;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.agent.plugins.match.AbstractMatch;
 import net.bytebuddy.matcher.ElementMatcher;
 
@@ -20,28 +21,15 @@ public class MultiNamedMatch extends AbstractMatch {
 
     private final List<String> matchClassNames;
 
-    private MultiNamedMatch(String[] classNames) {
-        if (classNames == null || classNames.length == 0) {
+    private MultiNamedMatch(List<String> classNames) {
+        if (CollectionUtil.isEmpty(classNames)) {
             throw new IllegalArgumentException("match class names is null");
         }
-        this.matchClassNames = Arrays.asList(classNames);
+        this.matchClassNames = classNames;
     }
 
     @Override
-    public ElementMatcher.Junction containJunction() {
-        ElementMatcher.Junction junction = null;
-        for (String name : matchClassNames) {
-            if (junction == null) {
-                junction = named(name);
-            } else {
-                junction = junction.or(named(name));
-            }
-        }
-        return junction;
-    }
-
-    @Override
-    public ElementMatcher.Junction ignoreJunction() {
+    public ElementMatcher.Junction andJunction() {
         ElementMatcher.Junction junction = null;
         for (String name : matchClassNames) {
             if (junction == null) {
@@ -53,7 +41,20 @@ public class MultiNamedMatch extends AbstractMatch {
         return junction;
     }
 
-    public static MultiNamedMatch byMultiClassMatch(String... classNames) {
+    @Override
+    public ElementMatcher.Junction orJunction() {
+        ElementMatcher.Junction junction = null;
+        for (String name : matchClassNames) {
+            if (junction == null) {
+                junction = named(name);
+            } else {
+                junction = junction.or(named(name));
+            }
+        }
+        return junction;
+    }
+
+    public static MultiNamedMatch byMultiClassMatch(List<String> classNames) {
         return new MultiNamedMatch(classNames);
     }
 

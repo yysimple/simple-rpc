@@ -1,9 +1,12 @@
 package com.simple.agent.plugins.match.common;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.simple.agent.plugins.match.AbstractMatch;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
 import net.bytebuddy.matcher.ElementMatchers;
+
+import java.util.List;
 
 /**
  * 项目: simple-rpc
@@ -15,32 +18,17 @@ import net.bytebuddy.matcher.ElementMatchers;
  **/
 public class PrefixMatch extends AbstractMatch {
 
-    private final String[] prefixes;
+    private final List<String> prefixes;
 
-    private PrefixMatch(String... prefixes) {
-        if (prefixes == null || prefixes.length == 0) {
+    private PrefixMatch(List<String> prefixes) {
+        if (CollectionUtil.isEmpty(prefixes)) {
             throw new IllegalArgumentException("prefixes argument is null or empty");
         }
         this.prefixes = prefixes;
     }
 
     @Override
-    public ElementMatcher.Junction containJunction() {
-        ElementMatcher.Junction junction = null;
-
-        for (String prefix : prefixes) {
-            if (junction == null) {
-                junction = ElementMatchers.nameStartsWith(prefix);
-            } else {
-                junction = junction.or(ElementMatchers.nameStartsWith(prefix));
-            }
-        }
-
-        return junction;
-    }
-
-    @Override
-    public ElementMatcher.Junction ignoreJunction() {
+    public ElementMatcher.Junction andJunction() {
         ElementMatcher.Junction junction = null;
 
         for (String prefix : prefixes) {
@@ -54,7 +42,22 @@ public class PrefixMatch extends AbstractMatch {
         return junction;
     }
 
-    public static PrefixMatch nameStartsWith(final String... prefixes) {
+    @Override
+    public ElementMatcher.Junction orJunction() {
+        ElementMatcher.Junction junction = null;
+
+        for (String prefix : prefixes) {
+            if (junction == null) {
+                junction = ElementMatchers.nameStartsWith(prefix);
+            } else {
+                junction = junction.or(ElementMatchers.nameStartsWith(prefix));
+            }
+        }
+
+        return junction;
+    }
+
+    public static PrefixMatch nameStartsWith(final List<String> prefixes) {
         return new PrefixMatch(prefixes);
     }
 

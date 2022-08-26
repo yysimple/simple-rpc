@@ -42,12 +42,12 @@ public class DefaultRules {
     }
 
     public static ElementMatcher.Junction<TypeDescription> ignoreClassParam(AgentParam param) {
-        List<String> strings = AgentParamUtil.dealParam(param.getIgnoreClassRule());
+        List<String> strings = AgentParamUtil.dealParam(param.getIgnoreClassPrefix());
         return ElementMatchers.not(ElementMatchers.anyOf(strings));
     }
 
     public static ElementMatcher.Junction<TypeDescription> containClassParam(AgentParam param) {
-        List<String> strings = AgentParamUtil.dealParam(param.getInterceptClassRule());
+        List<String> strings = AgentParamUtil.dealParam(param.getClassPrefix());
         List<ElementMatcher.Junction<TypeDescription>> values = new ArrayList<>();
         strings.forEach(s -> {
             values.add(ElementMatchers.nameStartsWith(s));

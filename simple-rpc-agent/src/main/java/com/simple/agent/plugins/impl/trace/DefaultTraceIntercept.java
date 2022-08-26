@@ -3,6 +3,7 @@ package com.simple.agent.plugins.impl.trace;
 import com.simple.agent.entity.AgentParam;
 import com.simple.agent.plugins.InterceptPoint;
 import com.simple.agent.plugins.impl.rule.DefaultRules;
+import com.simple.agent.plugins.match.aggregation.ClazzAggregationMatch;
 import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.matcher.ElementMatcher;
@@ -20,7 +21,7 @@ public class DefaultTraceIntercept implements InterceptPoint {
 
     @Override
     public ElementMatcher<TypeDescription> buildTypesMatcher(AgentParam agentParam) {
-        return ElementMatchers.nameStartsWith(agentParam.getInterceptClassRule())
+        return ClazzAggregationMatch.buildAllMatch(agentParam)
                 .and(ElementMatchers.not(ElementMatchers.nameStartsWith("com.simple.agent")))
                 .and(DefaultRules.defaultIgnoreClass());
     }

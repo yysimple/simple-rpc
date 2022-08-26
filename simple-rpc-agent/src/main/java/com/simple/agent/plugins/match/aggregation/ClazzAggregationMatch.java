@@ -1,11 +1,15 @@
 package com.simple.agent.plugins.match.aggregation;
 
-import cn.hutool.core.util.StrUtil;
 import com.simple.agent.entity.AgentParam;
-import com.simple.agent.plugins.match.entity.MatchRule;
+import com.simple.agent.plugins.match.ClazzMatch;
+import com.simple.agent.plugins.match.common.MultiNamedMatch;
+import com.simple.agent.plugins.match.common.OrMatch;
+import com.simple.agent.plugins.match.common.PrefixMatch;
+import com.simple.agent.entity.MatchEnums;
 import com.simple.agent.util.AgentParamUtil;
 import net.bytebuddy.matcher.ElementMatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +22,21 @@ import java.util.List;
  **/
 public class ClazzAggregationMatch {
 
-    public static ElementMatcher.Junction buildMatch(MatchRule rule, AgentParam agentParam) {
-        List<String> rules = AgentParamUtil.dealParam(rule.getRules());
-        return null;
+    public static ElementMatcher.Junction buildAllMatch(AgentParam agentParam) {
+        List<String> rules = AgentParamUtil.dealParam(agentParam.getRules());
+        List<ClazzMatch> clazzMatches = new ArrayList<>();
+        rules.forEach(r -> {
+            if (MatchEnums.PREFIX.getCode().equals(r)) {
+                List<String> classPrefix = AgentParamUtil.dealParam(agentParam.getClassPrefix());
+                PrefixMatch match = PrefixMatch.nameStartsWith(classPrefix);
+                clazzMatches.add(match);
+            } else if (MatchEnums.NAMED.getCode().equals(r)) {
+                List<String> className = AgentParamUtil.dealParam(agentParam.getClassNames());
+                MultiNamedMatch match = MultiNamedMatch.byMultiClassMatch(className);
+                clazzMatches.add(match);
+            }
+        });
+        OrMatch or = OrMatch.or(clazzMatches);
+        return or.orJunction();
     }
 }
