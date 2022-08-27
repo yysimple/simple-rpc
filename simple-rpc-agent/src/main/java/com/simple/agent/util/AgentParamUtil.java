@@ -1,7 +1,10 @@
 package com.simple.agent.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
+import com.simple.agent.constant.AgentConstant;
 import com.simple.agent.entity.AgentParam;
+import com.simple.rpc.common.config.ConfigManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,8 +34,35 @@ public class AgentParamUtil {
         return new ArrayList<>(Arrays.asList(param.split(";")));
     }
 
+    public static AgentParam dealAgentParam(String agentArgs) {
+        AgentParam agentParam = new AgentParam();
+        try {
+            // 配置在启动时，后面的参数优先级最高
+            if (!StrUtil.isBlank(agentArgs)) {
+                agentParam = JSON.parseObject(agentArgs, AgentParam.class);
+                if (StrUtil.isBlank(agentParam.getPlugins())) {
+                    agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
+                }
+                return agentParam;
+            } else {
+                AgentParam agentConfig = ConfigManager.getInstant().loadConfig(AgentParam.class);
+                if (!Objects.isNull(agentConfig) && !StrUtil.isBlank(agentConfig.getPlugins())) {
+                    return agentConfig;
+                } else {
+                    agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
+                    return agentParam;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
+            return agentParam;
+        }
+
+    }
+
     public static void main(String[] args) {
-        AgentParam agentParam= new AgentParam();
+        AgentParam agentParam = new AgentParam();
         agentParam.setPlugins("trace");
         agentParam.setContainRules("01");
         agentParam.setIgnoreRules("04");

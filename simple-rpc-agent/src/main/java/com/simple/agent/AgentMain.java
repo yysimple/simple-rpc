@@ -8,6 +8,9 @@ import com.simple.agent.plugins.IPlugin;
 import com.simple.agent.plugins.InterceptPoint;
 import com.simple.agent.plugins.PluginFactory;
 import com.simple.agent.util.AgentLog;
+import com.simple.agent.util.AgentParamUtil;
+import com.simple.rpc.common.config.ConfigManager;
+import com.simple.rpc.common.interfaces.ConfigLoader;
 import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.asm.Advice;
 import net.bytebuddy.description.type.TypeDescription;
@@ -39,13 +42,7 @@ public class AgentMain {
         System.out.println(agentArgs);
         AgentLog.info("====== agent start =====");
         AgentBuilder agentBuilder = new AgentBuilder.Default();
-        AgentParam agentParam = new AgentParam();
-        if (!StrUtil.isBlank(agentArgs)) {
-            agentParam = JSON.parseObject(agentArgs, AgentParam.class);
-        } else {
-            // 默认设置插件trace
-            agentParam.setPlugins(AgentConstant.PLUGIN_TRACE);
-        }
+        AgentParam agentParam = AgentParamUtil.dealAgentParam(agentArgs);
         List<IPlugin> pluginGroup = PluginFactory.listPlugins(agentParam);
         for (IPlugin plugin : pluginGroup) {
             List<InterceptPoint> interceptPoints = plugin.buildInterceptPoint();
