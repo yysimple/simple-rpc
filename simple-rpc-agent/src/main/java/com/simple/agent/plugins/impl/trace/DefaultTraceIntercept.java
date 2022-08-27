@@ -23,8 +23,8 @@ public class DefaultTraceIntercept implements InterceptPoint {
     public ElementMatcher<TypeDescription> buildTypesMatcher(AgentParam agentParam) {
         return ClazzAggregationMatch.buildAllMatch(agentParam)
                 .and(ElementMatchers.not(ElementMatchers.nameStartsWith("com.simple.agent")))
-                .and(DefaultRules.defaultIgnoreClass())
-                .and(ElementMatchers.not(ClazzAggregationMatch.buildIgnoreMatch(agentParam)));
+                .and(DefaultRules.defaultIgnoreClass());
+                //.and(ElementMatchers.not(ClazzAggregationMatch.buildIgnoreMatch(agentParam)));
     }
 
     @Override
