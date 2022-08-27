@@ -86,6 +86,8 @@ public class SyncWrite {
         // 请求完成之后，这里会去模拟等待，get的时候是无法去拿到资源的，这里设置一个等待事件
         Response response = writeFuture.get(timeout, TimeUnit.SECONDS);
         if (response == null) {
+            // 没有响应直接移除当次请求
+            SyncWriteMap.syncKey.remove(writeFuture.requestId());
             // 已经超时则抛出异常
             if (writeFuture.isTimeout()) {
                 throw new TimeoutException();
