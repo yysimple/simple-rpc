@@ -43,6 +43,7 @@ public class AgentMain {
         AgentLog.info("====== agent start =====");
         AgentBuilder agentBuilder = new AgentBuilder.Default();
         AgentParam agentParam = AgentParamUtil.dealAgentParam(agentArgs);
+        System.out.println("最后参数：" + JSON.toJSONString(agentParam));
         List<IPlugin> pluginGroup = PluginFactory.listPlugins(agentParam);
         for (IPlugin plugin : pluginGroup) {
             List<InterceptPoint> interceptPoints = plugin.buildInterceptPoint();

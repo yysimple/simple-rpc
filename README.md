@@ -12,10 +12,8 @@
 1. install之后直接引用core就行
 
 #### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+agent: 
+> -javaagent:C:\projects-code\person\java\simple-rpc\simple-rpc-agent\target\simple-rpc-agent-1.0.0.jar={\"classPrefix\":\"com.simple.rpc\",\"containRules\":\"01\",\"plugins\":\"trace\"}
 
 #### 参与贡献
 

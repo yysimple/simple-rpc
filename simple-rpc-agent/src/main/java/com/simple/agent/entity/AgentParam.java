@@ -1,5 +1,7 @@
 package com.simple.agent.entity;
 
+import com.simple.rpc.common.annotation.SimpleRpcConfig;
+
 /**
  * 项目: class-byte-code
  * <p>
@@ -8,6 +10,7 @@ package com.simple.agent.entity;
  * @author: WuChengXing
  * @create: 2022-06-09 21:04
  **/
+@SimpleRpcConfig(prefix = "simple.agent")
 public class AgentParam {
 
     /**
