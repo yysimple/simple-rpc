@@ -11,6 +11,7 @@ import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.spi.ExtensionLoader;
 import com.simple.rpc.common.exception.SimpleRpcBaseException;
 import com.simple.rpc.common.util.SimpleRpcLog;
+import com.simple.rpc.core.network.cache.CacheUtil;
 import com.simple.rpc.core.network.cache.ConnectCache;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
@@ -38,7 +39,6 @@ import java.util.concurrent.Executors;
  **/
 public class RpcInvocationHandler implements InvocationHandler {
 
-    private ChannelFuture channelFuture;
     private final CommonConfig commonConfig;
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
@@ -48,37 +48,38 @@ public class RpcInvocationHandler implements InvocationHandler {
     }
 
     private void connect(Request request) {
-        channelFuture = ConnectCache.getChannelFuture(request);
-        if (this.channelFuture != null && this.channelFuture.channel().isOpen()) {
+        // 从channel缓存中获取channel
+        ChannelFuture channelFuture = ConnectCache.getChannelFuture(request);
+        if (channelFuture != null && channelFuture.channel().isOpen()) {
             return;
         }
         synchronized (this) {
-            if (this.channelFuture != null && this.channelFuture.channel().isOpen()) {
+            if (channelFuture != null && channelFuture.channel().isOpen()) {
                 return;
             }
+            CacheUtil.deleteConnect(channelFuture);
+            channelFuture = ConnectCache.getChannelFuture(request);
             //获取通信channel
-            if (null == this.channelFuture) {
-                RpcClientSocket clientSocket = new RpcClientSocket(request);
-                executorService.submit(clientSocket);
-                int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
-                for (int i = 0; i < tryNum; i++) {
-                    if (null != this.channelFuture) {
-                        break;
-                    }
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    this.channelFuture = clientSocket.getFuture();
+            RpcClientSocket clientSocket = new RpcClientSocket(request);
+            executorService.submit(clientSocket);
+            int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
+            for (int i = 0; i < tryNum; i++) {
+                if (null != channelFuture) {
+                    break;
                 }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                channelFuture = clientSocket.getFuture();
             }
-            if (null == this.channelFuture) {
-                throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
-            }
-            request.setChannelFuture(channelFuture);
-            ConnectCache.saveChannelFuture(request);
         }
+        if (null == channelFuture) {
+            throw new NettyInitException("客户端未连接上服务端，考虑增加重试次数");
+        }
+        request.setChannelFuture(channelFuture);
+        ConnectCache.saveChannelFuture(request);
     }
 
     private Request buildRequest() {
@@ -107,8 +108,9 @@ public class RpcInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        Request buildRequest = buildRequest();
         // 连接客户端
-        connect(buildRequest());
+        connect(buildRequest);
         String methodName = method.getName();
         Class[] paramTypes = method.getParameterTypes();
         List<String> paramTypeStrs = new ArrayList<>();
@@ -134,7 +136,7 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setArgs(args);
         request.setBeanName(consumerConfig.getBeanName());
         request.setInterfaceName(consumerConfig.getInterfaceName());
-        request.setChannel(channelFuture.channel());
+        request.setChannel(Objects.requireNonNull(ConnectCache.getChannelFuture(buildRequest)).channel());
         request.setAlias(consumerConfig.getAlias());
         request.setSerializer(baseConfig.getSerializer());
         request.setRegister(baseConfig.getRegister());

@@ -3,7 +3,7 @@ server:
 simple:
   rpc:
     register:
-      #address: redis://127.0.0.1:6379
+      address: redis://127.0.0.1:6379
       password: 123456
       #address: mysql://127.0.0.1:3306
       #password: 970412@wcx.com

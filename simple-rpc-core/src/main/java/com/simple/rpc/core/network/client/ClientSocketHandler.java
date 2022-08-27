@@ -50,7 +50,9 @@ public class ClientSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
                 rpcMessage.setSerializeType(SerializeType.PROTOSTUFF.getValue());
                 rpcMessage.setCompressTye(CompressType.GZIP.getValue());
                 rpcMessage.setMessageType(MessageType.HEARTBEAT.getValue());
-                channel.writeAndFlush(rpcMessage).addListener(ChannelFutureListener.CLOSE_ON_FAILURE);
+                channel.writeAndFlush(rpcMessage)
+                        .addListeners(RemoveChannelFutureListener.BEAT_FAILURE_REMOVE_CHANNEL,
+                                ChannelFutureListener.CLOSE_ON_FAILURE);
             }
         } else {
             super.userEventTriggered(ctx, evt);

@@ -47,5 +47,12 @@ public class SimpleRpcLog {
         logger.warn(msg);
     }
 
+    public static void warn(String msg, Object var1) {
+        logger.warn(msg, var1);
+    }
+
+    public static void warn(String msg, Object... vars) {
+        logger.warn(msg, vars);
+    }
 
 }
