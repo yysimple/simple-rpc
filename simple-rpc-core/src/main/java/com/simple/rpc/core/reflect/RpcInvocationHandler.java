@@ -130,6 +130,23 @@ public class RpcInvocationHandler implements InvocationHandler {
         Request request = new Request();
         ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
         BaseConfig baseConfig = commonConfig.getBaseConfig();
+        buildSendRequest(args, buildRequest, methodName, paramTypeStrs, request, consumerConfig, baseConfig);
+        // 容错机制
+        FaultTolerantInvoker faultTolerantInvoker = ExtensionLoader.getLoader(FaultTolerantInvoker.class)
+                .getExtension(baseConfig.getFaultTolerantType());
+        Response response = faultTolerantInvoker.invoke(request);
+        SimpleRpcLog.info("返回值：===> {}", JSON.toJSONString(response));
+        Object exceptionInfo = response.getExceptionInfo();
+        if (!Objects.isNull(exceptionInfo)) {
+            String s = exceptionInfo.toString();
+            if (StrUtil.isNotBlank(s)) {
+                throw new NettyInvokeException("remote invoke fail!");
+            }
+        }
+        return response.getResult();
+    }
+
+    private void buildSendRequest(Object[] args, Request buildRequest, String methodName, List<String> paramTypeStrs, Request request, ConsumerConfig consumerConfig, BaseConfig baseConfig) {
         //设置参数
         request.setMethodName(methodName);
         request.setParamTypes(paramTypeStrs);
@@ -142,17 +159,5 @@ public class RpcInvocationHandler implements InvocationHandler {
         request.setRegister(baseConfig.getRegister());
         request.setCompressor(baseConfig.getCompressor());
         request.setTimeout(baseConfig.getTimeout());
-        // 容错机制
-        FaultTolerantInvoker faultTolerantInvoker = ExtensionLoader.getLoader(FaultTolerantInvoker.class).getExtension(baseConfig.getFaultTolerantType());
-        Response response = faultTolerantInvoker.invoke(request);
-        SimpleRpcLog.info("返回值：===> {}", JSON.toJSONString(response));
-        Object exceptionInfo = response.getExceptionInfo();
-        if (!Objects.isNull(exceptionInfo)) {
-            String s = exceptionInfo.toString();
-            if (StrUtil.isNotBlank(s)) {
-                throw new NettyInvokeException("remote invoke fail!");
-            }
-        }
-        return response.getResult();
     }
 }
