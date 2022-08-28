@@ -12,6 +12,8 @@ import com.simple.rpc.common.cache.SimpleRpcServiceCache;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.message.RpcMessage;
+import com.simple.rpc.core.network.send.SyncWriteMap;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.timeout.IdleState;
@@ -41,6 +43,8 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             }
             // 拿到请求参数
             Request msg = (Request) rpcMessage.getData();
+            // 每次请求都进行缓存
+            SyncWriteMap.SERVER_REQUEST.put(msg.getRequestId(), Thread.currentThread());
             //调用
             Class<?> classType = ClassLoaderUtils.forName(msg.getInterfaceName());
             List<String> paramTypes = msg.getParamTypes();
@@ -69,7 +73,10 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
             responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
             responseRpcMsg.setData(response);
-            ctx.writeAndFlush(responseRpcMsg);
+            // 发送成功后移除当前请求
+            ctx.writeAndFlush(responseRpcMsg).addListener((ChannelFutureListener) future -> {
+                SyncWriteMap.SERVER_REQUEST.remove(msg.getRequestId());
+            });
             //释放
             ReferenceCountUtil.release(msg);
         } catch (InvocationTargetException t) {

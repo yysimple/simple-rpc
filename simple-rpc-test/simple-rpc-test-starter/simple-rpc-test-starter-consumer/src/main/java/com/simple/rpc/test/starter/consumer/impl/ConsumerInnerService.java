@@ -32,4 +32,11 @@ public interface ConsumerInnerService {
      * @return
      */
     String simpleInvoke();
+
+    /**
+     * 优雅上下线测试接口
+     *
+     * @return
+     */
+    String upAndShutdown();
 }

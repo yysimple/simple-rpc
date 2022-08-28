@@ -1,5 +1,8 @@
 package com.simple.rpc.core.network.send;
 
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -13,7 +16,12 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class SyncWriteMap {
     /**
-     * 存储连接的缓存
+     * 存储客户端连接的缓存
      */
-    public static Map<Long, WriteFuture> syncKey = new ConcurrentHashMap<>();
+    public static Map<Long, WriteFuture> CLIENT_REQUEST = new ConcurrentHashMap<>();
+
+    /**
+     * 存储服务端连接的缓存
+     */
+    public static Map<Long, Thread> SERVER_REQUEST = new ConcurrentHashMap<>();
 }

@@ -1,6 +1,7 @@
 package com.simple.rpc.test.starter.consumer.impl;
 
 import com.simple.rpc.common.annotation.SimpleRpcReference;
+import com.simple.rpc.test.common.starter.service.StartAndShutdownService;
 import com.simple.rpc.test.common.starter.service.StarterHelloService;
 import com.simple.rpc.test.common.starter.service.StarterProviderService;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class ConsumerInnerServiceImpl implements ConsumerInnerService {
     @SimpleRpcReference
     private StarterProviderService providerService;
 
+    @SimpleRpcReference
+    private StartAndShutdownService startAndShutdownService;
+
     @Override
     public String hasArgNoE(String name) {
         String s = providerService.p1(name);
@@ -35,6 +39,11 @@ public class ConsumerInnerServiceImpl implements ConsumerInnerService {
     public String simpleInvoke() {
         consumerInner();
         return "我是消费端自己内部的普通调用！";
+    }
+
+    @Override
+    public String upAndShutdown() {
+        return startAndShutdownService.delayRequest();
     }
 
     private String consumerInner() {

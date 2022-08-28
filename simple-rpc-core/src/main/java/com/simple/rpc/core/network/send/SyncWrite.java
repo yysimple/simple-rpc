@@ -49,7 +49,7 @@ public class SyncWrite {
         request.setRequestId(requestId);
         // 记录此次请求id，并放入到缓存中
         WriteFuture<Response> future = new SyncWriteFuture(request.getRequestId());
-        SyncWriteMap.syncKey.put(request.getRequestId(), future);
+        SyncWriteMap.CLIENT_REQUEST.put(request.getRequestId(), future);
         // 构建请求数据
         RpcMessage rpcMessage = new RpcMessage();
         rpcMessage.setMessageType(MessageType.REQUEST.getValue());
@@ -62,24 +62,21 @@ public class SyncWrite {
         // 同步写数据
         Response response = doWriteAndSync(channel, rpcMessage, timeout, future);
         // 拿到响应值后，此前请求结束，那么可以移除此次请求
-        SyncWriteMap.syncKey.remove(request.getRequestId());
+        SyncWriteMap.CLIENT_REQUEST.remove(request.getRequestId());
         return response;
     }
 
     private Response doWriteAndSync(final Channel channel, final RpcMessage rpcMessage, final long timeout, final WriteFuture<Response> writeFuture) throws Exception {
         // 这里就不用lambda了，这里就是在channel写出一条数据之后，可以为其添加一个监听时间，也即操作完之后的一个回调方法
         // 每个 Netty 的出站 I/O 操作都将返回一个 ChannelFuture
-        channel.writeAndFlush(rpcMessage).addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) {
-                // 设置此次请求的状态
-                writeFuture.setWriteResult(future.isSuccess());
-                // 如果失败，此次的原因
-                writeFuture.setCause(future.cause());
-                // 失败移除此次请求
-                if (!writeFuture.isWriteSuccess()) {
-                    SyncWriteMap.syncKey.remove(writeFuture.requestId());
-                }
+        channel.writeAndFlush(rpcMessage).addListener((ChannelFutureListener) future -> {
+            // 设置此次请求的状态
+            writeFuture.setWriteResult(future.isSuccess());
+            // 如果失败，此次的原因
+            writeFuture.setCause(future.cause());
+            // 失败移除此次请求
+            if (!writeFuture.isWriteSuccess()) {
+                SyncWriteMap.CLIENT_REQUEST.remove(writeFuture.requestId());
             }
         });
 
@@ -87,7 +84,7 @@ public class SyncWrite {
         Response response = writeFuture.get(timeout, TimeUnit.SECONDS);
         if (response == null) {
             // 没有响应直接移除当次请求
-            SyncWriteMap.syncKey.remove(writeFuture.requestId());
+            SyncWriteMap.CLIENT_REQUEST.remove(writeFuture.requestId());
             // 已经超时则抛出异常
             if (writeFuture.isTimeout()) {
                 throw new TimeoutException();

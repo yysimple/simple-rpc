@@ -46,4 +46,9 @@ public class StarterConsumerController {
         String s1 = innerService.simpleInvoke();
         return "远程：" + s + ", 内部：" + s1;
     }
+
+    @GetMapping("/ud")
+    public String ud() {
+        return innerService.upAndShutdown();
+    }
 }
