@@ -18,6 +18,7 @@ import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.reflect.invoke.FaultTolerantInvoker;
+import com.simple.rpc.core.reflect.invoke.MultiInvoker;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import io.netty.channel.ChannelFuture;
 
@@ -42,6 +43,7 @@ public class RpcInvocationHandler implements InvocationHandler {
     private final CommonConfig commonConfig;
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
+    ExecutorService INVOKE_THREAD_POOL = Executors.newFixedThreadPool(10);
 
     public RpcInvocationHandler(CommonConfig commonConfig) {
         this.commonConfig = commonConfig;
@@ -131,10 +133,8 @@ public class RpcInvocationHandler implements InvocationHandler {
         ConsumerConfig consumerConfig = commonConfig.getConsumerConfig();
         BaseConfig baseConfig = commonConfig.getBaseConfig();
         buildSendRequest(args, buildRequest, methodName, paramTypeStrs, request, consumerConfig, baseConfig);
-        // 容错机制
-        FaultTolerantInvoker faultTolerantInvoker = ExtensionLoader.getLoader(FaultTolerantInvoker.class)
-                .getExtension(baseConfig.getFaultTolerantType());
-        Response response = faultTolerantInvoker.invoke(request);
+        // 业务并发调用
+        Response response = waitResponse(request, baseConfig.getFaultTolerantType());
         SimpleRpcLog.info("返回值：===> {}", JSON.toJSONString(response));
         Object exceptionInfo = response.getExceptionInfo();
         if (!Objects.isNull(exceptionInfo)) {
@@ -144,6 +144,29 @@ public class RpcInvocationHandler implements InvocationHandler {
             }
         }
         return response.getResult();
+    }
+
+    private Response waitResponse(Request request, String faultTolerantType) {
+        // 容错机制
+        MultiInvoker multiInvoker = new MultiInvoker(request, faultTolerantType);
+        INVOKE_THREAD_POOL.submit(multiInvoker);
+        Response response = null;
+        int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
+        for (int i = 0; i < tryNum; i++) {
+            if (null != response) {
+                break;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            response = multiInvoker.getResponse();
+        }
+        if (null == response) {
+            throw new NettyInitException("服务端调用失败");
+        }
+        return response;
     }
 
     private void buildSendRequest(Object[] args, Request buildRequest, String methodName, List<String> paramTypeStrs, Request request, ConsumerConfig consumerConfig, BaseConfig baseConfig) {

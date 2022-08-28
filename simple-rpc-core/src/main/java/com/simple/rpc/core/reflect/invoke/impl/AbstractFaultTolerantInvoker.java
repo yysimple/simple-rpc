@@ -28,7 +28,6 @@ public abstract class AbstractFaultTolerantInvoker implements FaultTolerantInvok
         request.setSimpleRpcContext(FilterInvoke.loadInvokeBeforeFilters(context));
         Response response = doInvoke(request);
         return FilterInvoke.loadInvokeAfterFilters(response);
-//        return doInvoke(request);
     }
 
     /**
