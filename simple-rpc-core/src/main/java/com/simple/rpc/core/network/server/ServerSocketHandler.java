@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.simple.rpc.common.constant.CommonConstant;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.constant.enums.MessageType;
+import com.simple.rpc.common.exception.network.NettyInitException;
 import com.simple.rpc.common.util.ClassLoaderUtils;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.filter.impl.FilterInvoke;
@@ -23,6 +24,9 @@ import io.netty.util.ReferenceCountUtil;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 项目: simple-rpc
@@ -33,6 +37,8 @@ import java.util.List;
  * @create: 2022-04-18 19:04
  **/
 public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage> {
+
+    ExecutorService realInvokeThreadPool = Executors.newFixedThreadPool(10);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcMessage rpcMessage) throws Exception {
@@ -64,7 +70,12 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             SpiLoadFilter.loadFilters();
             msg.setSimpleRpcContext(FilterInvoke.loadRemoteInvokeBeforeFilters(msg.getSimpleRpcContext()));
             // 进行反射调用
-            Object result = addMethod.invoke(objectBean, msg.getArgs());
+            //Object result = addMethod.invoke(objectBean, msg.getArgs());
+            SimpleRpcLog.warn("开始异步真实调用！！");
+            Object result = asyncRealInvoke(addMethod, objectBean, msg.getArgs());
+            if (Objects.isNull(result)) {
+                throw new NettyInitException("真实调用异常");
+            }
             //反馈
             Response response = new Response();
             response.setRequestId(rpcMessage.getRequestId());
@@ -79,8 +90,8 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             });
             //释放
             ReferenceCountUtil.release(msg);
-        } catch (InvocationTargetException t) {
-            Throwable e = t.getTargetException();
+        } catch (NettyInitException t) {
+            /*Throwable e = t.getTargetException();
             // 异常的时候返回，终端客户端等待
             Response response = new Response();
             response.setRequestId(rpcMessage.getRequestId());
@@ -90,8 +101,29 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
             responseRpcMsg.setData(response);
             ctx.writeAndFlush(responseRpcMsg);
-            e.printStackTrace();
+            e.printStackTrace();*/
         }
+    }
+
+    private Object asyncRealInvoke(Method method, Object bean, Object[] args) {
+        AsyncHandlerInvoke asyncHandlerInvoke = new AsyncHandlerInvoke(method, bean, args);
+        realInvokeThreadPool.submit(asyncHandlerInvoke);
+        Object result = null;
+        for (int i = 0; i < 60; i++) {
+            if (null != result) {
+                break;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result = asyncHandlerInvoke.getResult();
+        }
+        if (null == result) {
+            throw new NettyInitException("真实调用失败");
+        }
+        return result;
     }
 
     @Override

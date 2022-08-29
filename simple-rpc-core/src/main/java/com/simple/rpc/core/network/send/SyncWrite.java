@@ -6,6 +6,7 @@ import com.simple.rpc.common.constant.enums.MessageType;
 import com.simple.rpc.common.constant.enums.SerializeType;
 import com.simple.rpc.common.exception.network.NettyInitException;
 import com.simple.rpc.common.exception.network.NettyResponseException;
+import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.network.message.Response;
 import com.simple.rpc.core.network.message.RpcMessage;
@@ -69,6 +70,7 @@ public class SyncWrite {
     private Response doWriteAndSync(final Channel channel, final RpcMessage rpcMessage, final long timeout, final WriteFuture<Response> writeFuture) throws Exception {
         // 这里就不用lambda了，这里就是在channel写出一条数据之后，可以为其添加一个监听时间，也即操作完之后的一个回调方法
         // 每个 Netty 的出站 I/O 操作都将返回一个 ChannelFuture
+        SimpleRpcLog.warn("客户端同步写操作！！");
         channel.writeAndFlush(rpcMessage).addListener((ChannelFutureListener) future -> {
             // 设置此次请求的状态
             writeFuture.setWriteResult(future.isSuccess());

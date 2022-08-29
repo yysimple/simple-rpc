@@ -43,7 +43,7 @@ public class RpcInvocationHandler implements InvocationHandler {
     private final CommonConfig commonConfig;
 
     ExecutorService executorService = Executors.newFixedThreadPool(10);
-    ExecutorService INVOKE_THREAD_POOL = Executors.newFixedThreadPool(10);
+    ExecutorService invokeThreadPool = Executors.newFixedThreadPool(10);
 
     public RpcInvocationHandler(CommonConfig commonConfig) {
         this.commonConfig = commonConfig;
@@ -149,7 +149,7 @@ public class RpcInvocationHandler implements InvocationHandler {
     private Response waitResponse(Request request, String faultTolerantType) {
         // 容错机制
         MultiInvoker multiInvoker = new MultiInvoker(request, faultTolerantType);
-        INVOKE_THREAD_POOL.submit(multiInvoker);
+        invokeThreadPool.submit(multiInvoker);
         Response response = null;
         int tryNum = Objects.isNull(request.getRetryNum()) || request.getRetryNum() <= 0 ? 100 : request.getRetryNum();
         for (int i = 0; i < tryNum; i++) {
