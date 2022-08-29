@@ -70,26 +70,32 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             SpiLoadFilter.loadFilters();
             msg.setSimpleRpcContext(FilterInvoke.loadRemoteInvokeBeforeFilters(msg.getSimpleRpcContext()));
             // 进行反射调用
-            //Object result = addMethod.invoke(objectBean, msg.getArgs());
             SimpleRpcLog.warn("开始异步真实调用！！");
-            Object result = asyncRealInvoke(addMethod, objectBean, msg.getArgs());
-            if (Objects.isNull(result)) {
-                throw new NettyInitException("真实调用异常");
-            }
-            //反馈
-            Response response = new Response();
-            response.setRequestId(rpcMessage.getRequestId());
-            response.setResult(result);
-            // 构建返回值
-            RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
-            responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
-            responseRpcMsg.setData(response);
-            // 发送成功后移除当前请求
-            ctx.writeAndFlush(responseRpcMsg).addListener((ChannelFutureListener) future -> {
-                SyncWriteMap.SERVER_REQUEST.remove(msg.getRequestId());
+            realInvokeThreadPool.submit(() -> {
+                Object result = null;
+                try {
+                    result = addMethod.invoke(objectBean, msg.getArgs());
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                if (Objects.isNull(result)) {
+                    throw new NettyInitException("真实调用异常");
+                }
+                //反馈
+                Response response = new Response();
+                response.setRequestId(rpcMessage.getRequestId());
+                response.setResult(result);
+                // 构建返回值
+                RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
+                responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
+                responseRpcMsg.setData(response);
+                // 发送成功后移除当前请求
+                ctx.writeAndFlush(responseRpcMsg).addListener((ChannelFutureListener) future -> {
+                    SyncWriteMap.SERVER_REQUEST.remove(msg.getRequestId());
+                });
             });
             //释放
-            ReferenceCountUtil.release(msg);
+            // ReferenceCountUtil.release(msg);
         } catch (NettyInitException t) {
             /*Throwable e = t.getTargetException();
             // 异常的时候返回，终端客户端等待
