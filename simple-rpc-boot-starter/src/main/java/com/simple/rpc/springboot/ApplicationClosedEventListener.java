@@ -38,7 +38,7 @@ public class ApplicationClosedEventListener implements ApplicationListener<Conte
 
     @Override
     public void onApplicationEvent(ContextClosedEvent contextClosedEvent) {
-        // 优雅下线
+        // 优雅下线 todo 之前需要将此应用的健康状态改成下线
         graceShutdown();
         String url = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
         RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo(url)).getType());

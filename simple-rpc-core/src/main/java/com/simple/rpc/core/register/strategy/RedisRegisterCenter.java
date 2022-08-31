@@ -51,6 +51,7 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
 
     @Override
     protected Map<String, String> getLoadBalanceData(String key) {
+        // todo 过滤状态为不健康的状态
         return jedis.hgetAll(key);
     }
 
