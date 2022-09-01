@@ -12,6 +12,7 @@ import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.spi.ExtensionLoader;
+import com.simple.rpc.common.util.SimpleRpcLog;
 
 import java.util.List;
 import java.util.Map;
@@ -97,10 +98,13 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
     public Boolean offline() {
+        long start = System.currentTimeMillis();
         String machine = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
         List<String> serviceNames = SimpleRpcServiceCache.allKey();
         Map<String, String> multiKeyValue = this.getMultiKeyValue(serviceNames, machine);
-        return updateHealth(multiKeyValue, "0");
+        Boolean updateHealth = updateHealth(multiKeyValue, "0");
+        SimpleRpcLog.warn("预下线操作，状态：【{}】, 耗时：【{}】", updateHealth, System.currentTimeMillis() - start);
+        return updateHealth;
     }
 
     private Boolean updateHealth(Map<String, String> multiKeyValue, String health) {
