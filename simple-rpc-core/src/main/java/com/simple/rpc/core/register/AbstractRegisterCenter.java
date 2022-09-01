@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author: WuChengXing
  * @create: 2022-04-21 18:44
  **/
-public abstract class AbstractRegisterCenter implements RegisterCenter, HealthDetect {
+public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
     public void init(SimpleRpcUrl url) {

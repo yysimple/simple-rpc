@@ -6,6 +6,8 @@ import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
 
+import java.util.Map;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -47,5 +49,33 @@ public interface RegisterCenter {
      * @return
      */
     Boolean unregister(HookEntity hookEntity);
+
+    /**
+     * 优雅上下线的时候，置为下线状态 health = 0
+     *
+     * @return
+     */
+    Boolean offline();
+
+    /**
+     * 应用上线，置为上线状态 health = 1
+     *
+     * @return
+     */
+    Boolean online();
+
+    /**
+     * 检查服务状态
+     *
+     * @return
+     */
+    Boolean checkHealth();
+
+    /**
+     * 过滤不健康的服务，不做负载，数据格式是：url + request 的数据格式
+     *
+     * @param registerInfos
+     */
+    void filterNotHealth(Map<String, String> registerInfos);
 
 }

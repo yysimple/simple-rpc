@@ -5,19 +5,17 @@ import com.alibaba.fastjson.JSON;
 import com.simple.rpc.common.cache.ApplicationCache;
 import com.simple.rpc.common.config.*;
 import com.simple.rpc.common.constant.JavaKeywordConstant;
+import com.simple.rpc.common.exception.SimpleRpcBaseException;
 import com.simple.rpc.common.exception.network.NettyInitException;
 import com.simple.rpc.common.exception.network.NettyInvokeException;
+import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
-import com.simple.rpc.common.spi.ExtensionLoader;
-import com.simple.rpc.common.exception.SimpleRpcBaseException;
 import com.simple.rpc.common.util.SimpleRpcLog;
 import com.simple.rpc.core.network.cache.CacheUtil;
 import com.simple.rpc.core.network.cache.ConnectCache;
 import com.simple.rpc.core.network.client.RpcClientSocket;
 import com.simple.rpc.core.network.message.Request;
-import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.core.network.message.Response;
-import com.simple.rpc.core.reflect.invoke.FaultTolerantInvoker;
 import com.simple.rpc.core.reflect.invoke.MultiInvoker;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import io.netty.channel.ChannelFuture;
@@ -101,6 +99,9 @@ public class RpcInvocationHandler implements InvocationHandler {
         }
         //从redis获取链接
         String infoStr = registerCenter.get(Request.request2Register(request));
+        if (Objects.isNull(infoStr)) {
+            return null;
+        }
         RegisterInfo registerInfo = JSON.parseObject(infoStr, RegisterInfo.class);
         Request returnRequest = Request.register2Request(registerInfo);
         returnRequest.setBeatIntervalTime(baseConfig.getBeatIntervalTime());
@@ -111,6 +112,9 @@ public class RpcInvocationHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Request buildRequest = buildRequest();
+        if (Objects.isNull(buildRequest)) {
+            return null;
+        }
         // 连接客户端
         connect(buildRequest);
         String methodName = method.getName();
