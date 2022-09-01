@@ -6,6 +6,7 @@ import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.core.network.message.Request;
 import com.simple.rpc.core.register.AbstractRegisterCenter;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -49,6 +50,11 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
 
     @Override
     protected Map<String, String> getLoadBalanceData(String key) {
+        return null;
+    }
+
+    @Override
+    protected Map<String, String> getMultiKeyValue(List<String> keys, String machine) {
         return null;
     }
 }
