@@ -54,7 +54,7 @@ public class LocalRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    protected Map<String, String> getMultiKeyValue(List<String> keys, String machine) {
+    protected List<String> getMultiKeyValue(List<String> keys, String machine) {
         return null;
     }
 }

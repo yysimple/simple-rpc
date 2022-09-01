@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,11 +82,11 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
     }
 
     @Override
-    protected Map<String, String> getMultiKeyValue(List<String> keys, String machine) {
-        Map<String, String> map = new HashMap<>(8);
+    protected List<String> getMultiKeyValue(List<String> keys, String machine) {
+        List<String> values = new ArrayList<>();
         keys.forEach(key -> {
-            map.put(machine, jedis.hget(key, machine));
+            values.add(jedis.hget(key, machine));
         });
-        return map;
+        return values;
     }
 }

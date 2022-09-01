@@ -5,7 +5,6 @@ import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.config.SimpleRpcUrl;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.interfaces.RegisterCenter;
-import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.core.register.RegisterCenterFactory;
 import com.simple.rpc.springboot.config.BootRegisterConfig;
 import org.junit.Before;
@@ -16,8 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
-
-import javax.annotation.Resource;
 
 /**
  * 项目: simple-rpc
@@ -59,7 +56,7 @@ public class RegisterTest {
     public void testOffline() {
         String url = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
         RegisterCenter registerCenter = RegisterCenterFactory.create(SimpleRpcUrl.toSimpleRpcUrl(RegisterInfoCache.getRegisterInfo(url)).getType());
-        // 服务暂停对外 {"alias":"starterHelloService","applicationName":"simple-rpc-test-provider","beanName":"starterHelloService","health":"0","host":"127.0.0.1","interfaceName":"com.simple.rpc.test.common.starter.service.StarterHelloService","loadBalanceRule":"random-weight","port":41201,"serializer":"serializer","weights":20}
+        // 服务暂停对外
         registerCenter.offline();
     }
 

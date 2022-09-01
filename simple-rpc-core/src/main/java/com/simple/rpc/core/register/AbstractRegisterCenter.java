@@ -101,21 +101,21 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
         long start = System.currentTimeMillis();
         String machine = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
         List<String> serviceNames = SimpleRpcServiceCache.allKey();
-        Map<String, String> multiKeyValue = this.getMultiKeyValue(serviceNames, machine);
+        List<String> multiKeyValue = this.getMultiKeyValue(serviceNames, machine);
         Boolean updateHealth = updateHealth(multiKeyValue, "0");
         SimpleRpcLog.warn("预下线操作，状态：【{}】, 耗时：【{}】", updateHealth, System.currentTimeMillis() - start);
         return updateHealth;
     }
 
-    private Boolean updateHealth(Map<String, String> multiKeyValue, String health) {
+    private Boolean updateHealth(List<String> multiKeyValues, String health) {
         AtomicReference<Integer> updateNum = new AtomicReference<>(0);
-        multiKeyValue.values().forEach(s -> {
+        multiKeyValues.forEach(s -> {
             RegisterInfo registerInfo = JSON.parseObject(s, RegisterInfo.class);
             registerInfo.setHealth(health);
             updateNum.getAndSet(updateNum.get() + 1);
             this.register(registerInfo);
         });
-        return multiKeyValue.size() == updateNum.get();
+        return multiKeyValues.size() == updateNum.get();
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
      * @param machine
      * @return
      */
-    protected abstract Map<String, String> getMultiKeyValue(List<String> keys, String machine);
+    protected abstract List<String> getMultiKeyValue(List<String> keys, String machine);
 
     @Override
     public Boolean online() {
