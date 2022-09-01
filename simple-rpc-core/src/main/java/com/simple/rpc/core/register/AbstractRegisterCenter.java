@@ -74,6 +74,8 @@ public abstract class AbstractRegisterCenter implements RegisterCenter, HealthDe
         String key = CommonConstant.RPC_SERVICE_PREFIX + SymbolConstant.UNDERLINE + request.getInterfaceName() + SymbolConstant.UNDERLINE +
                 request.getAlias();
         Map<String, String> stringStringMap = getLoadBalanceData(key);
+        // 过滤已下线的注册信息
+        filterNotHealth(stringStringMap);
         String rule = Objects.isNull(request.getLoadBalanceRule()) ? LoadBalanceRule.ROUND.getName() : request.getLoadBalanceRule();
         return ExtensionLoader.getLoader(SimpleRpcLoadBalance.class).getExtension(rule).loadBalance(stringStringMap);
     }
@@ -132,7 +134,14 @@ public abstract class AbstractRegisterCenter implements RegisterCenter, HealthDe
     }
 
     @Override
-    public Boolean filterNoHealth(Map<String, String> registerInfos) {
-        return null;
+    public void filterNotHealth(Map<String, String> registerInfos) {
+        registerInfos.forEach((k, v) -> {
+            String s = registerInfos.get(k);
+            RegisterInfo registerInfo = JSON.parseObject(s, RegisterInfo.class);
+            // 过滤掉已经下线的服务
+            if ("0".equals(registerInfo.getHealth())) {
+                registerInfos.remove(k);
+            }
+        });
     }
 }

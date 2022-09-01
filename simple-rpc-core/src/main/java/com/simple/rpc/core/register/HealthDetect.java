@@ -37,8 +37,7 @@ public interface HealthDetect {
      * 过滤不健康的服务，不做负载，数据格式是：url + request 的数据格式
      *
      * @param registerInfos
-     * @return
      */
-    Boolean filterNoHealth(Map<String, String> registerInfos);
+    void filterNotHealth(Map<String, String> registerInfos);
 
 }
