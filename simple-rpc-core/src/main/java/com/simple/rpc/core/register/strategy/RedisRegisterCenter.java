@@ -36,7 +36,7 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxIdle(5);
         config.setTestOnBorrow(false);
-        JedisPool jedisPool = new JedisPool(config, url.getHost(), url.getPort(), 10 * 1000, url.getPassword());
+        JedisPool jedisPool = new JedisPool(config, url.getHost(), url.getPort(), 30 * 1000, url.getPassword());
         jedis = jedisPool.getResource();
     }
 
