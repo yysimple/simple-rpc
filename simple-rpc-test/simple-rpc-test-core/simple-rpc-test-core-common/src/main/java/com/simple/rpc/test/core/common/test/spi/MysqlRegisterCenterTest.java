@@ -5,6 +5,8 @@ import com.simple.rpc.common.interfaces.RegisterCenter;
 import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
 
+import java.util.Map;
+
 /**
  * 项目: simple-rpc
  * <p>
@@ -32,5 +34,25 @@ public class MysqlRegisterCenterTest implements RegisterCenter {
     @Override
     public Boolean unregister(HookEntity hookEntity) {
         return null;
+    }
+
+    @Override
+    public Boolean offline() {
+        return null;
+    }
+
+    @Override
+    public Boolean online() {
+        return null;
+    }
+
+    @Override
+    public Boolean checkHealth() {
+        return null;
+    }
+
+    @Override
+    public void filterNotHealth(Map<String, String> registerInfos) {
+
     }
 }
