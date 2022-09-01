@@ -10,6 +10,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -51,7 +52,6 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
 
     @Override
     protected Map<String, String> getLoadBalanceData(String key) {
-        // todo 过滤状态为不健康的状态
         return jedis.hgetAll(key);
     }
 
@@ -80,4 +80,12 @@ public class RedisRegisterCenter extends AbstractRegisterCenter {
         }
     }
 
+    @Override
+    protected Map<String, String> getMultiKeyValue(List<String> keys, String machine) {
+        Map<String, String> map = new HashMap<>(8);
+        keys.forEach(key -> {
+            map.put(machine, jedis.hget(key, machine));
+        });
+        return map;
+    }
 }

@@ -1,6 +1,8 @@
 package com.simple.rpc.core.register;
 
 import com.alibaba.fastjson.JSON;
+import com.simple.rpc.common.cache.SimpleRpcServiceCache;
+import com.simple.rpc.common.config.LocalAddressInfo;
 import com.simple.rpc.common.constant.CommonConstant;
 import com.simple.rpc.common.constant.SymbolConstant;
 import com.simple.rpc.common.constant.enums.LoadBalanceRule;
@@ -11,8 +13,10 @@ import com.simple.rpc.common.interfaces.entity.RegisterInfo;
 import com.simple.rpc.common.network.HookEntity;
 import com.simple.rpc.common.spi.ExtensionLoader;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * 项目: simple-rpc
@@ -22,7 +26,7 @@ import java.util.Objects;
  * @author: WuChengXing
  * @create: 2022-04-21 18:44
  **/
-public abstract class AbstractRegisterCenter implements RegisterCenter {
+public abstract class AbstractRegisterCenter implements RegisterCenter, HealthDetect {
 
     @Override
     public void init(SimpleRpcUrl url) {
@@ -43,11 +47,11 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     /**
      * 将三个字段构建然后存入：
-     *                                          --- 127.0.0.1_41201 --- {"alias":"xxx","host":"127.0.0.1","port":41201,"serializer":"serializer","weights":20}
-     *                                          -
+     * --- 127.0.0.1_41201 --- {"alias":"xxx","host":"127.0.0.1","port":41201,"serializer":"serializer","weights":20}
+     * -
      * com.simple.rpc.HelloService_helloService --- 127.0.0.1_41202 --- {"alias":"xxx","host":"127.0.0.1","port":41202,"serializer":"serializer","weights":30}
-     *                                          -
-     *                                          --- 127.0.0.1_41203 --- {"alias":"xxx","host":"127.0.0.1","port":41203,"serializer":"serializer","weights":50}
+     * -
+     * --- 127.0.0.1_41203 --- {"alias":"xxx","host":"127.0.0.1","port":41203,"serializer":"serializer","weights":50}
      *
      * @param key
      * @param hostPort
@@ -86,6 +90,49 @@ public abstract class AbstractRegisterCenter implements RegisterCenter {
 
     @Override
     public Boolean unregister(HookEntity hookEntity) {
+        return null;
+    }
+
+    @Override
+    public Boolean offline() {
+        String machine = LocalAddressInfo.LOCAL_HOST + SymbolConstant.UNDERLINE + LocalAddressInfo.PORT;
+        List<String> serviceNames = SimpleRpcServiceCache.allKey();
+        Map<String, String> multiKeyValue = this.getMultiKeyValue(serviceNames, machine);
+        return updateHealth(multiKeyValue, "0");
+    }
+
+    private Boolean updateHealth(Map<String, String> multiKeyValue, String health) {
+        AtomicReference<Integer> updateNum = new AtomicReference<>(0);
+        multiKeyValue.values().forEach(s -> {
+            RegisterInfo registerInfo = JSON.parseObject(s, RegisterInfo.class);
+            registerInfo.setHealth(health);
+            updateNum.getAndSet(updateNum.get() + 1);
+            this.register(registerInfo);
+        });
+        return multiKeyValue.size() == updateNum.get();
+    }
+
+    /**
+     * hmget命令去获取对应的值
+     *
+     * @param keys
+     * @param machine
+     * @return
+     */
+    protected abstract Map<String, String> getMultiKeyValue(List<String> keys, String machine);
+
+    @Override
+    public Boolean online() {
+        return null;
+    }
+
+    @Override
+    public Boolean checkHealth() {
+        return null;
+    }
+
+    @Override
+    public Boolean filterNoHealth(Map<String, String> registerInfos) {
         return null;
     }
 }

@@ -63,6 +63,11 @@ public class MysqlRegisterCenter extends AbstractRegisterCenter {
         return true;
     }
 
+    @Override
+    protected Map<String, String> getMultiKeyValue(List<String> keys, String machine) {
+        return null;
+    }
+
     private Connection getConnection(SimpleRpcUrl url) {
         MysqlHelper mysqlHelper = new MysqlHelper(url.getHost(), url.getPort(), url.getUsername(), url.getPassword(), url.getDatabase());
         return mysqlHelper.getConnection(url.getDatabase());
