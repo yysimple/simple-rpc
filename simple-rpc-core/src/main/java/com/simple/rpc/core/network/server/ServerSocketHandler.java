@@ -71,44 +71,34 @@ public class ServerSocketHandler extends SimpleChannelInboundHandler<RpcMessage>
             msg.setSimpleRpcContext(FilterInvoke.loadRemoteInvokeBeforeFilters(msg.getSimpleRpcContext()));
             // 进行反射调用
             SimpleRpcLog.warn("开始异步真实调用！！");
-            realInvokeThreadPool.submit(() -> {
-                Object result = null;
-                try {
-                    result = addMethod.invoke(objectBean, msg.getArgs());
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-                if (Objects.isNull(result)) {
-                    throw new NettyInitException("真实调用异常");
-                }
-                //反馈
-                Response response = new Response();
-                response.setRequestId(rpcMessage.getRequestId());
-                response.setResult(result);
-                // 构建返回值
-                RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
-                responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
-                responseRpcMsg.setData(response);
-                // 发送成功后移除当前请求
-                ctx.writeAndFlush(responseRpcMsg).addListener((ChannelFutureListener) future -> {
-                    SyncWriteMap.SERVER_REQUEST.remove(msg.getRequestId());
-                });
-            });
-            //释放
-            // ReferenceCountUtil.release(msg);
-        } catch (NettyInitException t) {
-            /*Throwable e = t.getTargetException();
-            // 异常的时候返回，终端客户端等待
-            Response response = new Response();
-            response.setRequestId(rpcMessage.getRequestId());
-            response.setExceptionInfo(e.getMessage());
-            // 构建返回值
-            RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
-            responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
-            responseRpcMsg.setData(response);
-            ctx.writeAndFlush(responseRpcMsg);
-            e.printStackTrace();*/
+            realInvokeThreadPool.submit(() -> asyncRealInvoke(ctx, rpcMessage, msg, addMethod, objectBean));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void asyncRealInvoke(ChannelHandlerContext ctx, RpcMessage rpcMessage, Request msg, Method addMethod, Object objectBean) {
+        Object result = null;
+        try {
+            result = addMethod.invoke(objectBean, msg.getArgs());
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        if (Objects.isNull(result)) {
+            throw new NettyInitException("真实调用异常");
+        }
+        //反馈
+        Response response = new Response();
+        response.setRequestId(rpcMessage.getRequestId());
+        response.setResult(result);
+        // 构建返回值
+        RpcMessage responseRpcMsg = RpcMessage.copy(rpcMessage);
+        responseRpcMsg.setMessageType(MessageType.RESPONSE.getValue());
+        responseRpcMsg.setData(response);
+        // 发送成功后移除当前请求
+        ctx.writeAndFlush(responseRpcMsg).addListener((ChannelFutureListener) future -> {
+            SyncWriteMap.SERVER_REQUEST.remove(msg.getRequestId());
+        });
     }
 
     private Object asyncRealInvoke(Method method, Object bean, Object[] args) {
